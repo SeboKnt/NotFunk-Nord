@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tools - NotFunk-Nord</title>
+  <link rel="stylesheet" href="/css/base.css">
+  <style>
+    .tool-section {
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tool-section:last-child {
+      border-bottom: none;
+    }
+
+    .calc-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      .calc-row { grid-template-columns: 1fr; }
+    }
+
+    .tool-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .tool-header h2 {
+      margin-bottom: 0;
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="logo">
+        <div class="logo-icon">⚡</div>
+        <span>NotFunk-Nord</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/">Start</a></li>
+        <li><a href="/tools" class="active">Tools</a></li>
+        <li><a href="/frequencies">Frequenzen</a></li>
+        <li><a href="/map">Karte</a></li>
+        <li><a href="/about">Über</a></li>
+      </ul>
+      <div class="nav-right">
+        <span><span class="status-dot"></span> ONLINE</span>
+        <span id="clock"></span>
+      </div>
+      <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('show')">☰</button>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <h1>◈ Werkzeuge</h1>
+        <p>Amateurfunk-Werkzeuge für Notfunk und Alltag.</p>
+      </div>
+
+      <!-- QTH LOCATOR -->
+      <section id="qth" class="tool-section">
+        <div class="tool-header">
+          <h2>Grid Square Rechner</h2>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>Koordinaten → Locator</h3>
+            <div class="field">
+              <label>Breitengrad (Lat)</label>
+              <input type="number" id="lat-input" value="53.55" step="0.01">
+            </div>
+            <div class="field">
+              <label>Längengrad (Lon)</label>
+              <input type="number" id="lon-input" value="10.00" step="0.01">
+            </div>
+            <button class="btn" onclick="calcLocator()">Berechnen</button>
+            <div class="result-box" id="locator-result" style="display:none">
+              <div class="result-row">
+                <span class="result-label">Locator</span>
+                <span class="result-value" id="locator-value">-</span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">Ort</span>
+                <span class="result-value" id="locator-location">-</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Locator → Koordinaten</h3>
+            <div class="field">
+              <label>Grid Square</label>
+              <input type="text" id="decode-input" value="JO43" maxlength="6" style="text-transform:uppercase">
+            </div>
+            <button class="btn btn-outline" onclick="decodeLocator()">Dekodieren</button>
+            <div class="result-box" id="decode-result" style="display:none">
+              <div class="result-row">
+                <span class="result-label">Eckpunkt SW</span>
+                <span class="result-value" id="decode-corner">-</span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">Zentrum</span>
+                <span class="result-value" id="decode-center">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 1rem;">
+          <h3>Distanz & Richtung</h3>
+          <div class="calc-row">
+            <div class="field">
+              <label>Von (Grid)</label>
+              <input type="text" id="from-grid" value="JO43" maxlength="6" style="text-transform:uppercase">
+            </div>
+            <div class="field">
+              <label>Nach (Grid)</label>
+              <input type="text" id="to-grid" value="JO31" maxlength="6" style="text-transform:uppercase">
+            </div>
+          </div>
+          <button class="btn" onclick="calcDistance()">Berechnen</button>
+          <div class="result-box" id="distance-result" style="display:none">
+            <div class="result-row">
+              <span class="result-label">Distanz</span>
+              <span class="result-value" id="dist-km">-</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Richtung</span>
+              <span class="result-value" id="dist-bearing">-</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROPAGATION -->
+      <section id="propagation" class="tool-section">
+        <div class="tool-header">
+          <h2>Propagation</h2>
+          <button class="btn btn-outline" onclick="loadPropagation()">Aktualisieren</button>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Standort</h3>
+            <div class="field">
+              <label>Breitengrad</label>
+              <input type="number" id="prop-lat" value="53.55" step="0.01">
+            </div>
+            <div class="field">
+              <label>Längengrad</label>
+              <input type="number" id="prop-lon" value="10.00" step="0.01">
+            </div>
+          </div>
+          <div class="card">
+            <h3>Ergebnis</h3>
+            <div class="result-box" id="prop-result" style="margin-top:0">
+              <div class="result-row">
+                <span class="result-label">MUF</span>
+                <span class="result-value" id="prop-muf">-</span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">LUF</span>
+                <span class="result-value" id="prop-luf">-</span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">foF2</span>
+                <span class="result-value" id="prop-fof2">-</span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">Empfohlenes Band</span>
+                <span class="result-value" id="prop-band">-</span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">Bedingungen</span>
+                <span class="result-value" id="prop-cond">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SOLAR -->
+      <section id="solar" class="tool-section">
+        <div class="tool-header">
+          <h2>Solar & Ionosphäre</h2>
+          <button class="btn btn-outline" onclick="loadSolar()">Laden</button>
+        </div>
+        <div class="result-box" id="solar-result" style="margin-top:0">
+          <div class="result-row">
+            <span class="result-label">Solar Flux (SFU)</span>
+            <span class="result-value" id="solar-flux">-</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Kp-Index</span>
+            <span class="result-value" id="solar-kp">-</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Xray-Klasse</span>
+            <span class="result-value" id="solar-xray">-</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">A-Index</span>
+            <span class="result-value" id="solar-a">-</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Trend</span>
+            <span class="result-value" id="solar-trend">-</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Sonnenaufgang</span>
+            <span class="result-value" id="solar-sunrise">-</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Sonnenuntergang</span>
+            <span class="result-value" id="solar-sunset">-</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- LOGBOOK -->
+      <section id="logbook" class="tool-section">
+        <div class="tool-header">
+          <h2>QSO Logbuch</h2>
+          <div>
+            <button class="btn btn-outline" onclick="loadLogbook()">Liste laden</button>
+            <button class="btn" onclick="showLogForm()">+ Eintrag</button>
+          </div>
+        </div>
+
+        <div id="logbook-form" style="display:none" class="card" markdown="1">
+          <h3>Neuer QSO-Eintrag</h3>
+          <div class="grid-2">
+            <div class="field">
+              <label>Rufzeichen</label>
+              <input type="text" id="log-callsign" placeholder="z.B. DG1ABC">
+            </div>
+            <div class="field">
+              <label>Grid Locator</label>
+              <input type="text" id="log-grid" placeholder="z.B. JO43" maxlength="6" style="text-transform:uppercase">
+            </div>
+            <div class="field">
+              <label>Frequenz (kHz)</label>
+              <input type="number" id="log-freq" placeholder="z.B. 7110">
+            </div>
+            <div class="field">
+              <label>Modus</label>
+              <select id="log-mode">
+                <option value="SSB">SSB</option>
+                <option value="CW">CW</option>
+                <option value="FT8">FT8</option>
+                <option value="FM">FM</option>
+                <option value="AM">AM</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>RST gesendet</label>
+              <input type="text" id="log-rst-sent" placeholder="59" value="59">
+            </div>
+            <div class="field">
+              <label>RST empfangen</label>
+              <input type="text" id="log-rst-received" placeholder="59" value="59">
+            </div>
+          </div>
+          <div class="field">
+            <label>Bemerkungen</label>
+            <input type="text" id="log-notes" placeholder="Optional">
+          </div>
+          <button class="btn" onclick="saveQSO()">Speichern</button>
+        </div>
+
+        <div id="logbook-list">
+          <table>
+            <thead>
+              <tr>
+                <th>Datum</th>
+                <th>Rufzeichen</th>
+                <th>Grid</th>
+                <th>Freq</th>
+                <th>Mode</th>
+                <th>RST</th>
+              </tr>
+            </thead>
+            <tbody id="logbook-tbody">
+              <tr><td colspan="6" style="text-align:center; color:var(--text-dim)">Klicke "Liste laden" oder "+ Eintrag"</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- NETS -->
+      <section id="nets" class="tool-section">
+        <div class="tool-header">
+          <h2>Notfunk-Netze</h2>
+          <button class="btn btn-outline" onclick="loadNets()">Netze laden</button>
+        </div>
+        <div id="nets-list">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Frequenz</th>
+                <th>Mode</th>
+                <th>Zeit</th>
+                <th>Beschreibung</th>
+                <th>Aktion</th>
+              </tr>
+            </thead>
+            <tbody id="nets-tbody">
+              <tr><td colspan="6" style="text-align:center; color:var(--text-dim)">Klicke "Netze laden"</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>NotFunk-Nord.de | Cloudflare Workers + Pages | Hono.js</p>
+  </footer>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/tools.js"></script>
+</body>
+</html>

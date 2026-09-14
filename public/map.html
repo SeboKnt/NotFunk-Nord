@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Karte - NotFunk-Nord</title>
+  <link rel="stylesheet" href="/css/base.css">
+  <style>
+    .map-wrapper {
+      position: relative;
+    }
+
+    .map-controls {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .map-sidebar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1rem;
+      margin-top: 1rem;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .station-item {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .station-item:hover {
+      background: var(--surface2);
+    }
+
+    .station-item:last-child {
+      border-bottom: none;
+    }
+
+    .station-name {
+      color: var(--accent);
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .station-detail {
+      color: var(--text-dim);
+      font-size: 0.8rem;
+    }
+
+    .station-type {
+      display: inline-block;
+      padding: 0.15rem 0.4rem;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      margin-left: 0.5rem;
+    }
+
+    .type-net { background: rgba(0,176,255,0.2); color: var(--accent2); }
+    .type-station { background: rgba(0,230,118,0.2); color: var(--accent); }
+    .type-relay { background: rgba(255,193,7,0.2); color: var(--warning); }
+
+    #map-container {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1rem;
+    }
+
+    #map-container svg {
+      width: 100%;
+      height: auto;
+    }
+
+    .map-point {
+      cursor: pointer;
+      transition: r 0.2s;
+    }
+
+    .map-point:hover {
+      r: 8;
+    }
+
+    .map-point-net { fill: var(--accent2); }
+    .map-point-station { fill: var(--accent); }
+    .map-point-relay { fill: var(--warning); }
+
+    .map-point-ring {
+      fill: none;
+      stroke: var(--accent2);
+      stroke-width: 1;
+      opacity: 0.5;
+      animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes ping {
+      75%, 100% {
+        transform: scale(2);
+        opacity: 0;
+      }
+    }
+
+    .legend {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .grid-label {
+      fill: var(--text-dim);
+      font-size: 10px;
+      font-family: monospace;
+    }
+
+    .state-label {
+      fill: var(--border);
+      font-size: 8px;
+      font-family: monospace;
+      text-anchor: middle;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="logo">
+        <div class="logo-icon">⚡</div>
+        <span>NotFunk-Nord</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/">Start</a></li>
+        <li><a href="/tools">Tools</a></li>
+        <li><a href="/frequencies">Frequenzen</a></li>
+        <li><a href="/map" class="active">Karte</a></li>
+        <li><a href="/about">Über</a></li>
+      </ul>
+      <div class="nav-right">
+        <span><span class="status-dot"></span> ONLINE</span>
+        <span id="clock"></span>
+      </div>
+      <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('show')">☰</button>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <h1>◈ Deutschland-Karte</h1>
+        <p>Notfunk-Stationen, Netze und Relais Standorte.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="map-wrapper">
+          <div class="map-controls">
+            <button class="filter-btn active" onclick="filterMap('all', this)">Alle</button>
+            <button class="filter-btn" onclick="filterMap('net', this)">Netze</button>
+            <button class="filter-btn" onclick="filterMap('station', this)">Stationen</button>
+            <button class="filter-btn" onclick="filterMap('relay', this)">Relais</button>
+          </div>
+
+          <div id="map-container">
+            <svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+              <!-- Germany outline (simplified) -->
+              <path d="M150,50 L200,30 L280,35 L350,50 L380,90 L400,140 L390,190 L370,240 L330,280 L280,310 L220,325 L160,320 L110,300 L70,260 L50,210 L45,160 L55,110 L80,70 Z"
+                    fill="var(--surface2)" stroke="var(--border)" stroke-width="2"/>
+
+              <!-- Grid overlay (Maidenhead 2°x1° squares) -->
+              <g class="grid-overlay" opacity="0.3">
+                <line x1="150" y1="100" x2="380" y2="100" stroke="var(--accent)" stroke-width="0.5"/>
+                <line x1="150" y1="150" x2="380" y2="150" stroke="var(--accent)" stroke-width="0.5"/>
+                <line x1="150" y1="200" x2="380" y2="200" stroke="var(--accent)" stroke-width="0.5"/>
+                <line x1="150" y1="250" x2="380" y2="250" stroke="var(--accent)" stroke-width="0.5"/>
+                <line x1="200" y1="50" x2="200" y2="325" stroke="var(--accent)" stroke-width="0.5"/>
+                <line x1="250" y1="50" x2="250" y2="325" stroke="var(--accent)" stroke-width="0.5"/>
+                <line x1="300" y1="50" x2="300" y2="325" stroke="var(--accent)" stroke-width="0.5"/>
+                <line x1="350" y1="50" x2="350" y2="325" stroke="var(--accent)" stroke-width="0.5"/>
+              </g>
+
+              <!-- State labels -->
+              <text x="120" y="280" class="state-label">DE</text>
+              <text x="250" y="80" class="state-label">DK</text>
+              <text x="320" y="300" class="state-label">AT</text>
+              <text x="100" y="180" class="state-label">PL</text>
+
+              <!-- Map points (populated by JS) -->
+              <g id="map-points"></g>
+
+              <!-- Legend -->
+              <g transform="translate(20, 360)">
+                <circle cx="0" cy="0" r="5" fill="var(--accent2)" class="map-point-net"/>
+                <text x="12" y="4" fill="var(--text-dim)" font-size="10" font-family="monospace">Notfunk-Netz</text>
+                <circle cx="80" cy="0" r="5" fill="var(--accent)" class="map-point-station"/>
+                <text x="92" y="4" fill="var(--text-dim)" font-size="10" font-family="monospace">Station</text>
+                <circle cx="160" cy="0" r="5" fill="var(--warning)" class="map-point-relay"/>
+                <text x="172" y="4" fill="var(--text-dim)" font-size="10" font-family="monospace">Relais</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="legend">
+            <div class="legend-item">
+              <div class="legend-dot" style="background:var(--accent2)"></div>
+              <span>Notfunk-Netze</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background:var(--accent)"></div>
+              <span>Stationen</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background:var(--warning)"></div>
+              <span>Relais</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="map-sidebar" id="station-list">
+            <p style="color:var(--text-dim); font-size:0.85rem;">Klicke auf einen Punkt oder wähle einen Filter.</p>
+          </div>
+
+          <div class="card" style="margin-top:1rem">
+            <h3>Locator suchen</h3>
+            <div class="field">
+              <label>Grid Square</label>
+              <input type="text" id="map-locator-search" placeholder="z.B. JO43" maxlength="6" style="text-transform:uppercase">
+            </div>
+            <button class="btn" onclick="locateOnMap()">Finden</button>
+            <div id="map-search-result" style="margin-top:0.5rem; font-size:0.8rem; color:var(--text-dim)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>NotFunk-Nord.de | Cloudflare Workers + Pages | Hono.js</p>
+  </footer>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/map.js"></script>
+</body>
+</html>

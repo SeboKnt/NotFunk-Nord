@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Über - NotFunk-Nord</title>
+  <link rel="stylesheet" href="/css/base.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="logo">
+        <div class="logo-icon">⚡</div>
+        <span>NotFunk-Nord</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/">Start</a></li>
+        <li><a href="/tools">Tools</a></li>
+        <li><a href="/frequencies">Frequenzen</a></li>
+        <li><a href="/map">Karte</a></li>
+        <li><a href="/about" class="active">Über</a></li>
+      </ul>
+      <div class="nav-right">
+        <span><span class="status-dot"></span> ONLINE</span>
+        <span id="clock"></span>
+      </div>
+      <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('show')">☰</button>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <h1>◈ Über Notfunk</h1>
+        <p>Was ist Notfunk und warum ist er wichtig?</p>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <div class="card" style="margin-bottom:1.5rem">
+            <h3>Was ist Notfunk?</h3>
+            <p>Notfunk (oder Katastrophenfunk) ist der Funkbetrieb, mit dem Funkamateure in Not- und Katastrophensituationen Hilfe leisten. Sie unterstützen Hilfsorganisationen und BOS oder leiten Notrufe weiter.</p>
+          </div>
+
+          <div class="card" style="margin-bottom:1.5rem">
+            <h3>Rechtliche Grundlage</h3>
+            <p>§ 2 Nr. 2 Amateurfunkgesetz: Der Amateurfunkdienst schließt die Unterstützung von Hilfsaktionen in Not- und Katastrophenfällen ein. Er ist kein Sicherheitsfunkdienst.</p>
+          </div>
+
+          <div class="card" style="margin-bottom:1.5rem">
+            <h3>Warum Amateurfunk?</h3>
+            <p>Bei Ausfall kommerzieller Netze sind Funkamateure oft die ersten, die wieder Kontakt herstellen. Sie arbeiten unabhängig von Stromnetz und Infrastruktur mit portablen Geräten.</p>
+          </div>
+        </div>
+
+        <div>
+          <div class="card" style="margin-bottom:1.5rem">
+            <h3>Equipment</h3>
+            <p>Für eine Verbindung reichen: einige Meter Draht als Antenne, eine Batterie oder Solarzelle, ein Funkgerät mit 1-5W Leistung und eine Morsetaste oder ein Mikrofon.</p>
+          </div>
+
+          <div class="card" style="margin-bottom:1.5rem">
+            <h3>Organisationen</h3>
+            <p>DARC Notfunk-Referat, Intarmor, Notfunk-Deutschland e.V., AG Not- und Krisenkommunikation, und viele regionale Gruppen.</p>
+          </div>
+
+          <div class="card">
+            <h3>International</h3>
+            <p>RAYNET (UK), ARES (USA), DARES (NL), USKA (CH), A.R.E.N.A. (AT) und viele mehr arbeiten weltweit zusammen.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem; padding:1.5rem; background:var(--surface); border:1px solid var(--border)">
+        <h3>Links</h3>
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:0.5rem; margin-top:1rem">
+          <li><a href="https://www.darc.de/referate/notfunk/" target="_blank">→ DARC Notfunk-Referat</a></li>
+          <li><a href="https://www.iaru.org/emergency-communication/" target="_blank">→ IARU Emergency Communication</a></li>
+          <li><a href="https://www.spaceweather.gov" target="_blank">→ SpaceWeather.gov</a></li>
+          <li><a href="https://github.com/NotFunk-Nord" target="_blank">→ GitHub Repository</a></li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>NotFunk-Nord.de | Cloudflare Workers + Pages | Hono.js</p>
+  </footer>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
