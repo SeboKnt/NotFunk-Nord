@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "WebSearch",
+      "WebFetch(domain:www.bnetz.de)",
+      "WebFetch(domain:www.darc.de)",
+      "WebFetch(domain:en.wikipedia.org)"
     ]
   }
 }

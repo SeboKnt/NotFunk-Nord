@@ -651,7 +651,9 @@
         <li><a href="#history">Geschichte</a></li>
         <li><a href="#frequencies">Frequenzen</a></li>
         <li><a href="#techniques">Technik</a></li>
+        <li><a href="#guides">Guides</a></li>
         <li><a href="#tools">Tools</a></li>
+        <li><a href="#noLicense">Ohne Lizenz</a></li>
       </ul>
 
       <div class="status-indicator">
@@ -671,7 +673,7 @@
         <p class="tagline">Wenn das Stromnetz ausfällt, bleibt der Funk bestehen.</p>
         <p class="quote">"Funkamateure sind weltweit oft die ersten, die wieder Kontakt zur Außenwelt herstellen können."</p>
         <div class="tabs" style="justify-content: center; margin-top: 2rem;">
-          <a href="#tools" class="tab-btn active">Tools starten</a>
+          <a href="#guides" class="tab-btn active">Guides</a>
           <a href="#about" class="tab-btn">Mehr erfahren</a>
         </div>
       </div>
@@ -1033,6 +1035,456 @@
             <div class="info-card">
               <h3>ATV</h3>
               <p>Amateurfunk-Fernsehen - Übertragung von bewegten Bildern und Ton.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NO LICENSE GUIDE -->
+    <section id="noLicense" class="section">
+      <div class="container">
+        <h2 class="section-title">Funk ohne Lizenz</h2>
+        <p class="text-dim mb-4">Seit 2023 darf in Deutschland CB-Funk ohne Prüfung und ohne Rufzeichen betrieben werden. Hier alles Wichtige auf einen Blick.</p>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>📻 CB-Funk: Jedermannfunk</h3>
+            <p>40 CEPT-Kanäle (26,960–27,410 MHz) plus 40 nationale Zusatzkanäle. Seit 1.1.2023 ohne Funkrufnamen und ohne Prüfung betreibbar.</p>
+          </div>
+          <div class="info-card">
+            <h3>📡 Notrufkanal</h3>
+            <p>Kanal 9 (27,065 MHz) ist der internationale CB-Notrufkanal. Kanal 4 (27,005 MHz) als Anrufkanal. Auf Kanal 9 nur bei echter Notlage senden!</p>
+          </div>
+          <div class="info-card">
+            <h3>⚡ Leistungsgrenzen</h3>
+            <p>FM/AM: max. 4W ERP. SSB: max. 12W PEP. Reichweite im Flachland 1–10 km mit Standardantenne, mit Mobilantenne bis 20 km.</p>
+          </div>
+          <div class="info-card">
+            <h3>🔧 Hardware</h3>
+            <p>Tragbar: Midland G7 Pro, Albrecht AE 2300 (50–150€). Mobil: Yaesu FT-65R (150–300€). Antenne: Gummistiefel oder Magnethaft.</p>
+          </div>
+        </div>
+
+        <div class="calc-section" style="margin-top: 1.5rem;">
+          <h3 style="color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;">◈ Wichtige CB-Kanäle</h3>
+          <table class="freq-table">
+            <thead><tr><th>Kanal</th><th>Frequenz</th><th>Nutzung</th></tr></thead>
+            <tbody>
+              <tr><td class="freq-value">1</td><td>26,965 MHz</td><td>Anrufkanal FM</td></tr>
+              <tr><td class="freq-value">4</td><td>27,005 MHz</td><td>Internationaler Anrufkanal</td></tr>
+              <tr><td class="freq-value" style="color: var(--danger);">9</td><td class="freq-value">27,065 MHz</td><td>⚠ Notrufkanal</td></tr>
+              <tr><td class="freq-value">11</td><td>27,085 MHz</td><td>GBS-Rufkanal</td></tr>
+              <tr><td class="freq-value">19</td><td>27,185 MHz</td><td>SSB-Anrufkanal</td></tr>
+              <tr><td class="freq-value">40</td><td>27,410 MHz</td><td>Nationale Kanäle Ende</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="calc-section">
+          <h3 style="color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;">◈ Erlaubt & Nicht erlaubt</h3>
+          <div class="info-grid">
+            <div class="info-card" style="border-left: 3px solid var(--accent);">
+              <h3>✅ Erlaubt</h3>
+              <p>• Betrieb mit CE-kenngezeichnetem Gerät<br>• Freisprechen mobil & tragbar<br>• Kanal 1–80 (nationales Raster)<br>• GBS auf zugewiesenen Kanälen<br>• Notruf auf Kanal 9</p>
+            </div>
+            <div class="info-card" style="border-left: 3px solid var(--danger);">
+              <h3>❌ Nicht erlaubt</h3>
+              <p>• Verstärker / Booster anschließen<br>• Geräte modifizieren (>4W ERP)<br>• Verschlüsselte Kommunikation<br>• Ortsfester Betrieb auf K41–80<br>• Gewerbsmäßige Nutzung</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHEAT SHEET 2M & 70CM -->
+    <section id="cheatsheet" class="section">
+      <div class="container">
+        <h2 class="section-title">Cheat Sheet: 2m & 70cm</h2>
+        <p class="text-dim mb-4">Die wichtigsten Frequenzen für UKW-Funk – für Funkamateure mit Lizenz.</p>
+
+        <div class="tabs">
+          <button class="tab-btn active" onclick="showTab(event, 'tab-2m')">2m Band</button>
+          <button class="tab-btn" onclick="showTab(event, 'tab-70cm')">70cm Band</button>
+          <button class="tab-btn" onclick="showTab(event, 'tab-repeaters')">Relais</button>
+        </div>
+
+        <div id="tab-2m" class="tab-content active">
+          <table class="freq-table">
+            <thead><tr><th>Frequenz</th><th>Mode</th><th>Beschreibung</th><th>Reichweite</th></tr></thead>
+            <tbody>
+              <tr><td class="freq-value">144,200 MHz</td><td><span class="mode-tag">LSB/CW</span></td><td>Unteres SSB/CW-Bandende</td><td>~30 km</td></tr>
+              <tr><td class="freq-value">144,260 MHz</td><td><span class="mode-tag">USB</span></td><td>Internationaler Notruf (2m)</td><td>~30 km</td></tr>
+              <tr><td class="freq-value">145,500 MHz</td><td><span class="mode-tag">FM</span></td><td>S20 – Mobil-Anrufkanal</td><td>~20 km</td></tr>
+              <tr><td class="freq-value">145,525 MHz</td><td><span class="mode-tag">FM</span></td><td>S21 – Notfunkkanal</td><td>~20 km</td></tr>
+              <tr><td class="freq-value">145,550 MHz</td><td><span class="mode-tag">FM</span></td><td>S22 – Notfunkkanal</td><td>~20 km</td></tr>
+              <tr><td class="freq-value">145,600 MHz</td><td><span class="mode-tag">FM</span></td><td>Relais-Eingang (Standardraster)</td><td>~50 km über Relais</td></tr>
+              <tr><td class="freq-value">145,800 MHz</td><td><span class="mode-tag">FM</span></td><td>Satellit (ISS-Downlink)</td><td>Sichtlinie</td></tr>
+            </tbody>
+          </table>
+          <div class="result-box" style="margin-top: 1rem;">
+            <p style="font-size: 0.85rem;"><strong style="color: var(--warning);">💡 QRP-Tipp:</strong> Mit 1 Watt und einfacher Drahtantenne sind auf 2m im Flachland 5–10 km realistisch.</p>
+          </div>
+        </div>
+
+        <div id="tab-70cm" class="tab-content">
+          <table class="freq-table">
+            <thead><tr><th>Frequenz</th><th>Mode</th><th>Beschreibung</th><th>Reichweite</th></tr></thead>
+            <tbody>
+              <tr><td class="freq-value">430,000 MHz</td><td><span class="mode-tag">FM</span></td><td>Start des 70cm-Bands</td><td>~15 km</td></tr>
+              <tr><td class="freq-value">433,500 MHz</td><td><span class="mode-tag">FM</span></td><td>Internationaler Anrufkanal</td><td>~15 km</td></tr>
+              <tr><td class="freq-value">434,000 MHz</td><td><span class="mode-tag">FM</span></td><td>D/A.CH Notfunk</td><td>~15 km</td></tr>
+              <tr><td class="freq-value">434,800 MHz</td><td><span class="mode-tag">FM</span></td><td>Relais-Eingang (430er-Standard)</td><td>~50 km über Relais</td></tr>
+              <tr><td class="freq-value">435,000 MHz</td><td><span class="mode-tag">FM</span></td><td>Satellit (ISS-Up/Downlink)</td><td>Sichtlinie</td></tr>
+              <tr><td class="freq-value">438,000 MHz</td><td><span class="mode-tag">FM</span></td><td>Digitale Modi (DMR, D-STAR)</td><td>~15 km</td></tr>
+            </tbody>
+          </table>
+          <div class="result-box" style="margin-top: 1rem;">
+            <p style="font-size: 0.85rem;"><strong style="color: var(--accent2);">ℹ 70cm vs. 2m:</strong> 70cm hat kürzere Reichweite, durchdringt aber Gebäude besser – ideal für städtisches Einsatzgebiet.</p>
+          </div>
+        </div>
+
+        <div id="tab-repeaters" class="tab-content">
+          <div class="info-grid">
+            <div class="info-card">
+              <h3>📡 Wie Relais funktionieren</h3>
+              <p>Ein Relais steht hoch (Berg, Turm), empfängt auf einer Frequenz und sendet auf einer anderen. So erweitert sich die Reichweite von ~15 km auf 50–100 km.</p>
+            </div>
+            <div class="info-card">
+              <h3>📋 Relais-Prioritäten</h3>
+              <p>1. Notfunk-Vorrang!<br>2. Kurzes Check-In ("CQ [Relaisname]")<br>3. Gespräche kurz halten<br>4. Bei Störfeuer sofort Frequenz wechseln</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INFO HANDLING -->
+    <section id="guides" class="section">
+      <div class="container">
+        <h2 class="section-title">Infos richtig weitergeben</h2>
+        <p class="text-dim mb-4">Im Notfall zählt jede Sekunde. Hier zeigen wir bewährte Strukturen für Funkmeldungen.</p>
+
+        <div class="calc-section">
+          <h3 style="color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;">◈ Das MELDUNG-Schema</h3>
+          <div class="info-grid" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
+            <div class="info-card" style="border-left: 3px solid var(--accent);"><h3>M</h3><p><strong>Meldung</strong> – Was soll übermittelt werden?</p></div>
+            <div class="info-card" style="border-left: 3px solid var(--accent2);"><h3>E</h3><p><strong>Empfänger</strong> – An wen richtet sich die Meldung?</p></div>
+            <div class="info-card" style="border-left: 3px solid var(--warning);"><h3>L</h3><p><strong>Lage</strong> – Wo und was ist passiert?</p></div>
+            <div class="info-card" style="border-left: 3px solid var(--danger);"><h3>D</h3><p><strong>Durchführende</strong> – Wer meldet?</p></div>
+            <div class="info-card" style="border-left: 3px solid var(--accent);"><h3>U</h3><p><strong>Unterstützung</strong> – Welche Hilfe wird benötigt?</p></div>
+            <div class="info-card" style="border-left: 3px solid var(--accent2);"><h3>N</h3><p><strong>Nächste Schritte</strong> – Was soll als nächstes passieren?</p></div>
+            <div class="info-card" style="border-left: 3px solid var(--warning);"><h3>G</h3><p><strong>Genauigkeit</strong> – Geschätzt oder bestätigt?</p></div>
+          </div>
+        </div>
+
+        <div class="calc-section">
+          <h3 style="color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;">◈ Beispiel: Hochwasser-Meldung</h3>
+          <div style="background: var(--surface2); border: 1px solid var(--border); padding: 1.5rem; font-family: monospace; font-size: 0.9rem; line-height: 2;">
+            <p><span style="color: var(--accent);">M</span> – Hochwasser in Hamburg-Billbrook, Straße überflutet</p>
+            <p><span style="color: var(--accent2);">E</span> – An Leitstelle Nord (Hammerhof)</p>
+            <p><span style="color: var(--warning);">L</span> – Hamburg-Billbrook, Billuferstraße, ca. 30 Personen betroffen</p>
+            <p><span style="color: var(--danger);">D</span> – DI0NORD, Peter Meyer, JO43XH</p>
+            <p><span style="color: var(--accent);">U</span> – Wasserrettung und Räumung erforderlich</p>
+            <p><span style="color: var(--accent2);">N</span> – Nächster Check-in in 30 Minuten</p>
+            <p><span style="color: var(--warning);">G</span> – Geschätzt, nicht persönlich gesehen</p>
+          </div>
+        </div>
+
+        <div class="calc-section">
+          <h3 style="color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;">◈ SITZPLAN – Struktur eines Notfunk-Netzes</h3>
+          <table class="freq-table">
+            <thead><tr><th>Position</th><th>Aufgabe</th><th>Typischer Rufname</th></tr></thead>
+            <tbody>
+              <tr><td class="freq-value">Netzchef</td><td>Leitet das Netz, gibt Wortmeldungen frei</td><td>[Ortsname]-NETZ</td></tr>
+              <tr><td class="freq-value">Stellvertreter</td><td>Übernimmt bei Ausfall des Netzchefs</td><td>[Ortsname]-STELLV</td></tr>
+              <tr><td class="freq-value">Frequenzwächter</td><td>Behält das Frequenzband im Auge</td><td>[Ortsname]-FW</td></tr>
+              <tr><td class="freq-value">Meldestelle</td><td>Sammelt und koordiniert eingehende Meldungen</td><td>[Ortsname]-MS</td></tr>
+              <tr><td class="freq-value">Logbuch</td><td>Führt протокол alle QSOs</td><td>[Ortsname]-LOG</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="calc-section">
+          <h3 style="color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;">◈ Praktische Tipps für den Funkverkehr</h3>
+          <div class="info-grid">
+            <div class="info-card">
+              <h3>🎙️ Sprachaufsatz</h3>
+              <p>Klare, langsame Aussprache. Kein Flüstern, kein Schreien. Jeweils "over" am Ende sagen, um Wechsel anzukündigen. "Kummet" = "Ich habe gesendet, antworte bitte".</p>
+            </div>
+            <div class="info-card">
+              <h3>📡 Signalbericht</h3>
+              <p>SINPO (SSCCC) für Kurzwellen: Stärke, Störung, Naturstörimpuls, Charakter, Übersichtlichkeit. Für UKW reicht S-Meter 1–9.</p>
+            </div>
+            <div class="info-card">
+              <h3>🔤 Abkürzungen</h3>
+              <p>CQ = Aufruf, QTH = Standort, QSL = Bestätigung, QRM = Störung durch andere, QRN = Naturstörungen (Gewitter), 73 = Freundschaftliche Grüße</p>
+            </div>
+            <div class="info-card">
+              <h3>⏱️ Zeit & Datum</h3>
+              <p>Im Funk immer UTC (Zeitzonen-neutral) verwenden. Beispiel: "14:30 UTC" statt "15:30 MESZ". Datum als TTMMJJ (z.B. 150925 = 15. Sept. 2025).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MORSE LEARNER -->
+    <section id="morse" class="section">
+      <div class="container">
+        <h2 class="section-title">Morse lernen</h2>
+        <p class="text-dim mb-4">CW (Continuous Wave) ist die älteste Betriebsart im Amateurfunk und bietet die beste Reichweite bei schwachen Signalen. Lerne die Zeichen mit unserem interaktiven Trainer.</p>
+
+        <div class="tabs">
+          <button class="tab-btn active" onclick="showTab(event, 'tab-morse-learn')">Lernen</button>
+          <button class="tab-btn" onclick="showTab(event, 'tab-morse-play')">Übung</button>
+          <button class="tab-btn" onclick="showTab(event, 'tab-morse-quickref')">Quickref</button>
+        </div>
+
+        <div id="tab-morse-learn" class="tab-content active">
+          <div class="info-grid">
+            <div class="info-card">
+              <h3>📖 Wochener-System (Koch-Methode)</h3>
+              <p>Newton Wochener entwickelte 1905 ein progressives Lernsystem: Pro Tag ein neues Zeichen, täglich Wiederholung des Gelernten. Tempo: 12 Buchstaben pro Minute (entspricht 20 Wpm).</p>
+            </div>
+            <div class="info-card">
+              <h3>🎧 Warum CW im Notfall?</h3>
+              <p>CW überlebt auch bei starkem Rauschen und geringster Signalstärke. Ein erfahrener Funker kann mit 1 Watt und Drahtantenne weltweit durchkommen – wo SSB versagt.</p>
+            </div>
+          </div>
+
+          <div class="calc-section" style="margin-top: 1rem;">
+            <h3 style="color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;">◈ Wochener-Plan: Woche 1</h3>
+            <table class="freq-table">
+              <thead><tr><th>Tag</th><th>Neue Zeichen</th><th>Wiederholung</th></tr></thead>
+              <tbody>
+                <tr><td class="freq-value">1</td><td>E (·), T (−)</td><td>—</td></tr>
+                <tr><td class="freq-value">2</td><td>I (··), A (·−)</td><td>E, T</td></tr>
+                <tr><td class="freq-value">3</td><td>N (−·), M (−−)</td><td>E, T, I, A</td></tr>
+                <tr><td class="freq-value">4</td><td>S (···), U (··−)</td><td>Alle bisher</td></tr>
+                <tr><td class="freq-value">5</td><td>H (····), V (···−)</td><td>Alle bisher</td></tr>
+                <tr><td class="freq-value">6</td><td>R (·−·), D (−··), L (·−··)</td><td>Alle bisher</td></tr>
+                <tr><td class="freq-value">7</td><td>C (−·−·), K (−·−), W (·−−), O (−−−)</td><td>Alle → Wortübungen</td></tr>
+              </tbody>
+            </table>
+            <div class="result-box" style="margin-top: 1rem;">
+              <p style="font-size: 0.85rem;"><strong style="color: var(--accent);">🎯 Ziel Woche 1:</strong> <strong>SOS</strong> (··· −−− ···) und das Wort <strong>PARIS</strong> sicher erkennen und schreiben können.</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-morse-play" class="tab-content">
+          <div class="calc-section" style="background: transparent; border: none; padding: 0;">
+            <h3 style="color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;">◈ Morse-Trainer</h3>
+            <div class="calc-row">
+              <div class="input-group">
+                <label>Schwierigkeit</label>
+                <select id="morse-difficulty" onchange="newMorseChallenge()">
+                  <option value="easy">Einfach (E, T, I, A, N, M)</option>
+                  <option value="medium">Mittel (A–U)</option>
+                  <option value="hard">Schwer (A–Z + Zahlen)</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label>Geschwindigkeit (Wpm)</label>
+                <select id="morse-speed" onchange="playMorse()">
+                  <option value="5">5 Wpm (langsam)</option>
+                  <option value="10" selected>10 Wpm</option>
+                  <option value="15">15 Wpm</option>
+                  <option value="20">20 Wpm (schnell)</option>
+                </select>
+              </div>
+            </div>
+            <div style="text-align: center; margin: 1.5rem 0;">
+              <div id="morse-display" style="font-size: 3rem; color: var(--accent); letter-spacing: 0.5rem; font-family: monospace; min-height: 60px; display: flex; align-items: center; justify-content: center;">
+                · − · −
+              </div>
+              <div id="morse-letter" style="font-size: 1.5rem; color: var(--text-dim); margin-top: 0.5rem; min-height: 30px;">
+                ?
+              </div>
+            </div>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+              <button class="primary" onclick="playMorse()">▶ Abspielen</button>
+              <button class="primary" onclick="newMorseChallenge()" style="background: var(--accent2); color: var(--bg);">Neues Zeichen</button>
+              <button class="primary" onclick="revealMorse()" style="background: var(--warning); color: var(--bg);">Zeigen</button>
+            </div>
+            <div id="morse-score" style="margin-top: 1rem; text-align: center; color: var(--text-dim); font-size: 0.85rem;">
+              Richtig: 0 | Falsch: 0
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-morse-quickref" class="tab-content">
+          <table class="freq-table" style="font-size: 0.8rem;">
+            <thead><tr><th>Buchstabe</th><th>Morse</th><th>Buchstabe</th><th>Morse</th><th>Buchstabe</th><th>Morse</th><th>Buchstabe</th><th>Morse</th></tr></thead>
+            <tbody id="morse-table-body"></tbody>
+          </table>
+          <div class="result-box" style="margin-top: 1rem;">
+            <p style="font-size: 0.85rem;"><strong style="color: var(--danger);">SOS</strong> = ··· −−− ··· &nbsp;&nbsp;|&nbsp;&nbsp; <strong>73</strong> = −··· − · − &nbsp;&nbsp;|&nbsp;&nbsp; <strong>CQ</strong> = −·−· −·&nbsp;&nbsp;|&nbsp;&nbsp; <strong>DE</strong> = −· · &nbsp;&nbsp;|&nbsp;&nbsp; <strong>TKS</strong> = −··· ·− ···</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LO.RA WAN -->
+    <section id="lorawan" class="section">
+      <div class="container">
+        <h2 class="section-title">LoRa & LoRaWAN</h2>
+        <p class="text-dim mb-4">LoRa (Long Range) ist eine Funktechnologie für sehr weitreichende, energieeffiziente Datenübertragung – ideal für Notfunk-Szenarien, wenn herkömmlicher Funk nicht mehr funktioniert.</p>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>📡 Was ist LoRa?</h3>
+            <p>Spread-Spectrum-Technik im sub-GHz-Bereich (868 MHz Europa, 915 MHz USA). Reichweite bis 15 km im Stadtgebiet, über 30 km ländlich. Sehr低功耗 (low power) – Batterien halten Monate.</p>
+          </div>
+          <div class="info-card">
+            <h3>🔗 LoRaWAN vs. Meshtastic</h3>
+            <p><strong>LoRaWAN</strong>: Zentralisierte Architektur mit Gateway und Server. Gut für große Netze.<br>
+               <strong>Meshtastic</strong>: Dezentrales Mesh-Netzwerk, kein Gateway nötig. Selbstorganisierend – perfekt für Katastrophenfälle.</p>
+          </div>
+          <div class="info-card">
+            <h3>🎒 Hardware für den Notfalleinsatz</h3>
+            <p>Einsteiger: TTGO LoRa32 (~25€), Heltec LoRa32 V3 (~40€). Erweitert: LILYGO T-Deck (~80€) mit OLED und Tastatur. Alle laufen mit Meshtastic.</p>
+          </div>
+          <div class="info-card">
+            <h3>⚡ Warum LoRa im Notfall?</h3>
+            <p>Kein Mobilfunknetz nötig, kein Internet, keine Infrastruktur. Geräte sind klein, leicht und batteriebetrieben. Nachrichten können via Mesh über Kilometer weitergeleitet werden.</p>
+          </div>
+        </div>
+
+        <div class="calc-section">
+          <h3 style="color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;">◈ LoRaWAN vs. herkömmlicher Funk – Vergleich</h3>
+          <table class="freq-table">
+            <thead><tr><th>Eigenschaft</th><th>LoRaWAN / Meshtastic</th><th>Amateurfunk (KW/UKW)</th></tr></thead>
+            <tbody>
+              <tr><td>Reichweite (lokal)</td><td>1–15 km</td><td>10–50 km (UKW), weltwärts (KW)</td></tr>
+              <tr><td>Infrastruktur</td><td>Keine / nur Gateway</td><td>Antenne, Frequenzplanung nötig</td></tr>
+              <tr><td>Batterielebensdauer</td><td>Monate bis Jahre</td><td>Tage bis Wochen</td></tr>
+              <tr><td>Kapazität</td><td>Gering (Textnachrichten)</td><td>Hohe (Sprache, Daten, Bilder)</td></tr>
+              <tr><td>Lizenz</td><td>ISM-Band (868 MHz) – keine Lizenz</td><td>Amateurfunklizenz erforderlich</td></tr>
+              <tr><td>Mesh-Fähigkeit</td><td>Ja (Meshtastic)</td><td>Nur mit Repeatern</td></tr>
+              <tr><td>Preis pro Gerät</td><td>25–100 €</td><td>300–2000 €</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="calc-section">
+          <h3 style="color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;">◈ Meshtastic im Einsatz</h3>
+          <div class="info-grid">
+            <div class="info-card">
+              <h3>🚀 So geht's los</h3>
+              <p>1. TTGO-Board kaufen (~25€)<br>2. Meshtastic-App auf Handy installieren<br>3. Device per USB verbinden & flashen<br>4. Mesh bilden – Geräte finden sich automatisch</p>
+            </div>
+            <div class="info-card">
+              <h3>📱 Features</h3>
+              <p>• Textnachrichten über Mesh<br>• GPS-Position teilen<br>• Nachrichten-Weiterleitung via Hop-by-Hop<br>• Works auch ohne Internet</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DRONE RADIO -->
+    <section id="droneRadio" class="section">
+      <div class="container">
+        <h2 class="section-title">Funk bei Drohnen</h2>
+        <p class="text-dim mb-4">Drohnen sind seit Jahren ein wichtiges Werkzeug bei Rettungseinsätzen – ob bei Hochwasser, Waldbränden oder Suchaktionen. Hier die wichtigsten Infos zu Funk, Frequenzen und rechtlichen Rahmen.</p>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>📡 Funkfernsteuerung</h3>
+            <p>Drohnen benötigen für Steuerung und Video zwei unabhängige Funkverbindungen. Typische Frequenzen: 2,4 GHz (FPV/Steuerung), 900 MHz (Telemetrie, Reichweite) oder 1,2 GHz.</p>
+          </div>
+          <div class="info-card">
+            <h3>📊 Frequenzübersicht</h3>
+            <p><strong>2,4 GHz:</strong> Video/FPV, kurze Reichweite (~5 km), hohe Datenrate<br>
+               <strong>900 MHz:</strong> Telemetrie, weiter Reichweite (~15 km), geringere Datenrate<br>
+               <strong>1,2 GHz:</strong> Kompromiss aus Reichweite und Bandbreite</p>
+          </div>
+          <div class="info-card">
+            <h3>⚖️ Rechtliche Grundlagen</h3>
+            <p>Seit 2024 gilt die EU-Drohnenverordnung (2024/515). Betriebsarten: A1 (unter 250g, offen), A3 (außerhalb bevölkerter Gebiete). Für Notfalleinsätze gelten Sonderregelungen.</p>
+          </div>
+          <div class="info-card">
+            <h3>🔋 Warum Funk bei Drohnen im Notfall?</h3>
+            <p>Wenn Mobilfunk und Internet weg sind, bleibt die Drohne steuerbar – solange die Funkverbindung zum Boden besteht. Sie kann Lagebilder liefern, Wärmebild-Suchaktionen durchführen oder kleine Güter abwerfen.</p>
+          </div>
+        </div>
+
+        <div class="calc-section">
+          <h3 style="color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;">◈ Drohnen-Funk bei Netzausfall</h3>
+          <div class="info-grid">
+            <div class="info-card">
+              <h3>📡 Eigene Frequenz wählen</h3>
+              <p>Vorsicht: 2,4 GHz wird vom WLAN überlagert! Bei Stromausfall sind viele WLAN-Router trotzdem aktiv. 900 MHz ist oft ruhiger und hat bessere Reichweite durch Gebäude.</p>
+            </div>
+            <div class="info-card">
+              <h3>🛡️ Störsicherheit</h3>
+              <p>Modulationen wie FHSS (Frequency Hopping) und DSSS (Direct Sequence) bieten gute Störsicherheit. Für Notfälle: Einfache analoge Videoübertragung (CVBS) über 5,8 GHz ist robust und billig.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-section">
+          <h3 style="color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;">◈ Drohnen-Tipps für den Katastrophenfall</h3>
+          <table class="freq-table">
+            <thead><tr><th>Szenario</th><th>Empfehlung</th><th>Bemerkung</th></tr></thead>
+            <tbody>
+              <tr><td class="freq-value">Personensuche</td><td>Wärmebildkamera + FPV</td><td>Bei Tag sichtbar, nachts über Wärme</td></tr>
+              <tr><td class="freq-value">Lagebild</td><td>HD-Kamera, 2,4 GHz Video</td><td>Übertragungsreichweite 3–5 km</td></tr>
+              <tr><td class="freq-value">Kleinmaterial</td><td>Parachute + 900 MHz Telemetrie</td><td>Reichweite bis 15 km möglich</td></tr>
+              <tr><td class="freq-value">Nachtsuche</td><td>Infrarot-Kamera</td><td>Wärme im Dunkel gut erkennbar</td></tr>
+              <tr><td class="freq-value">Komms-Backup</td><td>Analoge FPV (5,8 GHz)</td><td>Keine Codec-Abhängigkeit, sofort bild</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- KI QUIZ -->
+    <section id="kiQuiz" class="section">
+      <div class="container">
+        <h2 class="section-title">KI-Funkquiz</h2>
+        <p class="text-dim mb-4">Teste dein Wissen rund um Notfunk, Frequenzen und Funkprozedere. Die Fragen werden generiert und passen sich deinem Niveau an.</p>
+
+        <div class="calc-section">
+          <h3 style="color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;">◈ Quiz starten</h3>
+          <div id="quiz-container">
+            <div class="calc-row">
+              <div class="input-group">
+                <label>Level</label>
+                <select id="quiz-level">
+                  <option value="easy">Einsteiger (Grundlagen)</option>
+                  <option value="medium">Fortgeschritten</option>
+                  <option value="hard">Experte</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label>Anzahl Fragen</label>
+                <select id="quiz-count">
+                  <option value="5">5 Fragen</option>
+                  <option value="10" selected>10 Fragen</option>
+                  <option value="15">15 Fragen</option>
+                  <option value="20">20 Fragen</option>
+                </select>
+              </div>
+            </div>
+            <button class="primary" onclick="startQuiz()" style="margin-top: 1rem;">Quiz starten</button>
+          </div>
+          <div id="quiz-question" style="display: none; margin-top: 1.5rem;">
+            <div class="result-box" style="text-align: center;">
+              <p id="quiz-progress" style="color: var(--text-dim); font-size: 0.8rem; margin-bottom: 1rem;"></p>
+              <p id="quiz-question-text" style="font-size: 1.1rem; color: var(--text); margin-bottom: 1.5rem;"></p>
+              <div id="quiz-options" style="display: flex; flex-direction: column; gap: 0.75rem; max-width: 500px; margin: 0 auto;"></div>
+              <p id="quiz-feedback" style="margin-top: 1rem; font-size: 0.9rem;"></p>
+            </div>
+          </div>
+          <div id="quiz-result" style="display: none; margin-top: 1.5rem;">
+            <div class="result-box" style="text-align: center;">
+              <h3 style="color: var(--accent); margin-bottom: 1rem;">Quiz beendet!</h3>
+              <p id="quiz-score" style="font-size: 2rem; color: var(--accent2); margin-bottom: 0.5rem;"></p>
+              <p id="quiz-message" style="color: var(--text-dim);"></p>
+              <button class="primary" onclick="startQuiz()" style="margin-top: 1.5rem;">Nochmal spielen</button>
             </div>
           </div>
         </div>
@@ -1481,7 +1933,262 @@
       calcLocator();
       calcDistance();
       loadSolar();
+      initMorseTable();
+      newMorseChallenge();
+      buildQuizQuestions();
     });
+
+    // === MORSE TRAINER ===
+    const morseCode = {
+      'A':'·−','B':'−···','C':'−·−·','D':'−··','E':'·','F':'··−·',
+      'G':'−−·','H':'····','I':'··','J':'·−−−','K':'−·−','L':'·−··',
+      'M':'−−','N':'−·','O':'−−−','P':'·−−·','Q':'−−·−','R':'·−·',
+      'S':'···','T':'−','U':'··−','V':'···−','W':'·−−','X':'−··−',
+      'Y':'−·−−','Z':'−−··','0':'−−−−−','1':'·−−−−','2':'··−−−',
+      '3':'···−−','4':'····−','5':'·····','6':'−····','7':'−−···',
+      '8':'−−−··','9':'−−−−·',' ':' '
+    };
+    const morseReverse = Object.fromEntries(Object.entries(morseCode).map(([k,v]) => [v,k]));
+
+    let currentMorseLetter = '';
+    let morseScore = { correct: 0, wrong: 0 };
+    let audioCtx = null;
+
+    function initMorseTable() {
+      const tbody = document.getElementById('morse-table-body');
+      if (!tbody) return;
+      let html = '';
+      const rows = [];
+      for (const [letter, code] of Object.entries(morseCode)) {
+        if (letter.length === 1 && code.length <= 4) rows.push([letter, code]);
+      }
+      for (let i = 0; i < rows.length; i += 4) {
+        html += '<tr>' + rows.slice(i, i+4).map(([l, c]) => `<td><strong style="color:var(--accent)">${l}</strong></td><td style="font-family:monospace;color:var(--accent2)">${c}</td>`).join('') + '</tr>';
+      }
+      tbody.innerHTML = html;
+    }
+
+    function playDot() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.frequency.value = 700;
+      gain.gain.value = 0.3;
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.06);
+    }
+
+    function playDash() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.frequency.value = 700;
+      gain.gain.value = 0.3;
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.18);
+    }
+
+    function playMorseChar(code) {
+      return new Promise(resolve => {
+        let delay = 0;
+        for (const ch of code) {
+          if (ch === '·') {
+            setTimeout(() => playDot(), delay);
+            delay += 80;
+          } else if (ch === '−') {
+            setTimeout(() => playDash(), delay);
+            delay += 240;
+          }
+          delay += 80;
+        }
+        delay += 200;
+        setTimeout(resolve, delay);
+      });
+    }
+
+    async function playMorse() {
+      if (!currentMorseLetter) return;
+      const speed = parseInt(document.getElementById('morse-speed').value);
+      const dotDuration = Math.max(60, 1200 / speed);
+      // Play at the selected speed
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const code = morseCode[currentMorseLetter];
+      let delay = 0;
+      for (const ch of code) {
+        if (ch === '·') {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.frequency.value = 700;
+          gain.gain.value = 0.3;
+          osc.start(audioCtx.currentTime + delay/1000);
+          osc.stop(audioCtx.currentTime + delay/1000 + dotDuration/1000);
+          delay += dotDuration;
+        } else if (ch === '−') {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.frequency.value = 700;
+          gain.gain.value = 0.3;
+          osc.start(audioCtx.currentTime + delay/1000);
+          osc.stop(audioCtx.currentTime + delay/1000 + dotDuration*3/1000);
+          delay += dotDuration * 3;
+        }
+        delay += dotDuration;
+      }
+    }
+
+    function getPool(difficulty) {
+      if (difficulty === 'easy') return 'ETIANMSURWDKGOHVF';
+      if (difficulty === 'medium') return 'ETIANMSURWDKGOHVFPLJBXCYZ';
+      return 'ETIANMSURWDKGOHVFPLJBXCYZ0123456789';
+    }
+
+    function newMorseChallenge() {
+      const diff = document.getElementById('morse-difficulty').value;
+      const pool = getPool(diff);
+      currentMorseLetter = pool[Math.floor(Math.random() * pool.length)];
+      const display = document.getElementById('morse-display');
+      const letterDisplay = document.getElementById('morse-letter');
+      if (display) display.textContent = morseCode[currentMorseLetter] || '?';
+      if (letterDisplay) letterDisplay.textContent = '■';
+    }
+
+    function revealMorse() {
+      if (!currentMorseLetter) return;
+      const display = document.getElementById('morse-display');
+      const letterDisplay = document.getElementById('morse-letter');
+      if (display) display.textContent = morseCode[currentMorseLetter] || '?';
+      if (letterDisplay) letterDisplay.textContent = currentMorseLetter;
+    }
+
+    // === KI QUIZ ===
+    const quizQuestions = [
+      { q: "Was ist die internationale Notruf-Frequenz auf 2m?", a: ["144,260 MHz", "145,500 MHz", "146,520 MHz", "145,800 MHz"], c: 0 },
+      { q: "Welcher CB-Kanal ist der Notrufkanal?", a: ["Kanal 9", "Kanal 1", "Kanal 11", "Kanal 40"], c: 0 },
+      { q: "Was bedeutet QTH?", a: ["Standort", "Guten Tag", "Ich verstehe", "Warte"], c: 0 },
+      { q: "Wie lautet das Zeitformat im Funk?", a: ["UTC", "MESZ", "MEZ", "Lokalzeit"], c: 0 },
+      { q: "Was ist ein Relais (Repeater)?", a: ["Ein Funkgerät, das Signale empfängt und auf anderer Frequenz sendet", "Ein Verstärker für Antennen", "Eine Batterie für Notstrom", "Ein Modem für digitale Modi"], c: 0 },
+      { q: "Was steht '73' im Funkverkehr?", a: ["Freundschaftliche Grüße", "Notruf", "Verstanden", "Warte bitte"], c: 0 },
+      { q: "Wie lautet SOS in Morse?", a: ["··· −−− ···", "−−− ··· −−−", "··· −·· ···", "−−− ·−· −−−"], c: 0 },
+      { q: "Was ist LoRa?", a: ["Eine Langstrecken-Funktechnologie im ISM-Band", "Ein digitales Sprachmodem", "Ein Protokoll für Satellitenfunk", "Ein Notruf-System"], c: 0 },
+      { q: "Auf welcher Frequenz läuft Meshtastic typischerweise in Europa?", a: ["868 MHz", "2,4 GHz", "433 MHz", "915 MHz"], c: 0 },
+      { q: "Was bedeutet QRM?", a: ["Störung durch andere Funkstationen", "Naturstörungen", "Schwaches Signal", "Gute Verbindung"], c: 0 },
+      { q: "Was ist das MELDUNG-Schema?", a: ["Ein Nachrichten-Schema für strukturierte Notfallmeldungen", "Ein Morse-Code für Zahlen", "Ein Frequenzplan", "Ein Antennentyp"], c: 0 },
+      { q: "Welche Leistung darf ein CB-Funkgerät maximal haben (FM)?", a: ["4 Watt ERP", "12 Watt PEP", "25 Watt", "100 Watt"], c: 0 },
+      { q: "Was ist SINPO?", a: ["Ein System zur Bewertung von Funkverbindungen", "Eine Art von Antenne", "Ein Morse-Code", "Ein Frequenzband"], c: 0 },
+      { q: "Welches Band eignet sich am besten für weltweite Verbindungen bei.Tag?", a: ["20m", "160m", "2m", "70cm"], c: 0 },
+      { q: "Was ist DMR?", a: ["Ein digitaler Funkstandard (Digital Mobile Radio)", "Ein analoger Modus", "Ein Satellitensystem", "Ein Notfall-Netzwerk"], c: 0 },
+      { q: "Wie hoch ist die typische Reichweite von 2m UKW im Flachland?", a: ["~20–50 km", "~200 km", "~2000 km", "~5 km"], c: 0 },
+      { q: "Was bedeutet QSL?", a: ["Bestätigung des QSOs", "Notruf senden", "Frequenz wechseln", "Sendeleistung erhöhen"], c: 0 },
+      { q: "Was ist ein Grid Square (Locator)?", a: ["Ein Koordinatensystem für Funkamateure", "Ein Antennentyp", "Ein Frequenzplan", "Ein Morse-Zeichen"], c: 0 },
+      { q: "Auf welcher Frequenz liegt der internationale Notruf im UKW?", a: ["144,260 MHz", "145,525 MHz", "145,500 MHz", "433,500 MHz"], c: 0 },
+      { q: "Was macht Meshtastic besonders für den Notfunk?", a: ["Selbstorganisierendes Mesh-Netz ohne Infrastruktur", "Benötigt Mobilfunk", "Ist verschlüsselt", "Arbeitet nur mit Satelliten"], c: 0 },
+      { q: "Was ist FT8?", a: ["Ein digitales Weak-Signal-Modus", "Ein analoger Sprechfunk", "Ein Morsetelegrafie-Modus", "Ein Satellitenbetrieb"], c: 0 },
+      { q: "Welche Funktion hat der Netzchef in einem Notfunk-Netz?", a: ["Leitet das Netz und gibt Wortmeldungen frei", "Betreibt das Relais", "Führt das Logbuch", "Sucht nach neuen Frequenzen"], c: 0 },
+      { q: "Was bedeutet 'over' im Funkverkehr?", a: ["Ich habe gesendet, erwarte deine Antwort", "Ich sende noch", "Signal schlecht", "Frequenz gewechselt"], c: 0 },
+      { q: "Welche Betriebsart ist bei schwächsten Signalen am effektivsten?", a: ["CW (Morse)", "SSB", "FM", "FT8"], c: 0 },
+      { q: "Wie viele Kanäle hat der CB-Funk in Deutschland?", a: ["80 (40 CEPT + 40 national)", "40", "25", "160"], c: 0 },
+      { q: "Was ist der Unterschied zwischen 2m und 70cm?", a: ["70cm hat höhere Frequenz, kürzere Reichweite, bessere Gebäude-Durchdringung", "2m hat höhere Frequenz", "70cm ist nur für Satelliten", "Es gibt keinen Unterschied"], c: 0 },
+    ];
+
+    let quizActive = false;
+    let quizQuestionsList = [];
+    let quizIndex = 0;
+    let quizCorrect = 0;
+
+    function buildQuizQuestions() {
+      // Pre-shuffle not needed, we'll shuffle in startQuiz
+    }
+
+    function shuffleArray(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function startQuiz() {
+      const level = document.getElementById('quiz-level').value;
+      const count = parseInt(document.getElementById('quiz-count').value);
+      let pool = [...quizQuestions];
+      if (level === 'easy') pool = pool.filter((_, i) => i % 2 === 0);
+      else if (level === 'hard') pool = pool.filter((_, i) => i % 2 === 1 || i > 20);
+      quizQuestionsList = shuffleArray(pool).slice(0, count);
+      quizIndex = 0;
+      quizCorrect = 0;
+      quizActive = true;
+      document.getElementById('quiz-container').style.display = 'none';
+      document.getElementById('quiz-question').style.display = 'block';
+      document.getElementById('quiz-result').style.display = 'none';
+      showQuizQuestion();
+    }
+
+    function showQuizQuestion() {
+      if (quizIndex >= quizQuestionsList.length) {
+        showQuizResult();
+        return;
+      }
+      const q = quizQuestionsList[quizIndex];
+      document.getElementById('quiz-progress').textContent = `${quizIndex + 1} / ${quizQuestionsList.length}`;
+      document.getElementById('quiz-question-text').textContent = q.q;
+      const optionsDiv = document.getElementById('quiz-options');
+      optionsDiv.innerHTML = '';
+      document.getElementById('quiz-feedback').textContent = '';
+      q.a.forEach((ans, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'tab-btn';
+        btn.style.textAlign = 'left';
+        btn.style.padding = '0.75rem 1rem';
+        btn.style.width = '100%';
+        btn.textContent = ans;
+        btn.onclick = () => answerQuiz(i);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function answerQuiz(idx) {
+      if (!quizActive) return;
+      const q = quizQuestionsList[quizIndex];
+      const buttons = document.querySelectorAll('#quiz-options button');
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === q.c) btn.style.background = 'var(--accent)';
+        else if (i === idx && i !== q.c) btn.style.background = 'var(--danger)';
+      });
+      if (idx === q.c) {
+        quizCorrect++;
+        document.getElementById('quiz-feedback').innerHTML = '<span style="color:var(--accent)">✓ Richtig!</span>';
+      } else {
+        document.getElementById('quiz-feedback').innerHTML = `<span style="color:var(--danger)">✗ Falsch. Richtig wäre: ${q.a[q.c]}</span>`;
+      }
+      setTimeout(() => {
+        quizIndex++;
+        showQuizQuestion();
+      }, 1500);
+    }
+
+    function showQuizResult() {
+      quizActive = false;
+      document.getElementById('quiz-question').style.display = 'none';
+      document.getElementById('quiz-result').style.display = 'block';
+      const pct = Math.round(quizCorrect / quizQuestionsList.length * 100);
+      document.getElementById('quiz-score').textContent = `${quizCorrect} / ${quizQuestionsList.length} (${pct}%)`;
+      let msg = '';
+      if (pct >= 90) msg = 'Ausgezeichnet! Du bist ein Funk-Profi! 🏆';
+      else if (pct >= 70) msg = 'Sehr gut! Du kennst dich aus! 👍';
+      else if (pct >= 50) msg = 'Gut gemacht! Noch etwas lernen und du schaffst es! 📻';
+      else msg = 'Übung macht den Meister! Versuch es nochmal! 💪';
+      document.getElementById('quiz-message').textContent = msg;
+    }
   </script>
 </body>
 </html>
