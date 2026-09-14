@@ -49,8 +49,8 @@ const emergencyFrequencies: EmergencyFreq[] = [
     name: 'Ham-Net Notruf',
     frequency: 3973,
     mode: 'SSB',
-    region: 'Norddeutschland',
-    description: 'Ham-Net Notrufkanal für Norddeutschland',
+    region: 'Norden',
+    description: 'Ham-Net Notrufkanal für den Norden',
   },
   {
     name: 'DARC Notfunk 80m',

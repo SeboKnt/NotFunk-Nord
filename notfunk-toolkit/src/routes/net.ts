@@ -84,15 +84,15 @@ netRoutes.post('/:id/checkout', async (c) => {
   return c.json({ success: true, remaining: net.participants.length })
 })
 
-// Predefined emergency nets for Norddeutschland
+// Predefined emergency nets for the North
 netRoutes.get('/preset', (c) => {
   const presetNets = [
     {
-      name: 'Norddeutscher Notfunknetz',
+      name: 'Nördliches Notfunknetz',
       frequency: 3573,
       mode: 'SSB',
       schedule: 'Mo-Fr 18:00-19:00 UTC',
-      description: 'Regionales Notfunknetz für Norddeutschland',
+      description: 'Regionales Notfunknetz für den Norden',
     },
     {
       name: 'DARC Notfunkdienst',
@@ -106,7 +106,7 @@ netRoutes.get('/preset', (c) => {
       frequency: 21350,
       mode: 'SSB',
       schedule: 'Mi 19:00-20:00 UTC',
-      description: 'Emergency Service Netz für Norddeutschland',
+      description: 'Emergency Service Netz für den Norden',
     },
   ]
   return c.json({ presetNets })

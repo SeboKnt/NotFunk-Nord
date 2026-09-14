@@ -8,7 +8,7 @@
 
 ## Was ist NotFunk-Nord?
 
-**NotFunk-Nord** ist ein Open-Source Toolkit für Amateurfunk im Notfall. Es bietet Werkzeuge für Funkamateure in Norddeutschland und darüber hinaus.
+**NotFunk-Nord** ist ein Open-Source Toolkit für Amateurfunk im Notfall. Es bietet Werkzeuge für Funkamateure im Norden und darüber hinaus.
 
 ## API Toolkit
 
