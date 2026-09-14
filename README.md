@@ -8,18 +8,7 @@
 
 ## Was ist NotFunk-Nord?
 
-**NotFunk-Nord** ist ein Open-Source Toolkit für Amateurfunk im Notfall. Inspiriert vom [Wikipedia-Artikel über Notfunk](https://de.wikipedia.org/wiki/Notfunk), bietet es Werkzeuge für Funkamateure in Norddeutschland und darüber hinaus.
-
-### Warum diese Domain?
-
-Die Domain wurde gekauft, weil sie in einem [Wikipedia-Artikel](https://de.wikipedia.org/wiki/Notfunk) verlinkt war. Als Funkamateur mit Interesse an Emergency Communications fand ich das eine großartige Inspiration.
-
-### Referenzen
-
-- 📖 [Wikipedia: Notfunk](https://de.wikipedia.org/wiki/Notfunk)
-- 🏢 [DARC Notfunk-Referat](https://www.darc.de/referate/notfunk/)
-- 🌐 [IARU Emergency Communication](https://www.iaru.org/emergency-communication/)
-- ☀️ [SpaceWeather.gov](https://www.spaceweather.gov)
+**NotFunk-Nord** ist ein Open-Source Toolkit für Amateurfunk im Notfall. Es bietet Werkzeuge für Funkamateure in Norddeutschland und darüber hinaus.
 
 ## API Toolkit
 
