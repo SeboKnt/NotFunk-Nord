@@ -3,29 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NotFunk-Nord - Amateurfunk-Notfunk Toolkit</title>
+  <title>NotFunk-Nord - Amateurfunk im Notfall</title>
   <style>
     :root {
-      --bg: #0f1419;
-      --surface: #1a2332;
-      --surface2: #243044;
+      --bg: #0a0e14;
+      --surface: #111820;
+      --surface2: #1a2332;
+      --surface3: #243044;
       --accent: #00e676;
+      --accent-dim: rgba(0, 230, 118, 0.1);
       --accent2: #00b0ff;
+      --danger: #ff5252;
+      --warning: #ffc107;
       --text: #e8f0f8;
       --text-dim: #8899a6;
       --border: #2a3a4e;
-      --danger: #ff5252;
-      --warning: #ffc107;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Courier New', monospace;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
-      min-height: 100vh;
+      line-height: 1.7;
     }
 
     .scanline {
@@ -39,35 +42,46 @@
         rgba(0, 230, 118, 0.015) 4px
       );
       pointer-events: none;
-      z-index: 1000;
+      z-index: 9999;
     }
 
-    header {
-      background: var(--surface);
-      border-bottom: 2px solid var(--accent);
-      padding: 1rem 2rem;
+    /* === NAVIGATION === */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(10, 14, 20, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+      padding: 0 2rem;
+    }
+
+    .nav-inner {
+      max-width: 1400px;
+      margin: 0 auto;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
+      justify-content: space-between;
+      height: 60px;
     }
 
     .logo {
       display: flex;
       align-items: center;
       gap: 0.75rem;
+      text-decoration: none;
     }
 
     .logo-icon {
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       background: var(--accent);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1rem;
       animation: pulse 2s ease-in-out infinite;
     }
 
@@ -76,24 +90,44 @@
       50% { box-shadow: 0 0 20px 5px rgba(0, 230, 118, 0.2); }
     }
 
-    .logo h1 {
-      font-size: 1.3rem;
+    .logo-text h1 {
+      font-size: 1.1rem;
       color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
     }
 
-    .logo span {
-      font-size: 0.7rem;
+    .logo-text span {
+      font-size: 0.65rem;
       color: var(--text-dim);
-      display: block;
       letter-spacing: 1px;
     }
 
-    .status-bar {
+    .nav-links {
+      display: flex;
+      gap: 0.25rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+      border-bottom: 2px solid transparent;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .status-indicator {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.5rem;
       font-size: 0.75rem;
       color: var(--text-dim);
     }
@@ -103,7 +137,6 @@
       height: 8px;
       background: var(--accent);
       border-radius: 50%;
-      display: inline-block;
       animation: blink 1.5s ease-in-out infinite;
     }
 
@@ -112,18 +145,36 @@
       50% { opacity: 0.3; }
     }
 
-    main {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
+    /* === MOBILE MENU === */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--accent);
+      padding: 0.5rem;
+      cursor: pointer;
+      font-size: 1.2rem;
     }
 
+    /* === MAIN LAYOUT === */
+    main {
+      padding-top: 60px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* === HERO === */
     .hero {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      padding: 3rem 1rem;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      margin-bottom: 2rem;
+      background: radial-gradient(ellipse at center, var(--surface) 0%, var(--bg) 70%);
       position: relative;
       overflow: hidden;
     }
@@ -136,33 +187,252 @@
       background: linear-gradient(90deg, transparent, var(--accent), transparent);
     }
 
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 2rem;
+    }
+
     .hero h2 {
-      font-size: 2rem;
+      font-size: clamp(2rem, 5vw, 3.5rem);
       color: var(--accent);
       margin-bottom: 1rem;
       text-transform: uppercase;
-      letter-spacing: 4px;
+      letter-spacing: 6px;
     }
 
-    .hero p {
+    .hero .tagline {
+      font-size: 1.2rem;
       color: var(--text-dim);
+      margin-bottom: 2rem;
       max-width: 600px;
-      margin: 0 auto;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    .tools-grid {
+    .hero .quote {
+      font-style: italic;
+      color: var(--accent2);
+      border-left: 3px solid var(--accent2);
+      padding-left: 1rem;
+      margin: 2rem auto;
+      max-width: 500px;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+      color: var(--accent);
+      font-size: 1.5rem;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
+
+    /* === SECTIONS === */
+    .section {
+      padding: 4rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-title::before {
+      content: '◈';
+      color: var(--accent);
+    }
+
+    /* === INFO CARDS === */
+    .info-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 1.5rem;
       margin-bottom: 2rem;
+    }
+
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      transition: all 0.3s;
+    }
+
+    .info-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .info-card h3 {
+      color: var(--accent);
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .info-card p {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+    }
+
+    /* === TABS === */
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      padding: 0.5rem 1rem;
+      font-family: inherit;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover, .tab-btn.active {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .tab-content {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* === FREQUENCIES TABLE === */
+    .freq-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .freq-table th, .freq-table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .freq-table th {
+      color: var(--accent);
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      background: var(--surface2);
+    }
+
+    .freq-table tr:hover td {
+      background: var(--surface2);
+    }
+
+    .freq-table .freq-value {
+      color: var(--accent2);
+      font-weight: bold;
+    }
+
+    .freq-table .mode-tag {
+      background: var(--accent-dim);
+      color: var(--accent);
+      padding: 0.25rem 0.5rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+    }
+
+    /* === ACCORDION === */
+    .accordion-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      margin-bottom: 0.5rem;
+    }
+
+    .accordion-header {
+      padding: 1rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+    }
+
+    .accordion-header:hover {
+      background: var(--surface2);
+    }
+
+    .accordion-header h4 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .accordion-header .icon {
+      color: var(--accent);
+      transition: transform 0.3s;
+    }
+
+    .accordion-item.open .accordion-header .icon {
+      transform: rotate(45deg);
+    }
+
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .accordion-item.open .accordion-body {
+      max-height: 500px;
+    }
+
+    .accordion-body-inner {
+      padding: 0 1rem 1rem;
+      color: var(--text-dim);
+      font-size: 0.9rem;
+    }
+
+    /* === TOOLS SECTION === */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
     }
 
     .tool-card {
       background: var(--surface);
       border: 1px solid var(--border);
       padding: 1.5rem;
-      transition: all 0.3s ease;
-      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s;
       position: relative;
       overflow: hidden;
     }
@@ -174,7 +444,7 @@
       height: 2px;
       background: var(--accent);
       transform: scaleX(0);
-      transition: transform 0.3s ease;
+      transition: transform 0.3s;
     }
 
     .tool-card:hover {
@@ -188,57 +458,47 @@
 
     .tool-card h3 {
       color: var(--accent);
-      font-size: 1rem;
+      font-size: 0.9rem;
       margin-bottom: 0.5rem;
       text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
     }
 
     .tool-card p {
       color: var(--text-dim);
-      font-size: 0.85rem;
+      font-size: 0.8rem;
     }
 
     .tool-card .arrow {
       position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
+      top: 1rem;
+      right: 1rem;
       color: var(--accent);
-      font-size: 1.2rem;
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.3s;
     }
 
     .tool-card:hover .arrow {
       opacity: 1;
     }
 
-    .section {
+    /* === CALCULATOR === */
+    .calc-section {
       background: var(--surface);
       border: 1px solid var(--border);
       padding: 2rem;
       margin-bottom: 2rem;
     }
 
-    .section h3 {
-      color: var(--accent);
-      font-size: 1.1rem;
-      margin-bottom: 1.5rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .quick-calc {
+    .calc-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
 
     @media (max-width: 600px) {
-      .quick-calc { grid-template-columns: 1fr; }
+      .calc-row { grid-template-columns: 1fr; }
     }
 
     .input-group {
@@ -248,7 +508,7 @@
     }
 
     .input-group label {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--text-dim);
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -262,35 +522,30 @@
       font-family: inherit;
       font-size: 1rem;
       outline: none;
-      transition: border-color 0.3s ease;
+      transition: border-color 0.3s;
     }
 
-    .input-group input:focus, .input-group select:focus {
+    .input-group input:focus {
       border-color: var(--accent);
     }
 
-    button {
+    button.primary {
       background: var(--accent);
       color: var(--bg);
       border: none;
       padding: 0.75rem 1.5rem;
       font-family: inherit;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 2px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.3s;
     }
 
-    button:hover {
+    button.primary:hover {
       background: #00c853;
       box-shadow: 0 0 20px rgba(0, 230, 118, 0.3);
-    }
-
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
     }
 
     .result-box {
@@ -298,23 +553,6 @@
       border: 1px solid var(--border);
       padding: 1rem;
       margin-top: 1rem;
-      font-family: inherit;
-      font-size: 0.9rem;
-      min-height: 60px;
-    }
-
-    .result-box .label {
-      color: var(--text-dim);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 0.5rem;
-    }
-
-    .result-box .value {
-      color: var(--accent);
-      font-size: 1.3rem;
-      font-weight: bold;
     }
 
     .result-row {
@@ -326,6 +564,10 @@
 
     .result-row:last-child { border-bottom: none; }
 
+    .result-label { color: var(--text-dim); font-size: 0.85rem; }
+    .result-value { color: var(--accent); font-weight: bold; font-size: 1.1rem; }
+
+    /* === EMERGENCY BANNER === */
     .emergency-banner {
       background: linear-gradient(90deg, rgba(255, 82, 82, 0.1), transparent);
       border-left: 4px solid var(--danger);
@@ -335,211 +577,768 @@
 
     .emergency-banner h3 {
       color: var(--danger);
+      font-size: 1rem;
       margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
 
-    .emergency-banner ul {
-      list-style: none;
+    .emergency-freqs {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 0.5rem;
     }
 
-    .emergency-banner li {
-      padding: 0.5rem;
+    .emergency-freq {
       background: rgba(255, 82, 82, 0.05);
       border: 1px solid rgba(255, 82, 82, 0.2);
+      padding: 0.75rem;
       font-size: 0.85rem;
     }
 
-    .emergency-banner li strong {
+    .emergency-freq strong {
       color: var(--danger);
+      display: block;
+      font-size: 1rem;
     }
 
+    /* === FOOTER === */
     footer {
       text-align: center;
-      padding: 2rem;
+      padding: 3rem 2rem;
       color: var(--text-dim);
       font-size: 0.75rem;
       border-top: 1px solid var(--border);
       margin-top: 2rem;
     }
 
-    .loading {
-      animation: loading 1s ease-in-out infinite;
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
     }
 
-    @keyframes loading {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+    footer a:hover {
+      text-decoration: underline;
     }
+
+    /* === UTILITIES === */
+    .text-accent { color: var(--accent); }
+    .text-dim { color: var(--text-dim); }
+    .text-warning { color: var(--warning); }
+    .text-danger { color: var(--danger); }
+    .mt-1 { margin-top: 0.5rem; }
+    .mt-2 { margin-top: 1rem; }
+    .mb-2 { margin-bottom: 1rem; }
+    .mb-4 { margin-bottom: 2rem; }
   </style>
 </head>
 <body>
   <div class="scanline"></div>
 
-  <header>
-    <div class="logo">
-      <div class="logo-icon">⚡</div>
-      <div>
-        <h1>NotFunk-Nord</h1>
-        <span>Amateurfunk-Notfunk Toolkit</span>
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <div class="logo-icon">⚡</div>
+        <div class="logo-text">
+          <h1>NotFunk-Nord</h1>
+          <span>Amateurfunk-Notfunk Toolkit</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#about">Über</a></li>
+        <li><a href="#history">Geschichte</a></li>
+        <li><a href="#frequencies">Frequenzen</a></li>
+        <li><a href="#techniques">Technik</a></li>
+        <li><a href="#tools">Tools</a></li>
+      </ul>
+
+      <div class="status-indicator">
+        <span class="status-dot"></span>
+        <span id="clock"></span>
       </div>
+
+      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
     </div>
-    <div class="status-bar">
-      <span><span class="status-dot"></span> ONLINE</span>
-      <span id="clock"></span>
-    </div>
-  </header>
+  </nav>
 
   <main>
+    <!-- HERO -->
     <section class="hero">
-      <h2>☰ Emergency Radio</h2>
-      <p>Werkzeuge für den Amateurfunk im Notfall. Wenn das Stromnetz ausfällt, bleibt der Funk bestehen.</p>
-    </section>
-
-    <section class="emergency-banner">
-      <h3>⚠ NOTRUF-FREQUENZEN</h3>
-      <ul>
-        <li><strong>2182 kHz</strong> - Schiffsnotruf (USB)</li>
-        <li><strong>156.8 MHz</strong> - Seenotruf (CH16)</li>
-        <li><strong>121.5 MHz</strong> - Flugnotruf (AM)</li>
-        <li><strong>3973 kHz</strong> - Ham-Net Nord</li>
-        <li><strong>3573 kHz</strong> - DARC 80m</li>
-        <li><strong>14095 kHz</strong> - DARC 20m</li>
-      </ul>
-    </section>
-
-    <section class="section">
-      <h3>◈ QTH Locator Rechner</h3>
-      <div class="quick-calc">
-        <div class="input-group">
-          <label>Breitengrad (Lat)</label>
-          <input type="number" id="lat" value="53.55" step="0.01">
-        </div>
-        <div class="input-group">
-          <label>Längengrad (Lon)</label>
-          <input type="number" id="lon" value="10.00" step="0.01">
+      <div class="hero-content">
+        <h2>☰ Emergency Radio</h2>
+        <p class="tagline">Wenn das Stromnetz ausfällt, bleibt der Funk bestehen.</p>
+        <p class="quote">"Funkamateure sind weltweit oft die ersten, die wieder Kontakt zur Außenwelt herstellen können."</p>
+        <div class="tabs" style="justify-content: center; margin-top: 2rem;">
+          <a href="#tools" class="tab-btn active">Tools starten</a>
+          <a href="#about" class="tab-btn">Mehr erfahren</a>
         </div>
       </div>
-      <button onclick="calcLocator()">LOCATOR BERECHNEN</button>
-      <div class="result-box" id="locator-result">
-        <div class="label">Maidenhead Grid Square</div>
-        <div class="value" id="locator-value">-</div>
+      <div class="scroll-hint">↓</div>
+    </section>
+
+    <!-- EMERGENCY BANNER -->
+    <div class="container">
+      <section class="emergency-banner">
+        <h3>⚠ Internationale Notruf-Frequenzen</h3>
+        <div class="emergency-freqs">
+          <div class="emergency-freq">
+            <strong>2182 kHz</strong>
+            Schiffsnotruf (USB)
+          </div>
+          <div class="emergency-freq">
+            <strong>156.8 MHz</strong>
+            Seenotruf (CH16)
+          </div>
+          <div class="emergency-freq">
+            <strong>121.5 MHz</strong>
+            Flugnotruf (AM)
+          </div>
+          <div class="emergency-freq">
+            <strong>406 MHz</strong>
+            EPIRB (Satellit)
+          </div>
+          <div class="emergency-freq">
+            <strong>3973 kHz</strong>
+            Ham-Net Nord
+          </div>
+          <div class="emergency-freq">
+            <strong>3573 kHz</strong>
+            DARC 80m Notfunk
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="container">
+        <h2 class="section-title">Über Notfunk</h2>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>📻 Was ist Notfunk?</h3>
+            <p>Notfunk (oder Katastrophenfunk) bezeichnet den Funkbetrieb, mit dem Funkamateure im Rahmen ihrer Kommunikationsmöglichkeiten in Not- und Katastrophensituationen Hilfe leisten. Sie unterstützen Hilfsorganisationen und BOS oder leiten Notrufe weiter.</p>
+          </div>
+          <div class="info-card">
+            <h3>⚖️ Rechtliche Grundlage</h3>
+            <p>§ 2 Nr. 2 Amateurfunkgesetz: Der Amateurfunkdienst schließt die Unterstützung von Hilfsaktionen in Not- und Katastrophenfällen ein. Der Amateurfunkdienst ist kein Sicherheitsfunkdienst.</p>
+          </div>
+          <div class="info-card">
+            <h3>🌍 Worldwide</h3>
+            <p>Rund zwei Millionen Funkamateure weltweit stehen bereit. Bei Ausfall kommerzieller Telekommunikationsnetze sind sie oft die ersten, die wieder Kontakt herstellen können.</p>
+          </div>
+          <div class="info-card">
+            <h3>🔋 Autarkie</h3>
+            <p>Für eine interkontinentale Verbindung reichen: etwas Draht als Antenne, eine Batterie oder Solarzelle, ein Funkgerät mit 1-5W Leistung und eine Morsetaste oder ein Mikrofon.</p>
+          </div>
+        </div>
+
+        <div class="accordion">
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <h4>Warum Amateurfunk im Notfall?</h4>
+              <span class="icon">+</span>
+            </div>
+            <div class="accordion-body">
+              <div class="accordion-body-inner">
+                Hochwasser, Erdbeben, Stürme, Großfeuer zerstören fast immer Telekommunikationseinrichtungen. Ohne Infrastruktur und Strom funktionieren moderne Netze nicht. Funkamateure betreiben ihre Stationen unabhängig von jeglicher Infrastruktur und verfügen über zahlreiche Kontakte regional und länderübergreifend.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <h4>Unterschied zu Mobilfunk</h4>
+              <span class="icon">+</span>
+            </div>
+            <div class="accordion-body">
+              <div class="accordion-body-inner">
+                Mobilfunk-Basisstationen sind nur kurzzeitig gegen Stromausfall gesichert. Bei längerem Ausfall sind Handys nutzlos. CB-Funk und Amateurfunk arbeiten auf Frequenzen mit besseren Ausbreitungsbedingungen und können Verbindungen herstellen, wenn Mobiltelefone keine Basisstation mehr erreichen.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <h4>Internationale Zusammenarbeit</h4>
+              <div class="accordion-body">
+                <div class="accordion-body-inner">
+                  Ein großer Vorteil des Amateurfunkdienstes sind weltweit zugewiesene Frequenzbereiche. Eine unkomplizierte, grenzüberschreitende Kommunikation ist jederzeit möglich, während die Zusammenarbeit verschiedener Hilfskräfte (BOS, Bundeswehr, Energieversorger) schon bei regionalen Großschadenslagen an unterschiedlichen Funkdiensten scheitert. Das Übereinkommen von Tampere (1998) regelt, dass Amateurfunkausrüstung in Katastrophenfällen ohne weiteres ins Ausland transportiert und betrieben werden darf.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="section">
-      <h3>◈ Entfernung & Richtung</h3>
-      <div class="quick-calc">
-        <div class="input-group">
-          <label>Von (Grid)</label>
-          <input type="text" id="from-grid" value="JO43" maxlength="6" style="text-transform:uppercase">
-        </div>
-        <div class="input-group">
-          <label>Nach (Grid)</label>
-          <input type="text" id="to-grid" value="JO31" maxlength="6" style="text-transform:uppercase">
-        </div>
-      </div>
-      <button onclick="calcDistance()">BERECHNEN</button>
-      <div class="result-box" id="distance-result">
-        <div class="result-row">
-          <span>Distanz:</span>
-          <strong id="dist-km">-</strong>
-        </div>
-        <div class="result-row">
-          <span>Richtung:</span>
-          <strong id="dist-bearing">-</strong>
+    <!-- HISTORY -->
+    <section id="history" class="section">
+      <div class="container">
+        <h2 class="section-title">Geschichte</h2>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>📻 Frühe Jahre</h3>
+            <p>Funkamateure betrieben mobile Funkanlagen vom Auto aus, lange bevor es CB-Funk oder Mobilfunknetze gab. Sie gehörten zu den Privilegierten, die mobil kommunizieren konnten.</p>
+          </div>
+          <div class="info-card">
+            <h3>📱 Mobilfunk-Ära</h3>
+            <p>Seit den späten 1990er Jahren ist Mobilfunk alltäglich geworden. Doch die Feststationen in Mobilfunknetzen sind nur kurzzeitig gegen Stromausfall gesichert. Nach längerem Ausfall sind Handys nutzlos.</p>
+          </div>
+          <div class="info-card">
+            <h3>🛰️ Moderne Entwicklung</h3>
+            <p>Hilfsorganisationen nutzen heute Satellitentelefone. Da auch Presse-Korrespondenten diese Systeme nutzen, kommen Hilfsorganisationen bei internationalen Einsätzen wieder auf Funkamateure als Rückfallebene zurück.</p>
+          </div>
+          <div class="info-card">
+            <h3>🤝 DARC & THW</h3>
+            <p>Am 13. Oktober 2014 schlossen DARC und der Landesverband Bayern des THW einen Kooperationsvertrag zur Herstellung drahtloser Fernmeldeverbindungen bei Ausfall anderer Netze.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section">
-      <h3>◈ Propagation Status (Hamburg)</h3>
-      <button onclick="loadPropagation()">STATUS AKTUALISIEREN</button>
-      <div class="result-box" id="prop-result">
-        <div class="result-row">
-          <span>MUF:</span>
-          <strong id="prop-muf">-</strong>
+    <!-- FREQUENCIES -->
+    <section id="frequencies" class="section">
+      <div class="container">
+        <h2 class="section-title">Notfunkfrequenzen</h2>
+
+        <div class="tabs">
+          <button class="tab-btn active" onclick="showTab(event, 'tab-kw')">Kurzwelle (KW)</button>
+          <button class="tab-btn" onclick="showTab(event, 'tab-ukw')">Ultrakurzwelle (UKW)</button>
+          <button class="tab-btn" onclick="showTab(event, 'tab-dach')">D/A.CH Spezial</button>
         </div>
-        <div class="result-row">
-          <span>Empfohlenes Band:</span>
-          <strong id="prop-band">-</strong>
+
+        <div id="tab-kw" class="tab-content active">
+          <table class="freq-table">
+            <thead>
+              <tr>
+                <th>Band</th>
+                <th>Frequenz</th>
+                <th>Mode</th>
+                <th>Beschreibung</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>160m</td>
+                <td class="freq-value">1873 kHz</td>
+                <td><span class="mode-tag">LSB</span></tr>
+                <td>Deutschland, Österreich, Schweiz</td>
+              </tr>
+              <tr>
+                <td>80m</td>
+                <td class="freq-value">3643 kHz</td>
+                <td><span class="mode-tag">LSB</span></td>
+                <td>D/A.CH</td>
+              </tr>
+              <tr>
+                <td>80m</td>
+                <td class="freq-value">3760 kHz</td>
+                <td><span class="mode-tag">SSB/CW</span></td>
+                <td>Region 1 Aktivitätszentrum</td>
+              </tr>
+              <tr>
+                <td>40m</td>
+                <td class="freq-value">7085 kHz</td>
+                <td><span class="mode-tag">LSB</span></td>
+                <td>D/A.CH</td>
+              </tr>
+              <tr>
+                <td>40m</td>
+                <td class="freq-value">7110 kHz</td>
+                <td><span class="mode-tag">SSB/CW</span></td>
+                <td>Region 1 Aktivitätszentrum</td>
+              </tr>
+              <tr>
+                <td>30m</td>
+                <td class="freq-value">10138 kHz</td>
+                <td><span class="mode-tag">USB</span></td>
+                <td>D/A.CH</td>
+              </tr>
+              <tr>
+                <td>20m</td>
+                <td class="freq-value">14180 kHz</td>
+                <td><span class="mode-tag">USB</span></td>
+                <td>D/A.CH</td>
+              </tr>
+              <tr>
+                <td>20m</td>
+                <td class="freq-value">14300 kHz</td>
+                <td><span class="mode-tag">SSB/CW</span></td>
+                <td>Weltweites Aktivitätszentrum</td>
+              </tr>
+              <tr>
+                <td>17m</td>
+                <td class="freq-value">18160 kHz</td>
+                <td><span class="mode-tag">SSB/CW</span></td>
+                <td>Weltweites Aktivitätszentrum</td>
+              </tr>
+              <tr>
+                <td>15m</td>
+                <td class="freq-value">21360 kHz</td>
+                <td><span class="mode-tag">SSB/CW</span></td>
+                <td>Weltweites Aktivitätszentrum</td>
+              </tr>
+              <tr>
+                <td>10m</td>
+                <td class="freq-value">28238 kHz</td>
+                <td><span class="mode-tag">USB</span></td>
+                <td>Deutschland</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="result-row">
-          <span>Bedingungen:</span>
-          <strong id="prop-cond">-</strong>
+
+        <div id="tab-ukw" class="tab-content">
+          <table class="freq-table">
+            <thead>
+              <tr>
+                <th>Band</th>
+                <th>Frequenz</th>
+                <th>Mode</th>
+                <th>Beschreibung</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2m</td>
+                <td class="freq-value">144.260 MHz</td>
+                <td><span class="mode-tag">USB</span></td>
+                <td>Internationaler Notfunk</td>
+              </tr>
+              <tr>
+                <td>2m</td>
+                <td class="freq-value">145.500 MHz</td>
+                <td><span class="mode-tag">FM</span></td>
+                <td>Mobil-Anruf (S20)</td>
+              </tr>
+              <tr>
+                <td>2m</td>
+                <td class="freq-value">145.525 MHz</td>
+                <td><span class="mode-tag">FM</span></td>
+                <td>Notfunk (S21)</td>
+              </tr>
+              <tr>
+                <td>2m</td>
+                <td class="freq-value">145.550 MHz</td>
+                <td><span class="mode-tag">FM</span></td>
+                <td>Notfunk (S22)</td>
+              </tr>
+              <tr>
+                <td>70cm</td>
+                <td class="freq-value">433.500 MHz</td>
+                <td><span class="mode-tag">FM</span></td>
+                <td>Internationaler Anruf</td>
+              </tr>
+              <tr>
+                <td>70cm</td>
+                <td class="freq-value">434.000 MHz</td>
+                <td><span class="mode-tag">FM</span></td>
+                <td>D/A.CH</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="result-row">
-          <span>Solar Flux:</span>
-          <strong id="prop-flux">-</strong>
+
+        <div id="tab-dach" class="tab-content">
+          <p class="text-dim">Die oben aufgeführten Frequenzen gelten für Deutschland, Österreich und die Schweiz (D/A/CH). Für spezifische länderspezifische Frequenzen wenden Sie sich bitte an Ihren Landesverband.</p>
         </div>
       </div>
     </section>
 
-    <section class="section">
-      <h3>◈ Solar & Ionosphäre</h3>
-      <button onclick="loadSolar()">SOLAR-DATEN LADEN</button>
-      <div class="result-box" id="solar-result">
-        <div class="result-row">
-          <span>Solar Flux:</span>
-          <strong id="solar-flux">-</strong>
+    <!-- TECHNIQUES -->
+    <section id="techniques" class="section">
+      <div class="container">
+        <h2 class="section-title">Technik & Betriebsarten</h2>
+
+        <div class="tabs">
+          <button class="tab-btn active" onclick="showTab(event, 'tab-speech')">Sprechfunk</button>
+          <button class="tab-btn" onclick="showTab(event, 'tab-digital')">Digitale Modi</button>
+          <button class="tab-btn" onclick="showTab(event, 'tab-images')">Bildübertragung</button>
         </div>
-        <div class="result-row">
-          <span>Kp-Index:</span>
-          <strong id="solar-kp">-</strong>
+
+        <div id="tab-speech" class="tab-content active">
+          <div class="info-grid">
+            <div class="info-card">
+              <h3>FM (Frequency Modulation)</h3>
+              <p>Guter Rauschabstand, ideal für lokale Kommunikation und Relaisbetrieb. Reichweite typisch 20-50 km.</p>
+            </div>
+            <div class="info-card">
+              <h3>SSB (Single Side Band)</h3>
+              <p>Effiziente Sprachmodulation für Fernverbindungen. Standard für Notfunk über große Distanzen.</p>
+            </div>
+          </div>
         </div>
-        <div class="result-row">
-          <span>Xray-Klasse:</span>
-          <strong id="solar-xray">-</strong>
+
+        <div id="tab-digital" class="tab-content">
+          <table class="freq-table">
+            <thead>
+              <tr>
+                <th>Modus</th>
+                <th>Beschreibung</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="freq-value">CW</td>
+                <td>Morsecode - benötigt keinen PC, beste Reichweite bei schwachen Signalen</td>
+              </tr>
+              <tr>
+                <td class="freq-value">FT8</td>
+                <td>Digitale Weak-Signal-Mode, sehr effizient bei schwachen Signalen</td>
+              </tr>
+              <tr>
+                <td class="freq-value">WinLink</td>
+                <td>E-Mail über Funk mit PACTOR, VARA, Winmor, ARDOP oder HAMNET</td>
+              </tr>
+              <tr>
+                <td class="freq-value">VARA</td>
+                <td>Soundkarten-Modem für HF und FM, fehlerfreie Datenübertragung</td>
+              </tr>
+              <tr>
+                <td class="freq-value">PACTOR</td>
+                <td>Fehlerfreie, schnelle TNC-basierte Datenübertragung über HF</td>
+              </tr>
+              <tr>
+                <td class="freq-value">ARDOP</td>
+                <td>Modernes Protokoll für zuverlässige HF-Datenübertragung</td>
+              </tr>
+              <tr>
+                <td class="freq-value">APRS</td>
+                <td>Positionsdaten, Wetterdaten und Kurztexte via Packet Radio</td>
+              </tr>
+              <tr>
+                <td class="freq-value">HAMNET</td>
+                <td>Breitbandiges Paketradio-Netz unabhängig vom Internet</td>
+              </tr>
+              <tr>
+                <td class="freq-value">DMR</td>
+                <td>Digitaler Funk - Europa Sprechgruppe 9112, USA 9911</td>
+              </tr>
+              <tr>
+                <td class="freq-value">D-STAR</td>
+                <td>Digitaler Funk mit Sprache und Daten</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="result-row">
-          <span>Trend:</span>
-          <strong id="solar-trend">-</strong>
+
+        <div id="tab-images" class="tab-content">
+          <div class="info-grid">
+            <div class="info-card">
+              <h3>SSTV</h3>
+              <p>Slow Scan Television - Übertragung von Standbildern, meist in Verbindung mit einem PC.</p>
+            </div>
+            <div class="info-card">
+              <h3>ATV</h3>
+              <p>Amateurfunk-Fernsehen - Übertragung von bewegten Bildern und Ton.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section">
-      <h3>◈ Verfügbare Werkzeuge</h3>
-      <div class="tools-grid">
-        <div class="tool-card" onclick="window.location.href='#'">
-          <span class="arrow">→</span>
-          <h3>Grid Square Converter</h3>
-          <p>Lat/Lon ↔ Maidenhead mit Haversine-Distanz</p>
+    <!-- TOOLS -->
+    <section id="tools" class="section">
+      <div class="container">
+        <h2 class="section-title">Werkzeuge</h2>
+
+        <!-- QTH Calculator -->
+        <div class="calc-section">
+          <h3 style="color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;">◈ QTH Locator Rechner</h3>
+          <div class="calc-row">
+            <div class="input-group">
+              <label>Breitengrad (Lat)</label>
+              <input type="number" id="lat" value="53.55" step="0.01">
+            </div>
+            <div class="input-group">
+              <label>Längengrad (Lon)</label>
+              <input type="number" id="lon" value="10.00" step="0.01">
+            </div>
+          </div>
+          <button class="primary" onclick="calcLocator()">Locator berechnen</button>
+          <div class="result-box">
+            <div class="result-row">
+              <span class="result-label">Maidenhead Grid Square</span>
+              <span class="result-value" id="locator-value">-</span>
+            </div>
+          </div>
         </div>
-        <div class="tool-card" onclick="window.location.href='#'">
-          <span class="arrow">→</span>
-          <h3>Band Planner</h3>
-          <p>Frequenzbänder nach Modus und Region filtern</p>
+
+        <!-- Distance Calculator -->
+        <div class="calc-section">
+          <h3 style="color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;">◈ Entfernung & Richtung</h3>
+          <div class="calc-row">
+            <div class="input-group">
+              <label>Von (Grid)</label>
+              <input type="text" id="from-grid" value="JO43" maxlength="6" style="text-transform: uppercase">
+            </div>
+            <div class="input-group">
+              <label>Nach (Grid)</label>
+              <input type="text" id="to-grid" value="JO31" maxlength="6" style="text-transform: uppercase">
+            </div>
+          </div>
+          <button class="primary" onclick="calcDistance()">Berechnen</button>
+          <div class="result-box">
+            <div class="result-row">
+              <span class="result-label">Distanz</span>
+              <span class="result-value" id="dist-km">-</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Richtung</span>
+              <span class="result-value" id="dist-bearing">-</span>
+            </div>
+          </div>
         </div>
-        <div class="tool-card" onclick="window.location.href='#'">
-          <span class="arrow">→</span>
-          <h3>QSO Logbuch</h3>
-          <p>Digitales Logbuch für Notfunk-QSOs</p>
+
+        <!-- Propagation -->
+        <div class="calc-section">
+          <h3 style="color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;">◈ Propagation Status</h3>
+          <button class="primary" onclick="loadPropagation()">Status aktualisieren</button>
+          <div class="result-box">
+            <div class="result-row">
+              <span class="result-label">MUF</span>
+              <span class="result-value" id="prop-muf">-</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Empfohlenes Band</span>
+              <span class="result-value" id="prop-band">-</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Ionosphären-Zustand</span>
+              <span class="result-value" id="prop-cond">-</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Solar Flux</span>
+              <span class="result-value" id="prop-flux">-</span>
+            </div>
+          </div>
         </div>
-        <div class="tool-card" onclick="window.location.href='#'">
-          <span class="arrow">→</span>
-          <h3>Notfunk-Netze</h3>
-          <p>Check-in System für Funknetze</p>
+
+        <!-- Solar -->
+        <div class="calc-section">
+          <h3 style="color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;">◈ Solar & Ionosphäre</h3>
+          <button class="primary" onclick="loadSolar()">Daten laden</button>
+          <div class="result-box">
+            <div class="result-row">
+              <span class="result-label">Solar Flux</span>
+              <span class="result-value" id="solar-flux">-</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Kp-Index</span>
+              <span class="result-value" id="solar-kp">-</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Xray-Klasse</span>
+              <span class="result-value" id="solar-xray">-</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Trend</span>
+              <span class="result-value" id="solar-trend">-</span>
+            </div>
+          </div>
         </div>
-        <div class="tool-card" onclick="window.location.href='#'">
-          <span class="arrow">→</span>
-          <h3>Propagation</h3>
-          <p>MUF/LUF-Vorhersage für jeden Standort</p>
+
+        <!-- Tool Cards -->
+        <div class="tools-grid mt-2">
+          <a href="#tools" class="tool-card">
+            <span class="arrow">→</span>
+            <h3>Grid Converter</h3>
+            <p>Lat/Lon ↔ Maidenhead mit Haversine-Distanz</p>
+          </a>
+          <a href="#frequencies" class="tool-card">
+            <span class="arrow">→</span>
+            <h3>Band Planner</h3>
+            <p>Frequenzbänder nach Modus und Region filtern</p>
+          </a>
+          <a href="#tools" class="tool-card">
+            <span class="arrow">→</span>
+            <h3>QSO Logbuch</h3>
+            <p>Digitales Logbuch für Notfunk-QSOs</p>
+          </a>
+          <a href="#tools" class="tool-card">
+            <span class="arrow">→</span>
+            <h3>Notfunk-Netze</h3>
+            <p>Check-in System für Funknetze</p>
+          </a>
+          <a href="#tools" class="tool-card">
+            <span class="arrow">→</span>
+            <h3>Propagation</h3>
+            <p>MUF/LUF-Vorhersage für jeden Standort</p>
+          </a>
+          <a href="#tools" class="tool-card">
+            <span class="arrow">→</span>
+            <h3>Solar-Daten</h3>
+            <p>Sonnenaktivität und geomagnetische Bedingungen</p>
+          </a>
         </div>
-        <div class="tool-card" onclick="window.location.href='#'">
-          <span class="arrow">→</span>
-          <h3>Solar-Daten</h3>
-          <p>Sonnenaktivität und geomagnetische Bedingungen</p>
+      </div>
+    </section>
+
+    <!-- ORGANIZATIONS -->
+    <section id="orgs" class="section">
+      <div class="container">
+        <h2 class="section-title">Organisationen</h2>
+
+        <div class="tabs">
+          <button class="tab-btn active" onclick="showTab(event, 'tab-de')">Deutschland</button>
+          <button class="tab-btn" onclick="showTab(event, 'tab-int')">International</button>
+          <button class="tab-btn" onclick="showTab(event, 'tab-redcross')">Rotes Kreuz</button>
+        </div>
+
+        <div id="tab-de" class="tab-content active">
+          <div class="info-grid">
+            <div class="info-card">
+              <h3>DARC Not- und Katastrophenfunk</h3>
+              <p>Der Deutsche Amateur-Radio-Club hat ein eigenes Referat für Not- und Katastrophenfunk. Gemeinsame Übungen mit dem THW und anderen Hilfsorganisationen.</p>
+            </div>
+            <div class="info-card">
+              <h3>Intarmor Amateur-Seefunk</h3>
+              <p>Internationaler Amateur-Seefunk e.V. - Verbindungen zwischen Schiffen und Küstenstationen.</p>
+            </div>
+            <div class="info-card">
+              <h3>Notfunk-Deutschland e.V.</h3>
+              <p>Verein zur Organisation und Koordinierung von Notfunkaktivitäten in Deutschland.</p>
+            </div>
+            <div class="info-card">
+              <h3>AG Not- und Krisenkommunikation</h3>
+              <p>Arbeitsgemeinschaft für Not- und Krisenkommunikation mit verschiedenen Regionalverbänden.</p>
+            </div>
+            <div class="info-card">
+              <h3>Notfunk Ruhr</h3>
+              <p>Regionale Notfunkgruppe im Ruhrgebiet.</p>
+            </div>
+            <div class="info-card">
+              <h3>Notfunk-Team Wuppertal</h3>
+              <p> Lokale Notfunkgruppe im Bergischen Land.</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-int" class="tab-content">
+          <table class="freq-table">
+            <thead>
+              <tr>
+                <th>Land</th>
+                <th>Organisation</th>
+                <th>Notename</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Frankreich</td>
+                <td>FNRASEC</td>
+                <td>Fédération nationale des radioamateurs au service de la sécurité civile</td>
+              </tr>
+              <tr>
+                <td>Großbritannien</td>
+                <td>RAYNET</td>
+                <td>Radiocommunications Agency Network</td>
+              </tr>
+              <tr>
+                <td>Italien</td>
+                <td>R.N.R.E.</td>
+                <td>Raggruppamento Nazionale Radiocomunicazioni in Emergenza</td>
+              </tr>
+              <tr>
+                <td>Niederlande</td>
+                <td>DARES</td>
+                <td>Dutch Amateur Radio Emergency Service</td>
+              </tr>
+              <tr>
+                <td>Russland</td>
+                <td>RAS</td>
+                <td>Радиолюбительская аварийная служба</td>
+              </tr>
+              <tr>
+                <td>Schweiz</td>
+                <td>USKA</td>
+                <td>Union Schweizerischer Kurzwellen-Amateure</td>
+              </tr>
+              <tr>
+                <td>Türkei</td>
+                <td>TRAC</td>
+                <td>Turkish Radio Amateurs Club</td>
+              </tr>
+              <tr>
+                <td>Österreich</td>
+                <td>A.R.E.N.A.</td>
+                <td>Amateur Radio Emergency Network Austria</td>
+              </tr>
+              <tr>
+                <td>USA/Kanada</td>
+                <td>ARES</td>
+                <td>Amateur Radio Emergency Service (im NTS)</td>
+              </tr>
+              <tr>
+                <td>Weltweit</td>
+                <td>GAREC</td>
+                <td>Global Amateur Radio Emergency Corps (IARU)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="tab-redcross" class="tab-content">
+          <h4 style="color: var(--accent); margin-bottom: 1rem; text-transform: uppercase;">Deutsches Rotes Kreuz (DRK)</h4>
+          <div class="info-grid">
+            <div class="info-card">
+              <h3>DRK-HF-Net</h3>
+              <p>Rückfallebene für die Kommunikation zwischen dem Generalsekretariat in Berlin und den Landesverbänden. Primäre Betriebsart ist PACTOR mit Verschlüsselung.</p>
+            </div>
+            <div class="info-card">
+              <h3>Rufzeichen</h3>
+              <p>DEK2310 (LV Berlin) bis DEK42 (LV Thüringen), DEK77/88 für den Bundesverband</p>
+            </div>
+          </div>
+
+          <h4 style="color: var(--accent); margin: 1.5rem 0 1rem; text-transform: uppercase;">Österreichisches Rotes Kreuz</h4>
+          <div class="info-grid">
+            <div class="info-card">
+              <h3>KW-Netz</h3>
+              <p>Das ÖRK betreibt ein Kurzwellenkommunikationsnetz für die interne Kommunikation und als Rückfallebene für BOS.</p>
+            </div>
+            <div class="info-card">
+              <h3>Rufzeichen</h3>
+              <p>OEH310 (Wien) bis OEH91 (Vorarlberg), OE1XXK bis OE9XRK für die Landesverbände</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXERCISES -->
+    <section id="exercises" class="section">
+      <div class="container">
+        <h2 class="section-title">Übungen & Veranstaltungen</h2>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>🌍 Global SET</h3>
+            <p>Zweimal jährlich (Mai und November) findet der Global Simulated Emergency Test der IARU statt. Weltweiter Test der Notfunk-Kommunikation.</p>
+          </div>
+          <div class="info-card">
+            <h3>🏕️ IARU Fieldday</h3>
+            <p>Im Juni und September: 24 Stunden Funken von der grünen Wiese aus, unabhängig vom Stromnetz, mit portablen Antennen.</p>
+          </div>
+          <div class="info-card">
+            <h3>🛰️ SSET</h3>
+            <p> Satellite Simulated Emergency Test - Sprache und Daten (APRS/E-Mail) über Amateurfunksatelliten versenden und bestätigen.</p>
+          </div>
+          <div class="info-card">
+            <h3>👦 YHOTA</h3>
+            <p>Young Helpers on the Air - Internationales Treffen der Jugendgruppen der Hilfsorganisationen am zweiten Maiwochenende und letzten Samstag im September.</p>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
+  <!-- FOOTER -->
   <footer>
-    <p>NotFunk-Nord.de</p>
-    <p style="margin-top:0.5rem">Cloudflare Workers + Pages | Hono.js</p>
+    <p>NotFunk-Nord.de | <a href="https://www.darc.de/referate/notfunk/" target="_blank">DARC Notfunk-Referat</a></p>
+    <p style="margin-top: 0.5rem">Cloudflare Workers + Pages | Hono.js</p>
   </footer>
 
   <script>
@@ -552,16 +1351,38 @@
     setInterval(updateClock, 1000);
     updateClock();
 
+    // Tab switching
+    function showTab(evt, tabId) {
+      const tabContents = document.querySelectorAll('.tab-content');
+      const tabBtns = document.querySelectorAll('.tab-btn');
+
+      tabContents.forEach(content => content.classList.remove('active'));
+      tabBtns.forEach(btn => btn.classList.remove('active'));
+
+      document.getElementById(tabId).classList.add('active');
+      evt.currentTarget.classList.add('active');
+    }
+
+    // Accordion
+    function toggleAccordion(header) {
+      const item = header.parentElement;
+      item.classList.toggle('open');
+    }
+
+    // Mobile menu
+    function toggleMenu() {
+      const nav = document.querySelector('.nav-links');
+      nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+    }
+
     // QTH Locator
     async function calcLocator() {
       const lat = parseFloat(document.getElementById('lat').value);
       const lon = parseFloat(document.getElementById('lon').value);
-
       if (isNaN(lat) || isNaN(lon)) {
         document.getElementById('locator-value').textContent = 'UNGÜLTIGE KOORDINATEN';
         return;
       }
-
       try {
         const res = await fetch(`/api/qth/locator?lat=${lat}&lon=${lon}`);
         const data = await res.json();
@@ -575,12 +1396,7 @@
     async function calcDistance() {
       const from = document.getElementById('from-grid').value.toUpperCase();
       const to = document.getElementById('to-grid').value.toUpperCase();
-
-      if (!from || !to) {
-        alert('Bitte beide Grid-Squares eingeben');
-        return;
-      }
-
+      if (!from || !to) { alert('Bitte beide Grid-Squares eingeben'); return; }
       try {
         const [distRes, bearRes] = await Promise.all([
           fetch(`/api/qth/distance?from=${from}&to=${to}`),
@@ -588,10 +1404,8 @@
         ]);
         const dist = await distRes.json();
         const bear = await bearRes.json();
-
         document.getElementById('dist-km').textContent = `${dist.km} km (${dist.miles} mi)`;
-        document.getElementById('dist-bearing').textContent =
-          `${bear.bearing}° ${bear.compassDirection}`;
+        document.getElementById('dist-bearing').textContent = `${bear.bearing}° ${bear.compassDirection}`;
       } catch (e) {
         document.getElementById('dist-km').textContent = 'FEHLER';
         document.getElementById('dist-bearing').textContent = 'FEHLER';
@@ -607,7 +1421,6 @@
         ]);
         const prop = await propRes.json();
         const solar = await solarRes.json();
-
         document.getElementById('prop-muf').textContent = `${prop.predictions.muf} MHz`;
         document.getElementById('prop-band').textContent = prop.predictions.recommendedBand;
         document.getElementById('prop-cond').textContent = prop.predictions.ionosphericCondition;
@@ -622,7 +1435,6 @@
       try {
         const res = await fetch('/api/solar/summary');
         const data = await res.json();
-
         document.getElementById('solar-flux').textContent = `${data.solarFlux} SFU`;
         document.getElementById('solar-kp').textContent = data.kpIndex;
         document.getElementById('solar-xray').textContent = data.xrayClass;
@@ -631,6 +1443,38 @@
         document.getElementById('solar-flux').textContent = 'FEHLER';
       }
     }
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Active nav link on scroll
+    window.addEventListener('scroll', () => {
+      const sections = document.querySelectorAll('section[id]');
+      const navLinks = document.querySelectorAll('.nav-links a');
+
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (scrollY >= sectionTop - 100) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+          link.classList.add('active');
+        }
+      });
+    });
 
     // Load defaults on startup
     window.addEventListener('DOMContentLoaded', () => {
