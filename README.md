@@ -50,6 +50,23 @@ Eine Dark-Mode Terminal-ästhetik Website mit Echtzeit-API-Integration für:
 - Propagations-Status
 - Solar-Daten
 
+Die Frontend-Dateien liegen im `public/`-Ordner. Für Cloudflare Pages:
+
+```bash
+npx wrangler pages deploy public/
+```
+
+## Projektstruktur
+
+```
+├── public/              # Statische Website
+├── notfunk-toolkit/
+│   ├── src/routes/      # API-Endpunkte
+│   ├── package.json
+│   └── wrangler.jsonc
+└── README.md
+```
+
 ## Technologie-Stack
 
 - **Runtime**: Cloudflare Workers (Edge)
