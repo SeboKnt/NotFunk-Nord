@@ -50,8 +50,43 @@
         <button class="filter-btn" aria-pressed="false" onclick="AppFreq.filterByBand('kw', this)">Kurzwelle</button>
         <button class="filter-btn" aria-pressed="false" onclick="AppFreq.filterByBand('ukw', this)">UKW</button>
         <button class="filter-btn" aria-pressed="false" onclick="AppFreq.filterByBand('microwave', this)">Mikrowelle</button>
+        <button class="filter-btn" aria-pressed="false" onclick="AppFreq.filterByBand('bos', this)">BOS 4m</button>
         <button class="filter-btn" aria-pressed="false" onclick="AppFreq.filterByBand('dach', this)">D/A/CH</button>
       </div>
+
+      <!-- BOS 4m Band Info -->
+      <section class="bos-info" style="margin-bottom: 2rem; padding: 1.25rem; background: var(--bg-secondary); border: 1px solid var(--border); border-left: 3px solid var(--accent-blue); border-radius: var(--radius);">
+        <h3 style="color: var(--accent-blue); font-size: 0.85rem; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">
+          📡 BOS 4-Meter-Band (Referenz)
+        </h3>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">
+          Das <strong style="color: var(--text-primary);">4-Meter-Band (74–87 MHz)</strong> wird in Deutschland vom <strong>BOS-Funk</strong> (Bereiche der Behörden und Organisationen mit Sicherheitsaufgaben) genutzt. Es ist <strong style="color: var(--accent-red);">KEIN Amateurfunkband</strong>, aber für Notfunk-Koordinierung mit Feuerwehr, Polizei und Rettungsdienst relevant.
+        </p>
+        <table style="font-size: 0.8rem;">
+          <thead>
+            <tr>
+              <th>Frequenzbereich</th>
+              <th>Kanäle</th>
+              <th>Nutzung</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="freq-val">74.215–77.475 MHz</td>
+              <td>347–510 UB</td>
+              <td>Unterband (Relaiseingabe)</td>
+            </tr>
+            <tr>
+              <td class="freq-val">84.015–87.255 MHz</td>
+              <td>347–509 OB</td>
+              <td>Oberband (Relaisausgabe)</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.75rem;">
+          Duplexabstand: 9.8 MHz | Kanalabstand: 20 kHz | Insgesamt 164 Kanäle
+        </p>
+      </section>
 
       <div id="frequencies-list" aria-live="polite">
         <!-- Dynamically populated -->
