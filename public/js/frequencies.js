@@ -17,6 +17,11 @@ var AppFreq = (function () {
     { band: '17m', freq: 18160, mode: 'SSB/CW', region: 'intl', type: 'notruf', desc: 'Weltweit Notruf' },
     { band: '15m', freq: 21360, mode: 'SSB/CW', region: 'intl', type: 'notruf', desc: 'Weltweit Notruf' },
     { band: '10m', freq: 28238, mode: 'USB', region: 'dach', type: 'notruf', desc: 'Deutschland Notruf' },
+    { band: '11m', freq: 27065, mode: 'SSB/FM', region: 'intl', type: 'notruf', desc: 'CB Notfunkkanal 9 (weltweit)' },
+    { band: '12m', freq: 24890, mode: 'SSB/CW/FT8', region: 'intl', type: 'notruf', desc: 'UV-Band, nur bei hohem Sonnenfleckenzyklus' },
+    { band: '6m', freq: 50000, mode: 'SSB/CW/FT8/FM/SSTV', region: 'intl', type: 'notruf', desc: 'VHF-Notfunkband, Sporadische E-Propagation' },
+    { band: '23cm', freq: 1240000, mode: 'FM/ATV/SSB', region: 'intl', type: 'notruf', desc: 'Mikrowelle, lokale und Satellitenverbindungen' },
+    { band: '13cm', freq: 2300000, mode: 'FM/ATV', region: 'intl', type: 'notruf', desc: 'Mikrowelle, Hochgeschwindigkeitsdaten' },
 
     // Emergency freqs from backend data
     { band: '80m', freq: 3573, mode: 'SSB', region: 'deutschland', type: 'emergency', desc: 'DARC Notfunknetz 80m' },
@@ -58,9 +63,14 @@ var AppFreq = (function () {
 
     if (filter !== 'all') {
       if (filter === 'kw') {
+        // Kurzwelle: 1.8 MHz bis 30 MHz
         filtered = filtered.filter(function (f) { return f.freq < 30000; });
       } else if (filter === 'ukw') {
-        filtered = filtered.filter(function (f) { return f.freq >= 30000; });
+        // Ultrakurzwelle: 30 MHz bis 300 MHz
+        filtered = filtered.filter(function (f) { return f.freq >= 30000 && f.freq < 300000; });
+      } else if (filter === 'microwave') {
+        // Mikrowelle: ab 300 MHz
+        filtered = filtered.filter(function (f) { return f.freq >= 300000; });
       } else if (filter === 'dach') {
         filtered = filtered.filter(function (f) { return f.region === 'dach'; });
       }
