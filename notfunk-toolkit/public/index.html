@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NotFunk-Nord - Amateurfunk-Notfunk Toolkit</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --surface2: #243044;
+      --accent: #00e676;
+      --accent2: #00b0ff;
+      --text: #e8f0f8;
+      --text-dim: #8899a6;
+      --border: #2a3a4e;
+      --danger: #ff5252;
+      --warning: #ffc107;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Courier New', monospace;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .scanline {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 230, 118, 0.015) 2px,
+        rgba(0, 230, 118, 0.015) 4px
+      );
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 2px solid var(--accent);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.4); }
+      50% { box-shadow: 0 0 20px 5px rgba(0, 230, 118, 0.2); }
+    }
+
+    .logo h1 {
+      font-size: 1.3rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+
+    .logo span {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      display: block;
+      letter-spacing: 1px;
+    }
+
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: inline-block;
+      animation: blink 1.5s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 3rem 1rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .hero h2 {
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+    }
+
+    .hero p {
+      color: var(--text-dim);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .tool-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tool-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .tool-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .tool-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .tool-card h3 {
+      color: var(--accent);
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .tool-card p {
+      color: var(--text-dim);
+      font-size: 0.85rem;
+    }
+
+    .tool-card .arrow {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      color: var(--accent);
+      font-size: 1.2rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .tool-card:hover .arrow {
+      opacity: 1;
+    }
+
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .section h3 {
+      color: var(--accent);
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quick-calc {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 600px) {
+      .quick-calc { grid-template-columns: 1fr; }
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .input-group label {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .input-group input, .input-group select {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.75rem;
+      font-family: inherit;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .input-group input:focus, .input-group select:focus {
+      border-color: var(--accent);
+    }
+
+    button {
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #00c853;
+      box-shadow: 0 0 20px rgba(0, 230, 118, 0.3);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .result-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 1rem;
+      margin-top: 1rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      min-height: 60px;
+    }
+
+    .result-box .label {
+      color: var(--text-dim);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    .result-box .value {
+      color: var(--accent);
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .result-row:last-child { border-bottom: none; }
+
+    .emergency-banner {
+      background: linear-gradient(90deg, rgba(255, 82, 82, 0.1), transparent);
+      border-left: 4px solid var(--danger);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .emergency-banner h3 {
+      color: var(--danger);
+      margin-bottom: 1rem;
+    }
+
+    .emergency-banner ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.5rem;
+    }
+
+    .emergency-banner li {
+      padding: 0.5rem;
+      background: rgba(255, 82, 82, 0.05);
+      border: 1px solid rgba(255, 82, 82, 0.2);
+      font-size: 0.85rem;
+    }
+
+    .emergency-banner li strong {
+      color: var(--danger);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .loading {
+      animation: loading 1s ease-in-out infinite;
+    }
+
+    @keyframes loading {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+  </style>
+</head>
+<body>
+  <div class="scanline"></div>
+
+  <header>
+    <div class="logo">
+      <div class="logo-icon">⚡</div>
+      <div>
+        <h1>NotFunk-Nord</h1>
+        <span>Amateurfunk-Notfunk Toolkit</span>
+      </div>
+    </div>
+    <div class="status-bar">
+      <span><span class="status-dot"></span> ONLINE</span>
+      <span id="clock"></span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2>☰ Emergency Radio</h2>
+      <p>Werkzeuge für den Amateurfunk im Notfall. Wenn das Stromnetz ausfällt, bleibt der Funk bestehen.</p>
+    </section>
+
+    <section class="emergency-banner">
+      <h3>⚠ NOTRUF-FREQUENZEN</h3>
+      <ul>
+        <li><strong>2182 kHz</strong> - Schiffsnotruf (USB)</li>
+        <li><strong>156.8 MHz</strong> - Seenotruf (CH16)</li>
+        <li><strong>121.5 MHz</strong> - Flugnotruf (AM)</li>
+        <li><strong>3973 kHz</strong> - Ham-Net Nord</li>
+        <li><strong>3573 kHz</strong> - DARC 80m</li>
+        <li><strong>14095 kHz</strong> - DARC 20m</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h3>◈ QTH Locator Rechner</h3>
+      <div class="quick-calc">
+        <div class="input-group">
+          <label>Breitengrad (Lat)</label>
+          <input type="number" id="lat" value="53.55" step="0.01">
+        </div>
+        <div class="input-group">
+          <label>Längengrad (Lon)</label>
+          <input type="number" id="lon" value="10.00" step="0.01">
+        </div>
+      </div>
+      <button onclick="calcLocator()">LOCATOR BERECHNEN</button>
+      <div class="result-box" id="locator-result">
+        <div class="label">Maidenhead Grid Square</div>
+        <div class="value" id="locator-value">-</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>◈ Entfernung & Richtung</h3>
+      <div class="quick-calc">
+        <div class="input-group">
+          <label>Von (Grid)</label>
+          <input type="text" id="from-grid" value="JO43" maxlength="6" style="text-transform:uppercase">
+        </div>
+        <div class="input-group">
+          <label>Nach (Grid)</label>
+          <input type="text" id="to-grid" value="JO31" maxlength="6" style="text-transform:uppercase">
+        </div>
+      </div>
+      <button onclick="calcDistance()">BERECHNEN</button>
+      <div class="result-box" id="distance-result">
+        <div class="result-row">
+          <span>Distanz:</span>
+          <strong id="dist-km">-</strong>
+        </div>
+        <div class="result-row">
+          <span>Richtung:</span>
+          <strong id="dist-bearing">-</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>◈ Propagation Status (Hamburg)</h3>
+      <button onclick="loadPropagation()">STATUS AKTUALISIEREN</button>
+      <div class="result-box" id="prop-result">
+        <div class="result-row">
+          <span>MUF:</span>
+          <strong id="prop-muf">-</strong>
+        </div>
+        <div class="result-row">
+          <span>Empfohlenes Band:</span>
+          <strong id="prop-band">-</strong>
+        </div>
+        <div class="result-row">
+          <span>Bedingungen:</span>
+          <strong id="prop-cond">-</strong>
+        </div>
+        <div class="result-row">
+          <span>Solar Flux:</span>
+          <strong id="prop-flux">-</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>◈ Solar & Ionosphäre</h3>
+      <button onclick="loadSolar()">SOLAR-DATEN LADEN</button>
+      <div class="result-box" id="solar-result">
+        <div class="result-row">
+          <span>Solar Flux:</span>
+          <strong id="solar-flux">-</strong>
+        </div>
+        <div class="result-row">
+          <span>Kp-Index:</span>
+          <strong id="solar-kp">-</strong>
+        </div>
+        <div class="result-row">
+          <span>Xray-Klasse:</span>
+          <strong id="solar-xray">-</strong>
+        </div>
+        <div class="result-row">
+          <span>Trend:</span>
+          <strong id="solar-trend">-</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>◈ Verfügbare Werkzeuge</h3>
+      <div class="tools-grid">
+        <div class="tool-card" onclick="window.location.href='#'">
+          <span class="arrow">→</span>
+          <h3>Grid Square Converter</h3>
+          <p>Lat/Lon ↔ Maidenhead mit Haversine-Distanz</p>
+        </div>
+        <div class="tool-card" onclick="window.location.href='#'">
+          <span class="arrow">→</span>
+          <h3>Band Planner</h3>
+          <p>Frequenzbänder nach Modus und Region filtern</p>
+        </div>
+        <div class="tool-card" onclick="window.location.href='#'">
+          <span class="arrow">→</span>
+          <h3>QSO Logbuch</h3>
+          <p>Digitales Logbuch für Notfunk-QSOs</p>
+        </div>
+        <div class="tool-card" onclick="window.location.href='#'">
+          <span class="arrow">→</span>
+          <h3>Notfunk-Netze</h3>
+          <p>Check-in System für Funknetze</p>
+        </div>
+        <div class="tool-card" onclick="window.location.href='#'">
+          <span class="arrow">→</span>
+          <h3>Propagation</h3>
+          <p>MUF/LUF-Vorhersage für jeden Standort</p>
+        </div>
+        <div class="tool-card" onclick="window.location.href='#'">
+          <span class="arrow">→</span>
+          <h3>Solar-Daten</h3>
+          <p>Sonnenaktivität und geomagnetische Bedingungen</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>NotFunk-Nord.de | Inspiriert von <a href="https://de.wikipedia.org/wiki/Notfunk" target="_blank">Wikipedia: Notfunk</a></p>
+    <p style="margin-top:0.5rem">Cloudflare Workers + Pages | Hono.js</p>
+  </footer>
+
+  <script>
+    // Clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').textContent =
+        now.toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // QTH Locator
+    async function calcLocator() {
+      const lat = parseFloat(document.getElementById('lat').value);
+      const lon = parseFloat(document.getElementById('lon').value);
+
+      if (isNaN(lat) || isNaN(lon)) {
+        document.getElementById('locator-value').textContent = 'UNGÜLTIGE KOORDINATEN';
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/qth/locator?lat=${lat}&lon=${lon}`);
+        const data = await res.json();
+        document.getElementById('locator-value').textContent = data.locator.toUpperCase();
+      } catch (e) {
+        document.getElementById('locator-value').textContent = 'FEHLER';
+      }
+    }
+
+    // Distance & Bearing
+    async function calcDistance() {
+      const from = document.getElementById('from-grid').value.toUpperCase();
+      const to = document.getElementById('to-grid').value.toUpperCase();
+
+      if (!from || !to) {
+        alert('Bitte beide Grid-Squares eingeben');
+        return;
+      }
+
+      try {
+        const [distRes, bearRes] = await Promise.all([
+          fetch(`/api/qth/distance?from=${from}&to=${to}`),
+          fetch(`/api/qth/bearing?from=${from}&to=${to}`)
+        ]);
+        const dist = await distRes.json();
+        const bear = await bearRes.json();
+
+        document.getElementById('dist-km').textContent = `${dist.km} km (${dist.miles} mi)`;
+        document.getElementById('dist-bearing').textContent =
+          `${bear.bearing}° ${bear.compassDirection}`;
+      } catch (e) {
+        document.getElementById('dist-km').textContent = 'FEHLER';
+        document.getElementById('dist-bearing').textContent = 'FEHLER';
+      }
+    }
+
+    // Propagation
+    async function loadPropagation() {
+      try {
+        const [propRes, solarRes] = await Promise.all([
+          fetch('/api/propagation/status'),
+          fetch('/api/solar/flux')
+        ]);
+        const prop = await propRes.json();
+        const solar = await solarRes.json();
+
+        document.getElementById('prop-muf').textContent = `${prop.predictions.muf} MHz`;
+        document.getElementById('prop-band').textContent = prop.predictions.recommendedBand;
+        document.getElementById('prop-cond').textContent = prop.predictions.ionosphericCondition;
+        document.getElementById('prop-flux').textContent = `${solar.flux} SFU`;
+      } catch (e) {
+        document.getElementById('prop-muf').textContent = 'FEHLER';
+      }
+    }
+
+    // Solar
+    async function loadSolar() {
+      try {
+        const res = await fetch('/api/solar/summary');
+        const data = await res.json();
+
+        document.getElementById('solar-flux').textContent = `${data.solarFlux} SFU`;
+        document.getElementById('solar-kp').textContent = data.kpIndex;
+        document.getElementById('solar-xray').textContent = data.xrayClass;
+        document.getElementById('solar-trend').textContent = data.predictedTrend;
+      } catch (e) {
+        document.getElementById('solar-flux').textContent = 'FEHLER';
+      }
+    }
+
+    // Load defaults on startup
+    window.addEventListener('DOMContentLoaded', () => {
+      calcLocator();
+      calcDistance();
+      loadSolar();
+    });
+  </script>
+</body>
+</html>

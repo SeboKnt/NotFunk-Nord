@@ -1,0 +1,25 @@
+{
+  "name": "notfunk-toolkit",
+  "version": "1.0.0",
+  "description": "Amateurfunk-Notfunk Werkzeuge für Cloudflare Workers",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "echo \"Use Node.js to run tests\" && exit 0"
+  },
+  "keywords": ["hamradio", "emergency", "notfunk", "cloudflare", "workers"],
+  "author": "NotFunk-Nord",
+  "license": "MIT",
+  "dependencies": {
+    "hono": "^4.13.7",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260914.1",
+    "@types/node": "^26.5.1",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.131.2"
+  }
+}
