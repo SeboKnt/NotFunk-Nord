@@ -7,84 +7,114 @@
   <link rel="stylesheet" href="/css/base.css">
 </head>
 <body>
-  <nav>
+  <a href="#main-content" class="skip-link">Zum Inhalt springen</a>
+
+  <nav class="site-nav" role="navigation" aria-label="Hauptnavigation">
     <div class="nav-inner">
-      <a href="/" class="logo">
-        <div class="logo-icon">⚡</div>
+      <a href="/" class="logo" aria-label="NotFunk-Nord Startseite">
+        <div class="logo-mark" aria-hidden="true">NF</div>
         <span>NotFunk-Nord</span>
       </a>
-      <ul class="nav-links">
+      <ul class="nav-links" id="nav-links">
         <li><a href="/">Start</a></li>
         <li><a href="/tools">Tools</a></li>
         <li><a href="/frequencies">Frequenzen</a></li>
         <li><a href="/map">Karte</a></li>
-        <li><a href="/about" class="active">Über</a></li>
+        <li><a href="/about" aria-current="page">Über</a></li>
       </ul>
-      <div class="nav-right">
-        <span><span class="status-dot"></span> ONLINE</span>
-        <span id="clock"></span>
+      <div class="nav-meta">
+        <span class="status-indicator">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>ONLINE</span>
+        </span>
+        <span id="utc-clock" aria-live="polite"></span>
       </div>
-      <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('show')">☰</button>
+      <button class="menu-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="nav-links">&#9776;</button>
     </div>
   </nav>
 
-  <main>
+  <main id="main-content">
     <div class="container">
       <div class="page-header">
-        <h1>◈ Über Notfunk</h1>
-        <p>Was ist Notfunk und warum ist er wichtig?</p>
+        <h1><span>Über</span> NotFunk-Nord</h1>
+        <p>Amateurfunk im Notfall — Grundlagen, Organisationen und wichtige Informationen.</p>
       </div>
 
-      <div class="grid-2">
-        <div>
-          <div class="card" style="margin-bottom:1.5rem">
-            <h3>Was ist Notfunk?</h3>
-            <p>Notfunk (oder Katastrophenfunk) ist der Funkbetrieb, mit dem Funkamateure in Not- und Katastrophensituationen Hilfe leisten. Sie unterstützen Hilfsorganisationen und BOS oder leiten Notrufe weiter.</p>
-          </div>
-
-          <div class="card" style="margin-bottom:1.5rem">
-            <h3>Rechtliche Grundlage</h3>
-            <p>§ 2 Nr. 2 Amateurfunkgesetz: Der Amateurfunkdienst schließt die Unterstützung von Hilfsaktionen in Not- und Katastrophenfällen ein. Er ist kein Sicherheitsfunkdienst.</p>
-          </div>
-
-          <div class="card" style="margin-bottom:1.5rem">
-            <h3>Warum Amateurfunk?</h3>
-            <p>Bei Ausfall kommerzieller Netze sind Funkamateure oft die ersten, die wieder Kontakt herstellen. Sie arbeiten unabhängig von Stromnetz und Infrastruktur mit portablen Geräten.</p>
-          </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <h3>Was ist Notfunk?</h3>
+          <p>Notfunk (auch Katastrophenfunk) ist der Funkbetrieb, mit dem Funkamateure in Not- und Katastrophensituationen Hilfe leisten. Sie unterstützen Hilfsorganisationen, Behörden und die Bevölkerung, wenn herkommliche Kommunikation ausfallt.</p>
         </div>
 
-        <div>
-          <div class="card" style="margin-bottom:1.5rem">
-            <h3>Equipment</h3>
-            <p>Für eine Verbindung reichen: einige Meter Draht als Antenne, eine Batterie oder Solarzelle, ein Funkgerät mit 1-5W Leistung und eine Morsetaste oder ein Mikrofon.</p>
-          </div>
+        <div class="info-card">
+          <h3>Rechtliche Grundlage</h3>
+          <p>§ 2 Nr. 2 FunkG: Der Amateurfunkdienst schliesst die Unterstutzung von Hilfsaktionen in Not- und Katastrophenfallen ein. Er ist <strong>kein</strong> Sicherheitsfunkdienst, darf aber im Bedarfsfall eingesetzt werden.</p>
+        </div>
 
-          <div class="card" style="margin-bottom:1.5rem">
-            <h3>Organisationen</h3>
-            <p>DARC Notfunk-Referat, Intarmor, Notfunk-Deutschland e.V., AG Not- und Krisenkommunikation, und viele regionale Gruppen.</p>
-          </div>
+        <div class="info-card">
+          <h3>Warum Amateurfunk?</h3>
+          <p>Bei Ausfall kommerzieller Netze sind Funkamateure oft die ersten, die wieder Kontakt herstellen. Sie arbeiten unabhangig von Stromnetz und Infrastruktur mit portablen Geraten — manchmal nur mit einem Draht als Antenne.</p>
+        </div>
 
-          <div class="card">
-            <h3>International</h3>
-            <p>RAYNET (UK), ARES (USA), DARES (NL), USKA (CH), A.R.E.N.A. (AT) und viele mehr arbeiten weltweit zusammen.</p>
-          </div>
+        <div class="info-card">
+          <h3>Equipment</h3>
+          <p>Für eine Verbindung reichen: einige Meter Draht als Antenne, eine Batterie oder Solarzelle, ein Funkgerät mit 1–5 W Leistung und eine Morsetaste oder ein Mikrofon. QRP-Operationen sind im Notfall besonders effektiv.</p>
+        </div>
+
+        <div class="info-card">
+          <h3>Organisationen in Deutschland</h3>
+          <ul>
+            <li>DARC Notfunk-Referat</li>
+            <li>Intarmor (Internationale Beziehungen)</li>
+            <li>Notfunk-Deutschland e.V.</li>
+            <li>AG Not- und Krisenkommunikation</li>
+            <li>THW Funkgruppe Nord</li>
+            <li>Regionale Notfunkgruppen</li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <h3>International</h3>
+          <ul>
+            <li>RAYNET (Vereinigtes Konigreich)</li>
+            <li>ARES (USA)</li>
+            <li>DARES (Niederlande)</li>
+            <li>USKA (Schweiz)</li>
+            <li>A.R.E.N.A. (Osterreich)</li>
+            <li>IARU Emergency Communication</li>
+          </ul>
         </div>
       </div>
 
-      <div style="margin-top:2rem; padding:1.5rem; background:var(--surface); border:1px solid var(--border)">
-        <h3>Links</h3>
-        <ul style="list-style:none; display:flex; flex-direction:column; gap:0.5rem; margin-top:1rem">
-          <li><a href="https://www.darc.de/referate/notfunk/" target="_blank">→ DARC Notfunk-Referat</a></li>
-          <li><a href="https://www.iaru.org/emergency-communication/" target="_blank">→ IARU Emergency Communication</a></li>
-          <li><a href="https://www.spaceweather.gov" target="_blank">→ SpaceWeather.gov</a></li>
-          <li><a href="https://github.com/NotFunk-Nord" target="_blank">→ GitHub Repository</a></li>
-        </ul>
+      <div class="card" style="margin-top:1rem">
+        <h3>Nutzliche Links</h3>
+        <div class="grid-2">
+          <ul class="link-list">
+            <li><a href="https://www.darc.de/referate/notfunk/" target="_blank" rel="noopener noreferrer">DARC Notfunk-Referat</a></li>
+            <li><a href="https://www.iaru.org/emergency-communication/" target="_blank" rel="noopener noreferrer">IARU Emergency Communication</a></li>
+            <li><a href="https://www.spaceweather.gov" target="_blank" rel="noopener noreferrer">SpaceWeather.gov</a></li>
+          </ul>
+          <ul class="link-list">
+            <li><a href="https://de.wikipedia.org/wiki/Notfunk" target="_blank" rel="noopener noreferrer">Wikipedia: Notfunk</a></li>
+            <li><a href="https://github.com/NotFunk-Nord" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+            <li><a href="https://www.darc.de" target="_blank" rel="noopener noreferrer">DARC — Deutschen Amateur-Radio-Club</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem; padding:1.25rem; background:var(--bg-secondary); border:1px solid var(--border); border-radius:var(--radius)">
+        <h3 style="font-size:0.8rem; margin-bottom:0.75rem; padding-bottom:0.5rem; border-bottom:1px solid var(--border); text-transform:uppercase; letter-spacing:1px; color:var(--accent-amber); font-weight:700">Technische Hinweise</h3>
+        <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.7">
+          Diese Website nutzt eine Hono.js API auf Cloudflare Workers. Alle Berechnungen (Grid Square, Distanz, Propagation, Solar-Daten) werden lokal im Browser oder via API-Endpunkte durchgefuhrt. Keine externen Abhangigkeiten, keine Tracker. Die Seite ist fur den Einsatz im Feld optimiert — schnell, offline-fahig, ohne overflussige Animationen.
+        </p>
       </div>
     </div>
   </main>
 
-  <footer>
-    <p>NotFunk-Nord.de | Cloudflare Workers + Pages | Hono.js</p>
+  <footer class="site-footer">
+    <div class="container">
+      <p>NotFunk-Nord.de | Cloudflare Workers + Hono.js | MIT Lizenz</p>
+    </div>
   </footer>
 
   <script src="/js/app.js"></script>
