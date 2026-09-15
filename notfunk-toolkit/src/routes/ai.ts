@@ -79,7 +79,7 @@ aiRoutes.get('/chat', async (c) => {
       throw new Error(`HF API Error: ${response.status}`)
     }
 
-    const data = await response.json()
+    const data = await response.json() as any[]
     const reply = data[0]?.generated_text || 'Keine Antwort erhalten'
 
     return c.json({
