@@ -3,6 +3,10 @@
 
 import { Hono } from 'hono'
 
+type KVCacheBindings = {
+  NEWS_CACHE: KVNamespace
+}
+
 type NewsItem = {
   title: string
   link: string
@@ -103,7 +107,11 @@ async function parseRSS(url: string): Promise<NewsItem[]> {
 }
 
 // Haupt-Router
-const newsRoutes = new Hono()
+type KVCacheBindings = {
+  NEWS_CACHE: KVNamespace
+}
+
+const newsRoutes = new Hono<{ Bindings: KVCacheBindings }>()
 
 const CACHE_KEY = 'notfunk-news'
 const CACHE_TTL = 900 // 15 Minuten
