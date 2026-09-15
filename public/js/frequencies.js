@@ -46,6 +46,40 @@ var AppFreq = (function () {
     { band: 'UHF', freq: 406, mode: 'Digital', region: 'intl', type: 'emergency', desc: 'COSPAS-SARSAT EPIRB' },
     { band: 'VHF', freq: 144.800, mode: 'Digital', region: 'intl', type: 'emergency', desc: 'APRS Notruf Position' },
     { band: '20m', freq: 14095, mode: 'FSQ', region: 'intl', type: 'emergency', desc: 'WINLINK 2000 Digital' },
+
+    // LoRa (Long Range) - Digitaler Notfunk
+    { band: '433MHz', freq: 433.175, mode: 'LoRa', region: 'eu', type: 'digital', desc: 'LoRa Europa 433 MHz (ISM)' },
+    { band: '868MHz', freq: 868.300, mode: 'LoRa', region: 'eu', type: 'digital', desc: 'LoRa Europa 868 MHz (ISM) - Langstrecke' },
+    { band: '915MHz', freq: 915.000, mode: 'LoRa', region: 'us', type: 'digital', desc: 'LoRa USA 915 MHz (ISM)' },
+    { band: '2.4GHz', freq: 2400, mode: 'LoRa/WiFi', region: 'intl', type: 'digital', desc: 'LoRa/WiFi 2.4 GHz (Mesh-Netze)' },
+
+    // Digitale Moden für Notfunk
+    { band: '20m', freq: 14070, mode: 'FT8', region: 'intl', type: 'digital', desc: 'FT8 Digitalmode - Schwachsignal, ~50 Hz Bandbreite' },
+    { band: '40m', freq: 7074, mode: 'FT8', region: 'intl', type: 'digital', desc: 'FT8 auf 40m' },
+    { band: '80m', freq: 3573, mode: 'FT8', region: 'intl', type: 'digital', desc: 'FT8 auf 80m' },
+    { band: '2m', freq: 144.100, mode: 'FT8', region: 'intl', type: 'digital', desc: 'FT8 VHF' },
+
+    // Digitales Sprachfunk
+    { band: '2m', freq: 145.500, mode: 'DMR', region: 'eu', type: 'digital', desc: 'DMR Europa Sprechgruppe 9112 (Brandmeister)' },
+    { band: '70cm', freq: 439.500, mode: 'DMR', region: 'eu', type: 'digital', desc: 'DMR 70cm Repeater' },
+    { band: '2m', freq: 144.500, mode: 'D-STAR', region: 'intl', type: 'digital', desc: 'D-STAR Digitalfunk' },
+    { band: '2m', freq: 145.000, mode: 'C4FM', region: 'intl', type: 'digital', desc: 'C4FM (System Fusion)' },
+
+    // HAMNET / Packet Radio
+    { band: '2m', freq: 144.800, mode: 'AX.25', region: 'deutschland', type: 'digital', desc: 'HAMNET Packet Radio 144.8 MHz' },
+    { band: '70cm', freq: 439.800, mode: 'AX.25', region: 'deutschland', type: 'digital', desc: 'HAMNET 439.8 MHz' },
+    { band: '2m', freq: 144.300, mode: 'APRS', region: 'deutschland', type: 'digital', desc: 'APRS Standard 144.300 MHz' },
+    { band: '70cm', freq: 430.050, mode: 'APRS', region: 'deutschland', type: 'digital', desc: 'APRS 70cm 430.050 MHz' },
+
+    // WinLink / Email über Funk
+    { band: '80m', freq: 3573, mode: 'Pactor', region: 'deutschland', type: 'digital', desc: 'WinLink Pactor 80m' },
+    { band: '40m', freq: 7095, mode: 'VARA', region: 'deutschland', type: 'digital', desc: 'VARA HF 40m' },
+    { band: '20m', freq: 14095, mode: 'Winmor', region: 'intl', type: 'digital', desc: 'WinLink Winmor 20m' },
+    { band: '20m', freq: 14095, mode: 'ARDOP', region: 'intl', type: 'digital', desc: 'ARDOP 20m (modernes WinLink)' },
+
+    // Special Digital Modes
+    { band: '2m', freq: 144.800, mode: 'FSQ', region: 'intl', type: 'digital', desc: 'FSQ Slow Scan auf 2m' },
+    { band: '70cm', freq: 432.100, mode: 'JT65', region: 'intl', type: 'digital', desc: 'JT65 Weak Signal UHF' },
   ];
 
   var currentFilter = 'all';
@@ -71,6 +105,15 @@ var AppFreq = (function () {
       } else if (filter === 'microwave') {
         // Mikrowelle: ab 300 MHz
         filtered = filtered.filter(function (f) { return f.freq >= 300000; });
+      } else if (filter === 'digital') {
+        // Digitale Moden
+        filtered = filtered.filter(function (f) { return f.type === 'digital'; });
+      } else if (filter === 'lora') {
+        // LoRa Frequenzen
+        filtered = filtered.filter(function (f) { return f.mode === 'LoRa'; });
+      } else if (filter === 'bos') {
+        // BOS 4m Band
+        filtered = filtered.filter(function (f) { return f.region === 'bos'; });
       } else if (filter === 'dach') {
         filtered = filtered.filter(function (f) { return f.region === 'dach'; });
       }
