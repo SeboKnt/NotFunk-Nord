@@ -40,7 +40,7 @@ Diese Datei enthält alle Aufgaben aus dem Plan. Markiere bearbeitete Tasks mit 
 **Aufwand:** Klein
 **Benötigt:** Keine externen Dependencies
 
-- [🔄] Task 3.1: Neue Seite `/lora` erstellen mit: (Agent arbeitet daran)
+- [x] Task 3.1: Neue Seite `/lora` erstellt mit:
   - Was ist LoRa? (Erklärung)
   - Frequenzen (433/868/915 MHz ISM)
   - Reichweiten-Übersicht
@@ -70,6 +70,8 @@ Diese Datei enthält alle Aufgaben aus dem Plan. Markiere bearbeitete Tasks mit 
 ## 5. 📴 Offline-Fähigkeit (PWA)
 
 **Status:** ✅ Erledigt
+**Aufwand:** Mittel
+**Benötigt:** Service Worker
 
 - [x] Task 5.1: Service Worker (`sw.js`) erstellen
 - [x] Task 5.2: precache HTML/CSS/JS Assets (in sw.js integriert)
