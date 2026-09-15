@@ -3,15 +3,19 @@
 (function () {
   'use strict';
 
-  // Clock (UTC) - Tactical time format
+  // Clock (UTC) - NATO DTTM format: DDTHHMMZ
+  // Example: 151106Z = 15:11:06 UTC on 26th
   function updateClock() {
     var el = document.getElementById('utc-clock');
     if (!el) return;
     var now = new Date();
+    var d = String(now.getUTCDate()).padStart(2, '0');  // Day
+    var t = String(now.getUTCMonth() + 1).padStart(2, '0');  // Month (01-12)
+    var y = String(now.getUTCFullYear()).slice(-2);  // Year (2 digits)
     var h = String(now.getUTCHours()).padStart(2, '0');
     var m = String(now.getUTCMinutes()).padStart(2, '0');
     var s = String(now.getUTCSeconds()).padStart(2, '0');
-    el.textContent = h + ':' + m + ':' + s + 'Z';
+    el.textContent = d + t + y + h + m + s + 'Z';
   }
   setInterval(updateClock, 1000);
   updateClock();
