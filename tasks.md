@@ -24,11 +24,11 @@ Diese Datei enthält alle Aufgaben aus dem Plan. Markiere bearbeitete Tasks mit 
 **Aufwand:** Mittel
 **Benötigt:** Hugging Face API-Key (gratis)
 
-- [ ] Task 2.1: Hugging Face Inference API Integration in Worker
-- [ ] Task 2.2: Prompt-Template für Notfunk-Q&A erstellen
-- [ ] Task 2.3: Frontend-Chat Interface auf `/kai` oder im Tools-Tab
+- [x] Task 2.1: Hugging Face Inference API Integration in Worker
+- [x] Task 2.2: Prompt-Template für Notfunk-Q&A erstellen
+- [🔄] Task 2.3: Frontend-Chat Interface auf `/kai` oder im Tools-Tab
 - [ ] Task 2.4: Caching von Antworten (KV Store für häufige Fragen)
-- [ ] Task 2.5: Rate-Limiting und Error-Handling implementieren
+- [x] Task 2.5: Rate-Limiting und Error-Handling implementiern
 
 ---
 
