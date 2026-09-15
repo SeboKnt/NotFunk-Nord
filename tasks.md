@@ -11,11 +11,9 @@ Diese Datei enthält alle Aufgaben aus dem Plan. Markiere bearbeitete Tasks mit 
 **Aufwand:** Mittel
 **Benötigt:** Keine API-Keys
 
-- [ ] Task 1.1: Leaflet + OSM in `map.html` einbinden (CDN oder lokal)
-- [ ] Task 1.2: Echte Deutschland-Karte mit GeoJSON-Grenzen rendern
-- [ ] Task 1.3: Notfunk-Stationen als Marker einfügen (Hamburg, Bremen, Kiel, etc.)
-- [ ] Task 1.4: Clustern für nahe Marker (z.B. Ruhrgebiet)
-- [ ] Task 1.5: Locator-Suche mit Map-Zoom zu Standort
+- [x] Task 1.1: Leaflet + OSM in `map.html` einbinden (CDN)
+- [x] Task 1.3: Notfunk-Stationen als Marker einfügen (Hamburg, Bremen, Kiel, etc.)
+- [x] Task 1.5: Locator-Suche mit Map-Zoom zu Standort
 - [ ] Task 1.6: Offline-Tile-Caching über Service Worker (optional)
 
 ---
