@@ -11,11 +11,14 @@ import { logbookRoutes } from './routes/logbook'
 import { netRoutes } from './routes/net'
 import { emergencyRoutes } from './routes/emergency'
 import { newsRoutes } from './routes/news'
+import { aiRoutes } from './routes/ai'
 
 type Bindings = {
   ENVIRONMENT: string
   // Add KV/D1/R2 bindings here later if needed
   NEWS_CACHE: KVNamespace
+  HF_API_KEY?: string
+  AI_CACHE?: KVNamespace
 }
 
 const app = new Hono<{ Bindings: Bindings }>()
@@ -36,6 +39,7 @@ app.route('/api/logbook', logbookRoutes)
 app.route('/api/net', netRoutes)
 app.route('/api/emergency', emergencyRoutes)
 app.route('/api/news', newsRoutes)
+app.route('/api/ai', aiRoutes)
 
 // Root endpoint with API documentation
 app.get('/', (c) => {
