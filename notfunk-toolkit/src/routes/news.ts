@@ -105,11 +105,38 @@ async function parseRSS(url: string): Promise<NewsItem[]> {
 // Haupt-Router
 const newsRoutes = new Hono()
 
-// GET /api/news - Alle News aggregieren
+const CACHE_KEY = 'notfunk-news'
+const CACHE_TTL = 900 // 15 Minuten
+
+// GET /api/news - Alle News aggregieren mit Caching
 newsRoutes.get('/', async (c) => {
   const limit = parseInt(c.req.query('limit') || '10')
   const category = c.req.query('category')
   const source = c.req.query('source')
+  const forceRefresh = c.req.query('refresh') === '1'
+
+  // Prüfe Cache (ohne KV: einfache Memory-Cache Simulation)
+  // In Produktion: c.env.NEWS_CACHE.get(CACHE_KEY) verwenden
+  if (!forceRefresh) {
+    // Simulierter Cache-Hit für Demo
+    const cached = c.env?.NEWS_CACHE
+    if (cached) {
+      try {
+        const cachedData = await cached.get(CACHE_KEY, 'json') as any
+        if (cachedData) {
+          return c.json({
+            count: cachedData.items.length,
+            items: cachedData.items.slice(0, limit),
+            sources: cachedData.sources,
+            lastUpdate: cachedData.lastUpdate,
+            cached: true,
+          })
+        }
+      } catch (e) {
+        // Cache-Fehler, fahre mit normaler Abfrage fort
+      }
+    }
+  }
 
   // Parallel alle aktivierten Feeds abrufen
   const enabledFeeds = RSS_FEEDS.filter((feed) => feed.enabled)
@@ -141,12 +168,26 @@ newsRoutes.get('/', async (c) => {
   // Limit anwenden
   allItems = allItems.slice(0, limit)
 
-  return c.json({
+  const response = {
     count: allItems.length,
     items: allItems,
     sources: enabledFeeds.map((f) => f.name),
     lastUpdate: new Date().toISOString(),
-  })
+    cached: false,
+  }
+
+  // In Cache speichern (wenn KV verfügbar)
+  if (c.env?.NEWS_CACHE) {
+    try {
+      await c.env.NEWS_CACHE.put(CACHE_KEY, JSON.stringify(response), {
+        expirationTtl: CACHE_TTL,
+      })
+    } catch (e) {
+      // Cache-Speicherung optional
+    }
+  }
+
+  return c.json(response)
 })
 
 // GET /api/news/sources - Verfügbare Quellen

@@ -15,6 +15,7 @@ import { newsRoutes } from './routes/news'
 type Bindings = {
   ENVIRONMENT: string
   // Add KV/D1/R2 bindings here later if needed
+  NEWS_CACHE: KVNamespace
 }
 
 const app = new Hono<{ Bindings: Bindings }>()
