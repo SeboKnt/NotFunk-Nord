@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LoRa - NotFunk-Nord</title>
+  <link rel="stylesheet" href="/css/base.css">
+  <style>
+    .lora-hero {
+      background: linear-gradient(135deg, var(--accent-blue-dim) 0%, var(--accent-green-dim) 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .lora-hero h2 {
+      color: var(--accent-blue);
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .lora-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .freq-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      transition: all 0.2s;
+    }
+
+    .freq-card:hover {
+      border-color: var(--accent-blue);
+      transform: translateY(-2px);
+    }
+
+    .freq-card h3 {
+      color: var(--accent-blue);
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .freq-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--accent-green);
+      font-family: var(--font-mono);
+    }
+
+    .range-bar {
+      height: 8px;
+      background: var(--bg-tertiary);
+      border-radius: 4px;
+      margin: 0.75rem 0;
+      overflow: hidden;
+    }
+
+    .range-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+      border-radius: 4px;
+    }
+
+    .equipped-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .equipped-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .equipped-card .price {
+      color: var(--accent-green);
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-top: 0.5rem;
+    }
+
+    .mesh-diagram {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .mesh-diagram svg {
+      width: 100%;
+      height: auto;
+    }
+
+    .info-box {
+      background: var(--accent-blue-dim);
+      border-left: 3px solid var(--accent-blue);
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+
+    .info-box h4 {
+      color: var(--accent-blue);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2rem 0;
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" role="navigation" aria-label="Hauptnavigation">
+    <div class="nav-inner">
+      <a href="/" class="logo" aria-label="NotFunk-Nord Startseite">
+        <div class="logo-mark" aria-hidden="true">NF</div>
+        <span>NotFunk-Nord</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="/">Start</a></li>
+        <li><a href="/tools">Tools</a></li>
+        <li><a href="/frequencies">Frequenzen</a></li>
+        <li><a href="/map">Karte</a></li>
+        <li><a href="/lora" aria-current="page">LoRa</a></li>
+        <li><a href="/about">Über</a></li>
+      </ul>
+      <div class="nav-meta">
+        <span class="status-indicator">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>ONLINE</span>
+        </span>
+        <span id="utc-clock" aria-live="polite"></span>
+      </div>
+      <button class="menu-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="nav-links">&#9776;</button>
+    </div>
+  </nav>
+
+  <main id="main-content">
+    <div class="container">
+      <div class="page-header">
+        <h1><span>LoRa</span> - Langstrecken-Notfunk</h1>
+        <p>Long Range - Das Rückgrat des dezentralen Notfallnetzwerks.</p>
+      </div>
+
+      <!-- Hero -->
+      <div class="lora-hero">
+        <h2>Was ist LoRa?</h2>
+        <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 1.5rem;">
+          LoRa (Long Range) ist eine Funktechnik für extrem geringen Energieverbrauch
+          und sehr große Reichweiten (bis 15 km ländlich, 2-5 km urban).
+          Sie bildet das Rückgrat für Mesh-Netzwerke, wenn das Internet ausfällt.
+        </p>
+        <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+          <div>
+            <div style="font-size: 2rem; color: var(--accent-green); font-weight: bold;">15+ km</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">Reichweite ländlich</div>
+          </div>
+          <div>
+            <div style="font-size: 2rem; color: var(--accent-green); font-weight: bold;">30 dBm</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">Sendeleistung max</div>
+          </div>
+          <div>
+            <div style="font-size: 2rem; color: var(--accent-green); font-weight: bold;">&lt;1W</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">Stromverbrauch</div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="section-divider">
+
+      <!-- Frequenzen -->
+      <section>
+        <h2 style="margin-bottom: 1.5rem;">ISM-Bänder für LoRa</h2>
+        <div class="lora-grid">
+          <div class="freq-card">
+            <h3>Europa (868 MHz)</h3>
+            <div class="freq-value">868.3 MHz</div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">
+              ISM-Band, 1% Duty Cycle<br>
+              Ideal für Mitteleuropa
+            </p>
+            <div class="range-bar"><div class="range-fill" style="width: 85%"></div></div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted);">
+              <span>Reichweite</span>
+              <span>~10-15 km</span>
+            </div>
+          </div>
+
+          <div class="freq-card">
+            <h3>USA (915 MHz)</h3>
+            <div class="freq-value">915.0 MHz</div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">
+              ISM-Band, höhere Sendeleistung erlaubt<br>
+              Für Nordamerika
+            </p>
+            <div class="range-bar"><div class="range-fill" style="width: 95%"></div></div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted);">
+              <span>Reichweite</span>
+              <span>~15-20 km</span>
+            </div>
+          </div>
+
+          <div class="freq-card">
+            <h3>Asien/Pazifik (433 MHz)</h3>
+            <div class="freq-value">433.175 MHz</div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">
+              ISM-Band, bessere Durchdringung<br>
+              Für Asien-Pazifik-Raum
+            </p>
+            <div class="range-bar"><div class="range-fill" style="width: 70%"></div></div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted);">
+              <span>Reichweite</span>
+              <span>~5-10 km</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <h4>⚠ Rechtlicher Hinweis</h4>
+          <p style="font-size: 0.85rem; margin: 0;">
+            LoRa funktioniert in den ISM-Bändern (Industrial, Scientific, Medical).
+            Die Sendeleistung ist auf 14 dBm (25 mW) begrenzt, bei Verwendung von Richtantennen
+            darf auf bis zu 26 dBm (400 mW) erhöht werden. In Deutschland sind 868 MHz für
+            LoRa offiziell zugewiesen.
+          </p>
+        </div>
+      </section>
+
+      <hr class="section-divider">
+
+      <!-- Mesh Netzwerk -->
+      <section>
+        <h2 style="margin-bottom: 1.5rem;">LoRa Mesh-Netzwerk</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+          Ein Mesh-Netzwerk verbindet mehrere LoRa-Knoten ohne zentrale Infrastruktur.
+          Jede Station repeate Nachrichten an andere Stationen - so entsteht ein
+          dezentrales Kommunikationsnetzwerk, das auch bei Stromausfall funktioniert.
+        </p>
+
+        <div class="mesh-diagram">
+          <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+            <!-- Nodes -->
+            <circle cx="100" cy="150" r="20" fill="var(--accent-blue)" opacity="0.8"/>
+            <circle cx="200" cy="80" r="15" fill="var(--accent-green)" opacity="0.8"/>
+            <circle cx="300" cy="150" r="20" fill="var(--accent-blue)" opacity="0.8"/>
+            <circle cx="400" cy="80" r="15" fill="var(--accent-green)" opacity="0.8"/>
+            <circle cx="500" cy="150" r="20" fill="var(--accent-blue)" opacity="0.8"/>
+            <circle cx="200" cy="220" r="15" fill="var(--accent-green)" opacity="0.8"/>
+            <circle cx="400" cy="220" r="15" fill="var(--accent-green)" opacity="0.8"/>
+
+            <!-- Connections -->
+            <line x1="100" y1="150" x2="200" y2="80" stroke="var(--border)" stroke-width="2"/>
+            <line x1="100" y1="150" x2="300" y2="150" stroke="var(--border)" stroke-width="2"/>
+            <line x1="100" y1="150" x2="200" y2="220" stroke="var(--border)" stroke-width="2"/>
+            <line x1="200" y1="80" x2="300" y2="150" stroke="var(--border)" stroke-width="2"/>
+            <line x1="300" y1="150" x2="400" y2="80" stroke="var(--border)" stroke-width="2"/>
+            <line x1="300" y1="150" x2="200" y2="220" stroke="var(--border)" stroke-width="2"/>
+            <line x1="300" y1="150" x2="400" y2="220" stroke="var(--border)" stroke-width="2"/>
+            <line x1="400" y1="80" x2="500" y2="150" stroke="var(--border)" stroke-width="2"/>
+            <line x1="400" y1="220" x2="500" y2="150" stroke="var(--border)" stroke-width="2"/>
+
+            <!-- Labels -->
+            <text x="100" y="190" fill="var(--text-secondary)" font-size="12" text-anchor="middle">Gateway A</text>
+            <text x="300" y="190" fill="var(--text-secondary)" font-size="12" text-anchor="middle">Gateway B</text>
+            <text x="500" y="190" fill="var(--text-secondary)" font-size="12" text-anchor="middle">Gateway C</text>
+            <text x="200" y="60" fill="var(--text-secondary)" font-size="10" text-anchor="middle">Node 1</text>
+            <text x="400" y="60" fill="var(--text-secondary)" font-size="10" text-anchor="middle">Node 2</text>
+            <text x="200" y="250" fill="var(--text-secondary)" font-size="10" text-anchor="middle">Node 3</text>
+            <text x="400" y="250" fill="var(--text-secondary)" font-size="10" text-anchor="middle">Node 4</text>
+          </svg>
+        </div>
+
+        <div class="info-box">
+          <h4>🔧 Wie funktioniert Mesh?</h4>
+          <p style="font-size: 0.85rem; margin: 0;">
+            Jedes LoRa-Gerät kann als Router fungieren. Nachrichten werden von Knoten zu Knoten
+            weitergeleitet (Hop-by-Hop). So können Daten über große Distanzen übertragen werden,
+            ohne dass eine zentrale Infrastruktur nötig ist. Protokolle wie <strong>LoRaWAN</strong>
+            oder <strong>Meshtastic</strong> ermöglichen dies.
+          </p>
+        </div>
+      </section>
+
+      <hr class="section-divider">
+
+      <!-- Equipment -->
+      <section>
+        <h2 style="margin-bottom: 1.5rem;">Empfohlene Hardware</h2>
+        <div class="equipped-grid">
+          <div class="equipped-card">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📡</div>
+            <h3 style="font-size: 0.9rem; color: var(--text-primary);">Heltec LoRa 32 V3</h3>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0.5rem 0;">
+              ESP32 + LoRa, OLED Display, Batterie-Support
+            </p>
+            <div class="price">~25-35€</div>
+          </div>
+
+          <div class="equipped-card">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📶</div>
+            <h3 style="font-size: 0.9rem; color: var(--text-primary);">ESP32 + SX1262</h3>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0.5rem 0;">
+              DIY-Option, flexibel, günstige Module
+            </p>
+            <div class="price">~15-20€</div>
+          </div>
+
+          <div class="equipped-card">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔌</div>
+            <h3 style="font-size: 0.9rem; color: var(--text-primary);">Raspberry Pi + HAT</h3>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0.5rem 0;">
+              Gateway mit vollem Internet-Zugang
+            </p>
+            <div class="price">~50-80€</div>
+          </div>
+
+          <div class="equipped-card">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📱</div>
+            <h3 style="font-size: 0.9rem; color: var(--text-primary);">Meshtastic</h3>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0.5rem 0;">
+              Open-Source Firmware, Chat-App, einfachste Einrichtung
+            </p>
+            <div class="price">Open Source</div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-divider">
+
+      <!-- Reichweiten -->
+      <section>
+        <h2 style="margin-bottom: 1.5rem;">Reichweiten-Übersicht</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Umgebung</th>
+              <th>Reichweite</th>
+              <th>Bemerkung</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ländlicher Raum (Höh position)</td>
+              <td class="freq-val">15-20 km</td>
+              <td>Optimale Bedingungen, Linie-Sicht</td>
+            </tr>
+            <tr>
+              <td>Vorstadt / Gartenstadt</td>
+              <td class="freq-val">5-10 km</td>
+              <td>Mittlere Bebauungsdichte</td>
+            </tr>
+            <tr>
+              <td>Stadtgebiet (urban)</td>
+              <td class="freq-val">2-5 km</td>
+              <td>Viele Gebäude, Interferenzen</td>
+            </tr>
+            <tr>
+              <td>Indoor (Keller/Büro)</td>
+              <td class="freq-val">0.5-2 km</td>
+              <td>Schwächste Signale, Dachgeschoss empfohlen</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>NotFunk-Nord.de | LoRa-Mesh-Netzwerke für den Notfall</p>
+    </div>
+  </footer>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
