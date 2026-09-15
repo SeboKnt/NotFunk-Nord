@@ -23,83 +23,59 @@ const RSS_FEEDS: Array<{
   category: string
   enabled: boolean
 }> = [
-  // Deutschland-spezifisch
+  // THW drei aktive RSS-Feeds (Einsätze / Meldungen / Übungen)
   {
-    url: 'https://www.darc.de/rss/feed-notfunk.xml',
-    name: 'DARC Notfunk',
+    url: 'https://www.thw.de/SiteGlobals/Functions/RSS/DE/RSSNewsfeed_Einsaetze.xml',
+    name: 'THW Einsätze',
     category: 'BOS',
     enabled: true,
   },
   {
-    url: 'https://www.thw.de/DE/thw-offen/service/rss/thw-rss.xml',
-    name: 'THW Infos',
+    url: 'https://www.thw.de/SiteGlobals/Functions/RSS/DE/RSSNewsfeed_Meldungen.xml',
+    name: 'THW Meldungen',
     category: 'BOS',
     enabled: true,
   },
   {
-    url: 'https://www.bbk.bund.de/DE/themen/sicherheit-und-katastrophenschutz/notfallvorsorge/rss-node.html',
-    name: 'BBK Notfall',
+    url: 'https://www.thw.de/SiteGlobals/Functions/RSS/DE/RSSNewsfeed_Uebungen.xml',
+    name: 'THW Übungen',
     category: 'BOS',
-    enabled: false, // Benötigt XML-Parsing-Logik
+    enabled: false,
   },
-  // International
-  {
-    url: 'https://www.iaru.org/news/',
-    name: 'IARU News',
-    category: 'General',
-    enabled: false, // Keine RSS-URL verfügbar
-  },
-  {
-    url: 'https://www.arrl.org/rss/news',
-    name: 'ARRL News',
-    category: 'General',
-    enabled: true,
-  },
+  // DARC / ARRL / IARU 均已下线或需要特殊处理，暂不启用
 ]
 
-// Parser-Funktion für RSS/Atom-Feeds
+// Parser für RSS/Atom-Feeds — block-basiert pro <item>
 async function parseRSS(url: string): Promise<NewsItem[]> {
   try {
     const response = await fetch(url)
     const text = await response.text()
 
-    // Einfaches Regex-basiertes Parsing (für Cloudflare Workers optimiert)
-    const items: NewsItem[] = []
+    // Regex-extraktion pro <item>-Block
+    function decodeEntities(s: string): string {
+      return s.replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(parseInt(n, 10)))
+    }
 
-    // Titel extrahieren
-    const titleRegex = /<title[^>]*>([^<]+)<\/title>/g
-    let titleMatch
-    while ((titleMatch = titleRegex.exec(text)) !== null) {
+    const items: NewsItem[] = []
+    const itemMatches = [...text.matchAll(/<item[^>]*>([\s\S]*?)<\/item>/g)]
+    for (const m of itemMatches.slice(0, 10)) {
+      const block = m[1]
+      const title = decodeEntities(block.match(/<title[^>]*>([^<]*)<\/title>/)?.[1] ?? '')
+      const link = block.match(/<link[^>]*>([^<]*)<\/link>/)?.[1] ?? ''
+      const pubDateMatch = block.match(/<pubDate>([^<]*)<\/pubDate>|<dc:date>([^<]*)<\/dc:date>/)
+      const pubDate = pubDateMatch?.[1] || pubDateMatch?.[2] || ''
+      const desc = decodeEntities(block.match(/<description[^>]*>([\s\S]*?)<\/description>/)?.[1] ?? '')
+      if (!title && !link) continue
       items.push({
-        title: titleMatch[1].trim(),
-        link: '',
-        pubDate: new Date().toISOString(),
+        title,
+        link,
+        pubDate: pubDate ? new Date(pubDate).toISOString() : new Date().toISOString(),
         source: '',
         category: '',
-        description: '',
+        description: desc,
       })
     }
-
-    // Link extrahieren
-    const linkRegex = /<link[^>]*>([^<]+)<\/link>/g
-    let linkMatch
-    while ((linkMatch = linkRegex.exec(text)) !== null) {
-      if (items.length > 0 && !items[items.length - 1].link) {
-        items[items.length - 1].link = linkMatch[1].trim()
-      }
-    }
-
-    // Publikationsdatum extrahieren
-    const dateRegex = /<pubDate>([^<]+)<\/pubDate>|<dc:date>([^<]+)<\/dc:date>/g
-    let dateMatch
-    while ((dateMatch = dateRegex.exec(text)) !== null) {
-      const dateStr = dateMatch[1] || dateMatch[2]
-      if (items.length > 0 && !items[items.length - 1].pubDate) {
-        items[items.length - 1].pubDate = new Date(dateStr).toISOString()
-      }
-    }
-
-    return items.slice(0, 10) // Maximal 10 Items pro Feed
+    return items
   } catch (error) {
     console.error(`[NF-Nord] RSS Parser Error for ${url}:`, error)
     return []
