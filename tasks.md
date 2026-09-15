@@ -54,7 +54,7 @@ Diese Datei enthält alle Aufgaben aus dem Plan. Markiere bearbeitete Tasks mit 
 
 ## 4. 📰 News-Aggregation (RSS)
 
-**Status:** 🔄 In Arbeit (进行中)
+**Status:** ✅ Erledigt
 **Aufwand:** Mittel
 **Benötigt:** Keine API-Keys (RSS-Parsing im Worker)
 

@@ -107,10 +107,6 @@ async function parseRSS(url: string): Promise<NewsItem[]> {
 }
 
 // Haupt-Router
-type KVCacheBindings = {
-  NEWS_CACHE: KVNamespace
-}
-
 const newsRoutes = new Hono<{ Bindings: KVCacheBindings }>()
 
 const CACHE_KEY = 'notfunk-news'
