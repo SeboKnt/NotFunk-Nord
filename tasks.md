@@ -60,8 +60,7 @@ Diese Datei enthält alle Aufgaben aus dem Plan. Markiere bearbeitete Tasks mit 
 
 - [x] Task 4.1: RSS-Feeds definieren (DARC, THW, IARU, ARRL)
 - [x] Task 4.2: Worker-Route `/api/news` mit Parsing-Logik
-- [x] Task 4.3: Caching-Layer (KV Store 15min TTL, forceRefresh 参数)
-- [ ] Task 4.3: Caching-Layer (KV für 15-30 Min)
+- [x] Task 4.3: Caching-Layer (KV Store 15min TTL, forceRefresh-Parameter)
 - [ ] Task 4.4: Frontend-Komponente für News-Feed
 - [ ] Task 4.5: Category-Filter (BOS, Weather, Events)
 - [ ] Task 4.6: "Was interessiert dich?" Onboarding
