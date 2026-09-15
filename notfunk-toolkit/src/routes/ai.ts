@@ -16,7 +16,7 @@ type AIResponse = {
 }
 
 // Hugging Face Inference API (kostenlose Tier, EU Server)
-const HF_API_URL = 'https://api-inference.huggingface.co/models mistralai/Mistral-7B-Instruct-v0.2'
+const HF_API_URL = 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2'
 const DEFAULT_MODEL = 'mistralai/Mistral-7B-Instruct-v0.2'
 
 // System-Prompt für Notfunk-Experte
@@ -31,7 +31,12 @@ Wichtige Hinweise:
 - Erwähne DARC, THW, IARU wo relevant
 - Sei prägnant aber vollständig`
 
-const aiRoutes = new Hono()
+type AIBindings = {
+  HF_API_KEY?: string
+  AI_CACHE?: KVNamespace
+}
+
+const aiRoutes = new Hono<{ Bindings: AIBindings }>()
 
 // GET /api/ai/chat?question=...
 aiRoutes.get('/chat', async (c) => {
