@@ -3,7 +3,7 @@
 (function () {
   'use strict';
 
-  // Clock (UTC)
+  // Clock (UTC) - Tactical time format
   function updateClock() {
     var el = document.getElementById('utc-clock');
     if (!el) return;
@@ -11,7 +11,7 @@
     var h = String(now.getUTCHours()).padStart(2, '0');
     var m = String(now.getUTCMinutes()).padStart(2, '0');
     var s = String(now.getUTCSeconds()).padStart(2, '0');
-    el.textContent = h + ':' + m + ':' + s + ' UTC';
+    el.textContent = h + ':' + m + ':' + s + 'Z';
   }
   setInterval(updateClock, 1000);
   updateClock();
