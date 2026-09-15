@@ -54,12 +54,12 @@ Diese Datei enthält alle Aufgaben aus dem Plan. Markiere bearbeitete Tasks mit 
 
 ## 4. 📰 News-Aggregation (RSS)
 
-**Status:** ⏳ Bereit
+**Status:** 🔄 In Arbeit (进行中)
 **Aufwand:** Mittel
 **Benötigt:** Keine API-Keys (RSS-Parsing im Worker)
 
-- [ ] Task 4.1: RSS-Feeds definieren (DARC, THW, BBK, IARU, ARRL)
-- [ ] Task 4.2: Worker-Route `/api/news` mit Parsing-Logik
+- [x] Task 4.1: RSS-Feeds definieren (DARC, THW, IARU, ARRL)
+- [x] Task 4.2: Worker-Route `/api/news` mit Parsing-Logik
 - [ ] Task 4.3: Caching-Layer (KV für 15-30 Min)
 - [ ] Task 4.4: Frontend-Komponente für News-Feed
 - [ ] Task 4.5: Category-Filter (BOS, Weather, Events)

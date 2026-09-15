@@ -10,6 +10,7 @@ import { solarRoutes } from './routes/solar'
 import { logbookRoutes } from './routes/logbook'
 import { netRoutes } from './routes/net'
 import { emergencyRoutes } from './routes/emergency'
+import { newsRoutes } from './routes/news'
 
 type Bindings = {
   ENVIRONMENT: string
@@ -33,6 +34,7 @@ app.route('/api/solar', solarRoutes)
 app.route('/api/logbook', logbookRoutes)
 app.route('/api/net', netRoutes)
 app.route('/api/emergency', emergencyRoutes)
+app.route('/api/news', newsRoutes)
 
 // Root endpoint with API documentation
 app.get('/', (c) => {
