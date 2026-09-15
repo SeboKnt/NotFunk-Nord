@@ -376,6 +376,30 @@
           </tbody>
         </table>
       </section>
+
+      <!-- LoRa-Distanzrechner (Task 3.4) -->
+      <hr class="section-divider">
+      <section>
+        <h2 style="margin-bottom: 1.5rem;">LoRa-Distanzrechner</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+          Berechne die Luftlinien-Distanz zwischen zwei Grid-Squares für die Planung von LoRa-Links.
+          Basis: Haversine-Formel (Erdkugel, R = 6371 km).
+        </p>
+        <div class="card" style="max-width: 480px">
+          <div class="grid-2" style="grid-template-columns: 1fr 1fr; margin-bottom: 0.75rem">
+            <div class="field">
+              <label for="lora-calc-from">Von (Grid)</label>
+              <input type="text" id="lora-calc-from" value="JO43" maxlength="10" style="text-transform:uppercase" placeholder="z.B. JO43">
+            </div>
+            <div class="field">
+              <label for="lora-calc-to">Nach (Grid)</label>
+              <input type="text" id="lora-calc-to" value="JO33" maxlength="10" style="text-transform:uppercase" placeholder="z.B. JO33">
+            </div>
+          </div>
+          <button class="btn btn-sm" id="lora-calc-btn">Berechnen</button>
+          <div id="lora-calc-result" style="margin-top:0.75rem; font-size:0.9rem; color:var(--text-secondary)"></div>
+        </div>
+      </section>
     </div>
   </main>
 
@@ -386,5 +410,47 @@
   </footer>
 
   <script src="/js/app.js"></script>
+  <script>
+    // LoRa-Distanzrechner (Task 3.4) — nutzt die same haversine-Logik wie map.js
+    (function () {
+      'use strict';
+      function toRad(d) { return d * Math.PI / 180; }
+      function haversine(a, b) {
+        var R = 6371;
+        var dLat = toRad(b.lat - a.lat);
+        var dLon = toRad(b.lon - a.lon);
+        var h = Math.sin(dLat/2)**2 + Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLon/2)**2;
+        return 2 * R * Math.asin(Math.sqrt(h));
+      }
+      function decodeLoc(loc) {
+        var l = loc.trim().toUpperCase();
+        if (l.length < 4) throw new Error('Mind. 4 Zeichen');
+        var lon = (l.charCodeAt(0)-65)*20 - 180;
+        var lat = (l.charCodeAt(1)-65)*10 - 90;
+        if (l.length >= 4) { lon += parseInt(l[2],10)*2; lat += parseInt(l[3],10)*1; }
+        if (l.length >= 6) { lon += ((l.charCodeAt(4)-97)*5)/60; lat += ((l.charCodeAt(5)-97)*2.5)/60; }
+        return { lat: lat + (l.length >= 6 ? 1.25 : 0.5), lon: lon + (l.length >= 6 ? 2.5 : 1) };
+      }
+      function calcDist() {
+        var from = document.getElementById('lora-calc-from').value.toUpperCase().trim();
+        var to = document.getElementById('lora-calc-to').value.toUpperCase().trim();
+        var resultEl = document.getElementById('lora-calc-result');
+        if (!from || !to) { resultEl.textContent = 'Bitte beide Locator eingeben.'; return; }
+        try {
+          var a = decodeLoc(from);
+          var b = decodeLoc(to);
+          var km = Math.round(haversine(a, b));
+          resultEl.innerHTML = '<strong>' + km + ' km</strong> &middot; ' + from + ' ↔ ' + to +
+            ' &middot; <span style="color:var(--accent-blue)">Haversine-Distanz</span>';
+        } catch(e) { resultEl.textContent = 'Fehler: ' + e.message; }
+      }
+      var btn = document.getElementById('lora-calc-btn');
+      if (btn) btn.addEventListener('click', calcDist);
+      var fromInput = document.getElementById('lora-calc-from');
+      var toInput = document.getElementById('lora-calc-to');
+      if (fromInput) fromInput.addEventListener('keydown', function(e) { if (e.key==='Enter') calcDist(); });
+      if (toInput) toInput.addEventListener('keydown', function(e) { if (e.key==='Enter') calcDist(); });
+    })();
+  </script>
 </body>
 </html>

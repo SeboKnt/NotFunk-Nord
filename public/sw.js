@@ -11,6 +11,7 @@ const PRECACHE_ASSETS = [
   '/tools.html',
   '/frequencies.html',
   '/map.html',
+  '/lora.html',
   '/about.html',
   '/css/base.css',
   '/js/app.js',

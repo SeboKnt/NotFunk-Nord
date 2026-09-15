@@ -44,9 +44,9 @@ Diese Datei enthält alle Aufgaben aus dem Plan. Markiere bearbeitete Tasks mit 
   - Reichweiten-Übersicht
   - Equipment-Empfehlungen (SX1262, Heltec, etc.)
   - Mesh-Netzwerk Topologie erklären
-- [ ] Task 3.2: LoRa-Knotenpunkt-Karte auf der bestehenden Map
-- [ ] Task 3.3: Live-Status von LoRa-Gateways (simuliert oder real)
-- [ ] Task 3.4: Distanz-Rechner für LoRa-Links (mit Haversine)
+- [x] Task 3.2: LoRa-Knotenpunkt-Karte auf der bestehenden Map
+- [x] Task 3.3: Live-Status von LoRa-Gateways (simuliert oder real)
+- [x] Task 3.4: Distanz-Rechner für LoRa-Links (mit Haversine)
 
 ---
 

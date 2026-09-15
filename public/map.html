@@ -71,6 +71,7 @@
             <button class="filter-btn" aria-pressed="false" onclick="AppMap.filterMap('net', this)">Netze</button>
             <button class="filter-btn" aria-pressed="false" onclick="AppMap.filterMap('station', this)">Stationen</button>
             <button class="filter-btn" aria-pressed="false" onclick="AppMap.filterMap('relay', this)">Relais</button>
+            <button class="filter-btn" id="lora-filter-btn" aria-pressed="false">LoRa</button>
           </div>
 
           <div class="map-container" id="map-container">
@@ -110,6 +111,18 @@
 
           <div class="station-list" id="station-list" aria-label="Stationen-Liste">
             <!-- Populated by JS -->
+          </div>
+
+          <!-- LoRa-Distanzrechner (Task 3.4) -->
+          <div class="card" style="padding:0.85rem">
+            <h3 style="margin-bottom:0.6rem; padding-bottom:0.4rem; font-size:0.75rem">LoRa-Distanzrechner</h3>
+            <div class="field" style="margin-bottom:0.5rem">
+              <input type="text" id="lora-from-grid" placeholder="z.B. JO43" maxlength="10" style="text-transform:uppercase; font-size:0.85rem; padding:0.45rem 0.6rem" aria-label="Von Grid Square">
+            </div>
+            <div class="field" style="margin-bottom:0.5rem">
+              <input type="text" id="lora-to-grid" placeholder="z.B. JO33" maxlength="10" style="text-transform:uppercase; font-size:0.85rem; padding:0.45rem 0.6rem" aria-label="Nach Grid Square">
+            </div>
+            <div id="lora-distance-result" style="font-size:0.78rem; color:var(--text-muted); min-height:1.5em; margin-top:0.25rem"></div>
           </div>
         </div>
       </div>

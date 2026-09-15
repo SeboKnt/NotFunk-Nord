@@ -32,6 +32,10 @@ var AppMap = (function () {
   var currentFilter = 'all';
   var selectedId = null;
   var searchMarker = null;
+  var loraMarkers = {};
+  var distanceMarkerA = null;
+  var distanceMarkerB = null;
+  var distanceLine = null;
 
   // --- Custom icon factory (no external images needed) ---
   function makeIcon(color) {
@@ -50,12 +54,51 @@ var AppMap = (function () {
     });
   }
 
+
+  // --- LoRa-Gateway-Icon (Puls-Animation wenn online) ---
+  function makeLoraIcon(online) {
+    var color = online ? 'var(--accent-green)' : 'var(--accent-red)';
+    var pulse = online
+      ? '<circle cx="12" cy="12" r="8" fill="none" stroke="' + color + '" stroke-width="1.5" opacity="0.5"/>'
+      : '';
+    var svg = [
+      '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">',
+        '<circle cx="12" cy="12" r="10" fill="' + color + '" opacity="0.85"/>',
+        pulse,
+        '<text x="12" y="16" text-anchor="middle" fill="#0d1117" font-size="10" font-weight="bold">L</text>',
+      '</svg>'
+    ].join('');
+    return L.divIcon({
+      html: '<img src="data:image/svg+xml;base64,' + btoa(svg) + '" style="width:24px;height:24px;display:block"/>',
+      iconSize: [24, 24],
+      iconAnchor: [12, 12],
+      popupAnchor: [0, -12],
+      className: ''
+    });
+  }
+
   function typeColor(type) {
     if (type === 'net')    return '#58a6ff';
     if (type === 'station') return '#3fb950';
     if (type === 'relay')  return '#f0c040';
     return '#8b949e';
   }
+
+  function haversine(a, b) {
+    var R = 6371;
+    var toRad = function (deg) { return deg * Math.PI / 180; };
+    var dLat = toRad(b.lat - a.lat);
+    var dLon = toRad(b.lon - a.lon);
+    var h = Math.sin(dLat / 2) ** 2 +
+            Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLon / 2) ** 2;
+    return 2 * R * Math.asin(Math.sqrt(h));
+  }
+
+  function compassDir(deg) {
+    var dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+    return dirs[Math.round(deg / 22.5) % 16];
+  }
+
 
   // --- Initialisiere die Karte ---
   function initMap() {
@@ -78,6 +121,41 @@ var AppMap = (function () {
 
     // Station-Marker hinzufügen
     renderMarkers(stations);
+
+    // LoRa-Filter-Button zur Filter-Bar hinzufügen
+    var filterBar = document.querySelector('.map-controls.filter-bar');
+    if (filterBar) {
+      var loraBtn = document.createElement('button');
+      loraBtn.className = 'filter-btn';
+      loraBtn.setAttribute('aria-pressed', 'false');
+      loraBtn.textContent = 'LoRa';
+      loraBtn.addEventListener('click', function () {
+        var show = loraBtn.classList.contains('active');
+        if (!show) {
+          loraBtn.classList.add('active');
+          loraBtn.setAttribute('aria-pressed', 'true');
+          renderLoraLayer(true);
+        } else {
+          loraBtn.classList.remove('active');
+          loraBtn.setAttribute('aria-pressed', 'false');
+          renderLoraLayer(false);
+        }
+      });
+      filterBar.appendChild(loraBtn);
+    }
+
+    // LoRa-Distanz-Input-Listener
+    var fromGrid = document.getElementById('lora-from-grid');
+    var toGrid = document.getElementById('lora-to-grid');
+    function onLoraGridInput() {
+      var f = (fromGrid || {}).value.toUpperCase().trim();
+      var t = (toGrid || {}).value.toUpperCase().trim();
+      if (f && t) {
+        calcLoraDistance(f, t);
+      }
+    }
+    if (fromGrid) fromGrid.addEventListener('input', onLoraGridInput);
+    if (toGrid) toGrid.addEventListener('input', onLoraGridInput);
   }
 
   // --- Marker auf der Karte rendern ---
@@ -191,6 +269,124 @@ var AppMap = (function () {
     renderSidebar(filtered);
   }
 
+
+  // --- LoRa-Gateways auf der Karte anzeigen/verstecken (Tasks 3.2 + 3.3) ---
+  function renderLoraLayer(show) {
+    if (!show) {
+      Object.keys(loraMarkers).forEach(function (id) {
+        if (loraMarkers[id]) map.removeLayer(loraMarkers[id]);
+      });
+      loraMarkers = {};
+      // Distance line/marker zurücksetzen
+      if (distanceLine) { map.removeLayer(distanceLine); distanceLine = null; }
+      if (distanceMarkerA) { map.removeLayer(distanceMarkerA); distanceMarkerA = null; }
+      if (distanceMarkerB) { map.removeLayer(distanceMarkerB); distanceMarkerB = null; }
+      var distEl = document.getElementById('lora-distance-result');
+      if (distEl) distEl.textContent = '';
+      return;
+    }
+
+    // Gateways als Marker zeichnen
+    loraGateways.forEach(function (gw) {
+      var marker = L.marker([gw.lat, gw.lon], {
+        icon: makeLoraIcon(gw.online)
+      }).addTo(map);
+
+      var statusText = gw.online ? '<span style="color:#3fb950">● Online</span>' : '<span style="color:#f85149">● Offline</span>';
+      var popupContent =
+        '<div style="font-size:13px;">' +
+          '<strong style="color:#f0c040;">' + gw.name + '</strong><br>' +
+          '<span style="color:#8b949e;">SSID: ' + gw.ssid + '</span><br>' +
+          '<span style="color:#58a6ff;font-family:monospace;">Freq: ' + gw.freq + '</span><br>' +
+          statusText +
+        '</div>';
+      marker.bindPopup(popupContent, { maxWidth: 220 });
+
+      marker.on('click', function () {
+        var fromGrid = document.getElementById('lora-from-grid').value.toUpperCase();
+        var toGrid = document.getElementById('lora-to-grid').value.toUpperCase();
+        if (fromGrid && toGrid) {
+          calcLoraDistance(fromGrid, toGrid);
+        }
+      });
+
+      loraMarkers[gw.id] = marker;
+    });
+
+    // Karte auf alle Gateways zoomen
+    var group = L.featureGroup(Object.values(loraMarkers));
+    map.fitBounds(group.getBounds().pad(0.1));
+  }
+
+  // --- LoRa-Distanz berechnen (Task 3.4) ---
+  function calcLoraDistance(fromGrid, toGrid) {
+    var a, b;
+    try {
+      a = decodeLocatorSimple(fromGrid);
+      b = decodeLocatorSimple(toGrid);
+    } catch (e) {
+      var el = document.getElementById('lora-distance-result');
+      if (el) el.textContent = 'Ungültige Locator: ' + e.message;
+      return;
+    }
+    var km = haversine(a, b);
+    var brg = bearing(a, b);
+
+    // Bestehende Marker/Linie entfernen
+    if (distanceLine) { map.removeLayer(distanceLine); }
+    if (distanceMarkerA) { map.removeLayer(distanceMarkerA); }
+    if (distanceMarkerB) { map.removeLayer(distanceMarkerB); }
+
+    // Punkt A (gelb)
+    distanceMarkerA = L.marker([a.lat, a.lon], {
+      icon: L.divIcon({
+        html: '<div style="width:16px;height:16px;background:#f0c040;border:2px solid #fff;border-radius:50%;box-shadow:0 0 6px rgba(240,192,64,.8);"></div>',
+        iconSize: [16, 16],
+        iconAnchor: [8, 8],
+        className: ''
+      })
+    }).addTo(map).bindPopup('<strong style="color:#f0c040;">' + fromGrid + '</strong><br>' + a.lat.toFixed(4) + ', ' + a.lon.toFixed(4));
+
+    // Punkt B (rot)
+    distanceMarkerB = L.marker([b.lat, b.lon], {
+      icon: L.divIcon({
+        html: '<div style="width:16px;height:16px;background:#58a6ff;border:2px solid #fff;border-radius:50%;box-shadow:0 0 6px rgba(88,166,255,.8);"></div>',
+        iconSize: [16, 16],
+        iconAnchor: [8, 8],
+        className: ''
+      })
+    }).addTo(map).bindPopup('<strong style="color:#58a6ff;">' + toGrid + '</strong><br>' + b.lat.toFixed(4) + ', ' + b.lon.toFixed(4));
+
+    // Verbindungslinie
+    distanceLine = L.polyline([[a.lat, a.lon], [b.lat, b.lon]], {
+      color: '#f0c040',
+      weight: 2,
+      dashArray: '8, 6'
+    }).addTo(map);
+
+    map.fitBounds(distanceLine.getBounds().pad(0.2));
+
+    var el = document.getElementById('lora-distance-result');
+    if (el) {
+      el.innerHTML = Math.round(km) + ' km &middot; ' + Math.round(brg) + '° ' + compassDir(brg) +
+        ' &middot; <span style="color:#8b949e;font-size:0.75rem;">' + fromGrid + ' &harr; ' + toGrid + '</span>';
+    }
+  }
+
+  // Einfache Locator-Decodierung (für LoRa-Distanz)
+  function decodeLocatorSimple(locator) {
+    var loc = locator.trim().toUpperCase();
+    if (loc.length < 4) throw new Error('Mindestens 4 Zeichen');
+    var lon = (loc.charCodeAt(0) - 65) * 20 - 180;
+    var lat = (loc.charCodeAt(1) - 65) * 10 - 90;
+    if (loc.length >= 4) { lon += parseInt(loc[2], 10) * 2; lat += parseInt(loc[3], 10) * 1; }
+    if (loc.length >= 6) { lon += ((loc.charCodeAt(4) - 97) * 5) / 60; lat += ((loc.charCodeAt(5) - 97) * 2.5) / 60; }
+    return { lat: lat + (loc.length >= 6 ? 1.25 : 0.5), lon: lon + (loc.length >= 6 ? 2.5 : 1) };
+  }
+
+  // --- Get filtered (erweitert um LoRa) ---
+  // ponytail: getFiltered wird jetzt nur für reguläre Stationen verwendet
+
   function getFiltered() {
     return currentFilter === 'all' ? stations : stations.filter(function (s) { return s.type === currentFilter; });
   }
@@ -269,9 +465,14 @@ var AppMap = (function () {
     initMap();
   });
 
+  // Expose for inline onclick handlers
+  window.calcLoraDistance = calcLoraDistance;
+
   return {
     selectStation: selectStation,
     filterMap: filterMap,
-    locateOnMap: locateOnMap
+    locateOnMap: locateOnMap,
+    renderLoraLayer: renderLoraLayer,
+    calcLoraDistance: calcLoraDistance
   };
 })();
