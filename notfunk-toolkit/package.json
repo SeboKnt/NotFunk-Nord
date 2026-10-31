@@ -7,7 +7,8 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "typecheck": "tsc --noEmit",
-    "test": "echo \"Use Node.js to run tests\" && exit 0"
+    "test": "echo \"Use Node.js to run tests\" && exit 0",
+    "monitor": "node src/status-check.js"
   },
   "keywords": [
     "hamradio",

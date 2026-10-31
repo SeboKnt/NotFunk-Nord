@@ -1,8 +1,8 @@
 // Erweitertes Status-Monitoring für NotFunk-Nord
 // Diese Version fügt detailliertere Checks und bessere Fehlerbehandlung hinzu
 
-const https = require('https');
-const { sendEmailNotification } = require('./utils/email');
+import https from 'https';
+import { sendEmailNotification } from './utils/email.js';
 
 // Timeout-Konfiguration
 const REQUEST_TIMEOUT = 10000; // 10 Sekunden
@@ -162,7 +162,7 @@ async function sendDetailedNotification(checks) {
   
   const subject = hasFailures 
     ? `⚠️ Notfunk-Nord Status Alert - ${failedChecks.length} Fehler` 
-    : '✅ Notfunk-Nord Status Report - Alles OK';
+    : '✅ NotFunk-Nord Status Report - Alles OK';
   
   let body = `Notfunk-Nord System Status Report\n`;
   body += `Zeitpunkt: ${new Date().toISOString()}\n\n`;
@@ -232,7 +232,7 @@ async function main() {
   } catch (error) {
     console.error('❌ Kritischer Fehler im Monitoring:', error.message);
     await sendEmailNotification(
-      '❌ Notfunk-Nord Monitoring CRITICAL ERROR',
+      '❌ NotFunk-Nord Monitoring CRITICAL ERROR',
       `Kritischer Fehler im Monitoring-System:\n${error.message}\n\nBitte überprüfen Sie das Monitoring selbst.`
     );
     process.exit(1);
@@ -240,12 +240,12 @@ async function main() {
 }
 
 // Nur ausführen wenn direkt aufgerufen
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main();
 }
 
 // Export für andere Module
-module.exports = {
+export {
   checkWebsiteDetailed,
   checkWikipediaReference,
   checkApiStatus,

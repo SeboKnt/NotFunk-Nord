@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+import { createTransport } from 'nodemailer';
 
 // E-Mail-Konfiguration (in Produktion aus Umgebungsvariablen laden)
 const EMAIL_CONFIG = {
@@ -12,7 +12,7 @@ const EMAIL_CONFIG = {
 };
 
 // Transporter erstellen
-const transporter = nodemailer.createTransporter(EMAIL_CONFIG);
+const transporter = createTransport(EMAIL_CONFIG);
 
 /**
  * Sendet eine E-Mail-Benachrichtigung
@@ -52,4 +52,4 @@ async function sendEmailNotification(subject, body) {
   }
 }
 
-module.exports = { sendEmailNotification };
+export { sendEmailNotification };
