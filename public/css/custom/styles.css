@@ -1,4 +1,9 @@
-/* Custom Styles for NotFunk-Nord */
+/*
+ * Custom styles for NotFunk-Nord
+ * Adds visual enhancements and removes "AI-generated" appearance
+ */
+
+/* Hero section */
 .hero {
   background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
   border-bottom: 1px solid #30363d;
@@ -9,8 +14,17 @@
   font-size: 2.5rem;
   color: #f0c040;
   text-shadow: 0 0 10px rgba(240, 192, 64, 0.3);
+  letter-spacing: -0.03em;
 }
 
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: #8b949e;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+/* Button styles */
 .btn {
   background: #f0c040;
   color: #0d1117;
@@ -21,12 +35,14 @@
   letter-spacing: 1px;
   border-radius: 4px;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .btn:hover {
   background: transparent;
   color: #f0c040;
   box-shadow: 0 0 15px rgba(240, 192, 64, 0.5);
+  transform: translateY(-2px);
 }
 
 .btn-outline {
@@ -39,10 +55,89 @@
   color: #0d1117;
 }
 
+/* Status panels */
+.status-panel {
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.status-panel:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* CTA Cards */
+.cta-card {
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+.cta-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  border-color: #f0c040;
+}
+
+.cta-card-icon {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: #f0c040;
+}
+
+/* Emergency strip */
+.emergency-strip {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(248, 81, 73, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(248, 81, 73, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(248, 81, 73, 0); }
+}
+
+/* Footer */
 .footer {
   background: #0d1117;
   border-top: 1px solid #30363d;
   padding: 2rem 0;
   text-align: center;
   color: #8b949e;
+}
+
+/* Map enhancements */
+.map-container {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Typography improvements */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .status-panels {
+    grid-template-columns: 1fr;
+  }
+  
+  .cta-grid {
+    grid-template-columns: 1fr;
+  }
 }

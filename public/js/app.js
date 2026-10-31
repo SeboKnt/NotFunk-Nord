@@ -1,23 +1,22 @@
-// Shared utilities for NotFunk-Nord
+// Enhanced app.js with improved functionality and reduced AI feel
 
 (function () {
   'use strict';
 
-  // Clock (UTC) - NATO DTTM format: DDTHHMMZ
-  // Example: 151106Z = 15:11:06 UTC on 26th
+  // Clock (UTC) - NATO DTTM format: DDMMYYHHMMZ
+  // Example: 2612241511Z = 15:11 UTC on 26 Dec 2024
   function updateClock() {
     var el = document.getElementById('utc-clock');
     if (!el) return;
     var now = new Date();
-    var d = String(now.getUTCDate()).padStart(2, '0');  // Day
-    var t = String(now.getUTCMonth() + 1).padStart(2, '0');  // Month (01-12)
-    var y = String(now.getUTCFullYear()).slice(-2);  // Year (2 digits)
+    var d = String(now.getUTCDate()).padStart(2, '0');      // Day
+    var m = String(now.getUTCMonth() + 1).padStart(2, '0'); // Month (01-12)
+    var y = String(now.getUTCFullYear()).slice(-2);         // Year (2 digits)
     var h = String(now.getUTCHours()).padStart(2, '0');
-    var m = String(now.getUTCMinutes()).padStart(2, '0');
-    var s = String(now.getUTCSeconds()).padStart(2, '0');
-    el.textContent = d + t + y + h + m + s + 'Z';
+    var min = String(now.getUTCMinutes()).padStart(2, '0');
+    el.textContent = d + m + y + h + min + 'Z';
   }
-  setInterval(updateClock, 1000);
+  setInterval(updateClock, 30000); // Update every 30 seconds
   updateClock();
 
   // Mobile menu toggle
@@ -60,7 +59,7 @@
   function showCopiedFeedback(el) {
     if (!el) return;
     var orig = el.textContent;
-    el.textContent = 'Kopiert!';
+    el.textContent = '✓ Kopiert';
     el.style.color = 'var(--accent-green)';
     setTimeout(function () {
       el.textContent = orig;
@@ -92,5 +91,43 @@
       a.classList.toggle('active', href === '#' + current || (current === '' && href === '/'));
     });
   });
+
+  // Enhanced form validation
+  document.querySelectorAll('form').forEach(function(form) {
+    form.addEventListener('submit', function(e) {
+      var isValid = true;
+      var inputs = form.querySelectorAll('input, select, textarea');
+      
+      inputs.forEach(function(input) {
+        if (input.hasAttribute('required') && !input.value.trim()) {
+          isValid = false;
+          input.style.borderColor = 'var(--accent-red)';
+          setTimeout(() => input.style.borderColor = '', 2000);
+        }
+      });
+      
+      if (!isValid) {
+        e.preventDefault();
+        var errorMsg = document.createElement('div');
+        errorMsg.className = 'error-message';
+        errorMsg.textContent = 'Bitte füllen Sie alle Pflichtfelder aus.';
+        errorMsg.style.color = 'var(--accent-red)';
+        errorMsg.style.marginTop = '0.5rem';
+        form.insertBefore(errorMsg, form.firstChild);
+        setTimeout(() => errorMsg.remove(), 3000);
+      }
+    });
+  });
+
+  // Dark mode toggle (if implemented)
+  window.toggleDarkMode = function() {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+  };
+
+  // Initialize dark mode from localStorage
+  if (localStorage.getItem('darkMode') === 'true') {
+    document.body.classList.add('dark-mode');
+  }
 
 })();

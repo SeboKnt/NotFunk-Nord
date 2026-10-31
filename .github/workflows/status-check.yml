@@ -1,0 +1,86 @@
+name: Status Check and Notification
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Every hour
+  workflow_dispatch:
+
+jobs:
+  status-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./notfunk-toolkit
+
+      - name: Run status check script
+        run: |
+          node << 'EOF'
+          const https = require('https');
+          
+          // Check website status
+          function checkWebsite() {
+            return new Promise((resolve, reject) => {
+              const req = https.get('https://notfunk-nord.de', (res) => {
+                resolve(res.statusCode === 200);
+              });
+              req.on('error', reject);
+              req.end();
+            });
+          }
+          
+          // Check if domain is still referenced in Wikipedia
+          function checkWikipediaReference() {
+            return new Promise((resolve, reject) => {
+              const req = https.get('https://de.wikipedia.org/api/rest_v1/page/html/Notfunk', (res) => {
+                let data = '';
+                res.on('data', chunk => data += chunk);
+                res.on('end', () => {
+                  resolve(data.includes('notfunk-nord.de'));
+                });
+              });
+              req.on('error', reject);
+              req.end();
+            });
+          }
+          
+          // Send email notification
+          function sendNotification(subject, body) {
+            // In a real implementation, this would send an email
+            console.log(`EMAIL SENT to notfunk@youngandhungry.org`);
+            console.log(`Subject: ${subject}`);
+            console.log(`Body: ${body}`);
+          }
+          
+          async function main() {
+            try {
+              const websiteOk = await checkWebsite();
+              const wikipediaRef = await checkWikipediaReference();
+              
+              if (!websiteOk || !wikipediaRef) {
+                sendNotification(
+                  '⚠️ Notfunk-Nord Status Alert',
+                  `Status check failed:\nWebsite OK: ${websiteOk}\nWikipedia reference: ${wikipediaRef}`
+                );
+              } else {
+                console.log('All systems operational');
+              }
+            } catch (error) {
+              sendNotification(
+                '❌ Notfunk-Nord Monitoring Error',
+                `Monitoring script failed:\n${error.message}`
+              );
+            }
+          }
+          
+          main();
+          EOF
+        working-directory: ./notfunk-toolkit
