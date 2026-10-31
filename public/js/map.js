@@ -26,6 +26,9 @@ var AppMap = (function () {
     { id: 18, name: 'Notfunk Mainz',               type: 'station',lat: 50.000, lon: 8.271, freq: '7085 kHz',  desc: 'Rheinland-Pfalz Notfunk',    grid: 'JO40' },
   ];
 
+  // --- LoRa-Gateways (ausgelagert in lora-data.js) ---
+  // Wird durch das neue Script geladen: var loraGateways = [...]
+
   // --- Leaflet map instance ---
   var map;
   var markers = {};
