@@ -298,9 +298,151 @@
               </tr>
             </thead>
             <tbody id="nets-tbody">
-              <tr><td colspan="6" style="text-align:center; color:var(--text-muted)">Klicke &quot;Netze laden&quot;</td></tr>
+              <tr><td colspan="6" style="text-align:center; color:var(--text-muted)">Klicke "Netze laden"</td></tr>
             </tbody>
           </table>
+        </div>
+      </section>
+
+      <!-- FREQUENCY CALCULATOR -->
+      <section id="frequency-calculator" class="tool-section">
+        <div class="tool-header">
+          <h2>Frequenz-Rechner</h2>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Wellenlänge &rarr; Frequenz</h3>
+            <div class="field">
+              <label for="wavelength-input">Wellenlänge (Meter)</label>
+              <input type="number" id="wavelength-input" value="2" step="0.1" min="0.01" max="10000" aria-label="Wellenlänge in Metern">
+            </div>
+            <button class="btn btn-sm" onclick="AppTools.calcFrequencyFromWavelength()">Berechnen</button>
+            <div class="result-box" id="wavelength-result" style="display:none">
+              <div class="result-row">
+                <span class="result-label">Frequenz</span>
+                <span class="result-value" id="calculated-frequency" style="font-size:1.1rem; cursor:pointer" onclick="AppTools.copyResult('calculated-frequency')" title="Klicken zum Kopieren">--</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Frequenz &rarr; Wellenlänge</h3>
+            <div class="field">
+              <label for="frequency-input">Frequenz (MHz)</label>
+              <input type="number" id="frequency-input" value="145.500" step="0.001" min="0.001" max="100000" aria-label="Frequenz in MHz">
+            </div>
+            <button class="btn btn-sm btn-outline" onclick="AppTools.calcWavelengthFromFrequency()">Berechnen</button>
+            <div class="result-box" id="frequency-result" style="display:none">
+              <div class="result-row">
+                <span class="result-label">Wellenlänge</span>
+                <span class="result-value" id="calculated-wavelength" style="font-size:1.1rem; cursor:pointer" onclick="AppTools.copyResult('calculated-wavelength')" title="Klicken zum Kopieren">--</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card" style="margin-top: 1rem;">
+          <h3>Antennen-Rechner</h3>
+          <div class="grid-2">
+            <div class="field">
+              <label for="dipole-frequency">Dipol für Frequenz (MHz)</label>
+              <input type="number" id="dipole-frequency" value="145.500" step="0.001" min="1" max="10000" aria-label="Frequenz für Dipol-Berechnung">
+            </div>
+            <div class="field">
+              <label for="groundplane-frequency">Groundplane für Frequenz (MHz)</label>
+              <input type="number" id="groundplane-frequency" value="145.500" step="0.001" min="1" max="10000" aria-label="Frequenz für Groundplane-Berechnung">
+            </div>
+          </div>
+          <button class="btn btn-sm" onclick="AppTools.calcAntennaLengths()">Berechnen</button>
+          <div class="result-box" id="antenna-result" style="display:none">
+            <div class="result-row">
+              <span class="result-label">Dipol Gesamtlänge</span>
+              <span class="result-value" id="dipole-total">--</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Dipol Arm (1/2)</span>
+              <span class="result-value" id="dipole-arm">--</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Groundplane Strahl</span>
+              <span class="result-value" id="groundplane-radial">--</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- POWER CALCULATOR -->
+      <section id="power-calculator" class="tool-section">
+        <div class="tool-header">
+          <h2>Leistungs-Rechner</h2>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <h3>dBi &rarr; dBd</h3>
+            <div class="field">
+              <label for="dbi-input">Antennengewinn (dBi)</label>
+              <input type="number" id="dbi-input" value="0" step="0.1" aria-label="Antennengewinn in dBi">
+            </div>
+            <button class="btn btn-sm" onclick="AppTools.convertDbiToDbd()">Konvertieren</button>
+            <div class="result-box" id="dbi-result" style="display:none">
+              <div class="result-row">
+                <span class="result-label">dBd</span>
+                <span class="result-value" id="converted-dbd" style="font-size:1.1rem">--</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>dBm &rarr; Watt</h3>
+            <div class="field">
+              <label for="dbm-input">Leistung (dBm)</label>
+              <input type="number" id="dbm-input" value="30" step="1" aria-label="Leistung in dBm">
+            </div>
+            <button class="btn btn-sm btn-outline" onclick="AppTools.convertDbmToWatt()">Konvertieren</button>
+            <div class="result-box" id="dbm-result" style="display:none">
+              <div class="result-row">
+                <span class="result-label">Watt</span>
+                <span class="result-value" id="converted-watt" style="font-size:1.1rem">--</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card" style="margin-top: 1rem;">
+          <h3>Link-Budget-Rechner</h3>
+          <div class="grid-2">
+            <div class="field">
+              <label for="tx-power">Sendeleistung (dBm)</label>
+              <input type="number" id="tx-power" value="20" step="1" min="-20" max="60">
+            </div>
+            <div class="field">
+              <label for="tx-antenna">TX Antenne (dBi)</label>
+              <input type="number" id="tx-antenna" value="2.1" step="0.1">
+            </div>
+            <div class="field">
+              <label for="rx-antenna">RX Antenne (dBi)</label>
+              <input type="number" id="rx-antenna" value="0" step="0.1">
+            </div>
+            <div class="field">
+              <label for="distance">Distanz (km)</label>
+              <input type="number" id="distance" value="5" step="0.1" min="0.1">
+            </div>
+          </div>
+          <button class="btn btn-sm" onclick="AppTools.calculateLinkBudget()">Link-Budget berechnen</button>
+          <div class="result-box" id="linkbudget-result" style="display:none">
+            <div class="result-row">
+              <span class="result-label">Freiraumdämpfung</span>
+              <span class="result-value" id="fspl">--</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Empfangspegel (RSSI)</span>
+              <span class="result-value" id="rssi">--</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Signal-Qualität</span>
+              <span class="result-value green" id="signal-quality">--</span>
+            </div>
+          </div>
         </div>
       </section>
 

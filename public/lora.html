@@ -3,133 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LoRa - NotFunk-Nord</title>
+  <title>LoRa Mesh Network | NotFunk-Nord.de</title>
+  <meta name="description" content="Langstrecken-Netzwerk für den Notfall. Frequenzen, Equipment und Distanzrechner für LoRa.">
+  <meta name="theme-color" content="#0d1117">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📻</text></svg>">
   <link rel="stylesheet" href="/css/base.css">
-  <style>
-    .lora-hero {
-      background: linear-gradient(135deg, var(--accent-blue-dim) 0%, var(--accent-green-dim) 100%);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 2rem;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-
-    .lora-hero h2 {
-      color: var(--accent-blue);
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .lora-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
-    .freq-card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
-      transition: all 0.2s;
-    }
-
-    .freq-card:hover {
-      border-color: var(--accent-blue);
-      transform: translateY(-2px);
-    }
-
-    .freq-card h3 {
-      color: var(--accent-blue);
-      font-size: 1.1rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .freq-value {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--accent-green);
-      font-family: var(--font-mono);
-    }
-
-    .range-bar {
-      height: 8px;
-      background: var(--bg-tertiary);
-      border-radius: 4px;
-      margin: 0.75rem 0;
-      overflow: hidden;
-    }
-
-    .range-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
-      border-radius: 4px;
-    }
-
-    .equipped-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
-
-    .equipped-card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1rem;
-      text-align: center;
-    }
-
-    .equipped-card .price {
-      color: var(--accent-green);
-      font-size: 1.1rem;
-      font-weight: bold;
-      margin-top: 0.5rem;
-    }
-
-    .mesh-diagram {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      margin: 1.5rem 0;
-    }
-
-    .mesh-diagram svg {
-      width: 100%;
-      height: auto;
-    }
-
-    .info-box {
-      background: var(--accent-blue-dim);
-      border-left: 3px solid var(--accent-blue);
-      padding: 1rem;
-      margin: 1rem 0;
-      border-radius: 0 var(--radius) var(--radius) 0;
-    }
-
-    .info-box h4 {
-      color: var(--accent-blue);
-      margin-bottom: 0.5rem;
-    }
-
-    .section-divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 2rem 0;
-    }
-  </style>
+  <link rel="stylesheet" href="/css/custom/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Zum Inhalt springen</a>
+
   <nav class="site-nav" role="navigation" aria-label="Hauptnavigation">
     <div class="nav-inner">
       <a href="/" class="logo" aria-label="NotFunk-Nord Startseite">
-        <div class="logo-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="12" y1="2" x2="12" y2="22"/><polyline points="5 5 12 2 19 5"/><line x1="3" y1="9" x2="21" y2="9"/></svg></div>
+        <div class="logo-mark" aria-hidden="true"><i class="fas fa-broadcast-tower"></i></div>
         <span>NotFunk-Nord</span>
       </a>
+
       <ul class="nav-links" id="nav-links">
         <li><a href="/">Start</a></li>
         <li><a href="/tools">Tools</a></li>
@@ -138,6 +30,7 @@
         <li><a href="/lora" aria-current="page">LoRa</a></li>
         <li><a href="/about">Über</a></li>
       </ul>
+
       <div class="nav-meta">
         <span class="status-indicator">
           <span class="status-dot" aria-hidden="true"></span>
@@ -145,6 +38,7 @@
         </span>
         <span id="utc-clock" aria-live="polite"></span>
       </div>
+
       <button class="menu-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="nav-links">&#9776;</button>
     </div>
   </nav>
@@ -152,13 +46,13 @@
   <main id="main-content">
     <div class="container">
       <div class="page-header">
-        <h1><span>LoRa</span> - Langstrecken-Notfunk</h1>
-        <p>Long Range - Das Rückgrat des dezentralen Notfallnetzwerks.</p>
+        <h1><span>LoRa</span> Mesh Network</h1>
+        <p>Langstrecken-Netzwerk für den Notfall. Frequenzen, Equipment und Distanzrechner für LoRa.</p>
       </div>
 
       <!-- Hero -->
       <div class="lora-hero">
-        <h2>Was ist LoRa?</h2>
+        <h2>Langstrecken-Netzwerk für Notfälle</h2>
         <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 1.5rem;">
           LoRa (Long Range) ist eine Funktechnik für extrem geringen Energieverbrauch
           und sehr große Reichweiten (bis 15 km ländlich, 2-5 km urban).
@@ -400,57 +294,176 @@
           <div id="lora-calc-result" style="margin-top:0.75rem; font-size:0.9rem; color:var(--text-secondary)"></div>
         </div>
       </section>
+
+      <!-- Advanced Calculator Section -->
+      <hr class="section-divider">
+      <section>
+        <h2 style="margin-bottom: 1.5rem;">Erweiterter LoRa-Rechner</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+          Berechnen Sie das Link-Budget und die erwartete Reichweite basierend auf Ihren spezifischen Parametern.
+        </p>
+        
+        <div class="card calculator-card">
+          <div class="calculator-grid">
+            <div class="calc-input-group">
+              <label for="tx-power">Sendeleistung (dBm)</label>
+              <input type="number" id="tx-power" value="17" min="0" max="20">
+            </div>
+            
+            <div class="calc-input-group">
+              <label for="tx-antenna">TX Antennengewinn (dBi)</label>
+              <input type="number" id="tx-antenna" value="2.5" step="0.1">
+            </div>
+            
+            <div class="calc-input-group">
+              <label for="rx-antenna">RX Antennengewinn (dBi)</label>
+              <input type="number" id="rx-antenna" value="2.5" step="0.1">
+            </div>
+            
+            <div class="calc-input-group">
+              <label for="rx-sensitivity">Empfängerempfindlichkeit (dBm)</label>
+              <input type="number" id="rx-sensitivity" value="-120" step="1">
+            </div>
+            
+            <div class="calc-input-group">
+              <label for="frequency">Frequenz (MHz)</label>
+              <input type="number" id="frequency" value="433" min="433" max="434">
+            </div>
+            
+            <div class="calc-input-group">
+              <label for="margin">Fade Margin (dB)</label>
+              <input type="number" id="margin" value="10" min="0" max="20">
+            </div>
+            
+            <!-- Additional parameters -->
+            <div class="calc-input-group">
+              <label for="tx-height">TX Antenne Höhe (m)</label>
+              <input type="number" id="tx-height" value="10" min="1" max="1000">
+            </div>
+            
+            <div class="calc-input-group">
+              <label for="rx-height">RX Antenne Höhe (m)</label>
+              <input type="number" id="rx-height" value="10" min="1" max="1000">
+            </div>
+            
+            <div class="calc-input-group">
+              <label for="link-distance">Verbindungs-Distanz (km)</label>
+              <input type="number" id="link-distance" value="5" min="0.1" max="100" step="0.1">
+            </div>
+            
+            <div class="calc-input-group">
+              <label for="terrain-type">Gelände-Typ</label>
+              <select id="terrain-type">
+                <option value="rural">Ländlich (offenes Gelände)</option>
+                <option value="suburban" selected>Vorstadt (mittelbebaute Gebiete)</option>
+                <option value="urban">Stadt (dicht bebaute Gebiete)</option>
+                <option value="indoor">Innenräume (Gebäude)</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="calc-result">
+            <h3>Ergebnis:</h3>
+            <div class="result-grid">
+              <div class="result-item">
+                <div class="result-label">Link Budget</div>
+                <div class="result-value" id="link-budget">0 dB</div>
+              </div>
+              <div class="result-item">
+                <div class="result-label">Max. Distanz (LOS)</div>
+                <div class="result-value" id="max-distance">0 km</div>
+              </div>
+              <div class="result-item">
+                <div class="result-label">Effektive Reichweite</div>
+                <div class="result-value" id="effective-range">0 km</div>
+              </div>
+              <div class="result-item">
+                <div class="result-label">Reichweite (urban)</div>
+                <div class="result-value" id="urban-range">0 km</div>
+              </div>
+              <div class="result-item">
+                <div class="result-label">Empfangspegel (RSSI)</div>
+                <div class="result-value" id="received-power">0 dBm</div>
+              </div>
+              <div class="result-item">
+                <div class="result-label">FSPL</div>
+                <div class="result-value" id="fspl-value">0 dB</div>
+              </div>
+              <div class="result-item">
+                <div class="result-label">Fresnel Zone</div>
+                <div class="result-value" id="fresnel-value">0 m</div>
+              </div>
+              <div class="result-item">
+                <div class="result-label">Signal-Qualität</div>
+                <div class="result-value" id="signal-quality">Unknown</div>
+              </div>
+            </div>
+          </div>
+          
+          <button class="btn calc-button" id="calculate-btn">
+            <i class="fas fa-calculator"></i> Berechnen
+          </button>
+        </div>
+      </section>
     </div>
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <p>NotFunk-Nord.de | LoRa-Mesh-Netzwerke für den Notfall</p>
+      <p>NotFunk-Nord.de | Cloudflare Workers + Hono.js | MIT Lizenz</p>
     </div>
   </footer>
 
   <script src="/js/app.js"></script>
+  <script src="/js/lora-calculator.js"></script>
   <script>
-    // LoRa-Distanzrechner (Task 3.4) — nutzt die same haversine-Logik wie map.js
-    (function () {
-      'use strict';
-      function toRad(d) { return d * Math.PI / 180; }
-      function haversine(a, b) {
-        var R = 6371;
-        var dLat = toRad(b.lat - a.lat);
-        var dLon = toRad(b.lon - a.lon);
-        var h = Math.sin(dLat/2)**2 + Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLon/2)**2;
-        return 2 * R * Math.asin(Math.sqrt(h));
+    // Initialize calculator when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof LoraCalculator !== 'undefined') {
+        LoraCalculator.init();
       }
-      function decodeLoc(loc) {
-        var l = loc.trim().toUpperCase();
-        if (l.length < 4) throw new Error('Mind. 4 Zeichen');
-        var lon = (l.charCodeAt(0)-65)*20 - 180;
-        var lat = (l.charCodeAt(1)-65)*10 - 90;
-        if (l.length >= 4) { lon += parseInt(l[2],10)*2; lat += parseInt(l[3],10)*1; }
-        if (l.length >= 6) { lon += ((l.charCodeAt(4)-97)*5)/60; lat += ((l.charCodeAt(5)-97)*2.5)/60; }
-        return { lat: lat + (l.length >= 6 ? 1.25 : 0.5), lon: lon + (l.length >= 6 ? 2.5 : 1) };
-      }
-      function calcDist() {
-        var from = document.getElementById('lora-calc-from').value.toUpperCase().trim();
-        var to = document.getElementById('lora-calc-to').value.toUpperCase().trim();
-        var resultEl = document.getElementById('lora-calc-result');
-        if (!from || !to) { resultEl.textContent = 'Bitte beide Locator eingeben.'; return; }
-        try {
-          var a = decodeLoc(from);
-          var b = decodeLoc(to);
-          var km = Math.round(haversine(a, b));
-          resultEl.innerHTML = '<strong>' + km + ' km</strong> &middot; ' + from + ' ↔ ' + to +
-            ' &middot; <span style="color:var(--accent-blue)">Haversine-Distanz</span>';
-        } catch(e) { resultEl.textContent = 'Fehler: ' + e.message; }
-      }
-      var btn = document.getElementById('lora-calc-btn');
-      if (btn) btn.addEventListener('click', calcDist);
-      var fromInput = document.getElementById('lora-calc-from');
-      var toInput = document.getElementById('lora-calc-to');
-      if (fromInput) fromInput.addEventListener('keydown', function(e) { if (e.key==='Enter') calcDist(); });
-      if (toInput) toInput.addEventListener('keydown', function(e) { if (e.key==='Enter') calcDist(); });
-    })();
+      
+      // LoRa-Distanzrechner (Task 3.4) — nutzt die same haversine-Logik wie map.js
+      (function () {
+        'use strict';
+        function toRad(d) { return d * Math.PI / 180; }
+        function haversine(a, b) {
+          var R = 6371;
+          var dLat = toRad(b.lat - a.lat);
+          var dLon = toRad(b.lon - a.lon);
+          var h = Math.sin(dLat/2)**2 + Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLon/2)**2;
+          return 2 * R * Math.asin(Math.sqrt(h));
+        }
+        function decodeLoc(loc) {
+          var l = loc.trim().toUpperCase();
+          if (l.length < 4) throw new Error('Mind. 4 Zeichen');
+          var lon = (l.charCodeAt(0)-65)*20 - 180;
+          var lat = (l.charCodeAt(1)-65)*10 - 90;
+          if (l.length >= 4) { lon += parseInt(l[2],10)*2; lat += parseInt(l[3],10)*1; }
+          if (l.length >= 6) { lon += ((l.charCodeAt(4)-97)*5)/60; lat += ((l.charCodeAt(5)-97)*2.5)/60; }
+          return { lat: lat + (l.length >= 6 ? 1.25 : 0.5), lon: lon + (l.length >= 6 ? 2.5 : 1) };
+        }
+        function calcDist() {
+          var from = document.getElementById('lora-calc-from').value.toUpperCase().trim();
+          var to = document.getElementById('lora-calc-to').value.toUpperCase().trim();
+          var resultEl = document.getElementById('lora-calc-result');
+          if (!from || !to) { resultEl.textContent = 'Bitte beide Locator eingeben.'; return; }
+          try {
+            var a = decodeLoc(from);
+            var b = decodeLoc(to);
+            var km = Math.round(haversine(a, b));
+            resultEl.innerHTML = '<strong>' + km + ' km</strong> &middot; ' + from + ' ↔ ' + to +
+              ' &middot; <span style="color:var(--accent-blue)">Haversine-Distanz</span>';
+          } catch(e) { resultEl.textContent = 'Fehler: ' + e.message; }
+        }
+        var btn = document.getElementById('lora-calc-btn');
+        if (btn) btn.addEventListener('click', calcDist);
+        var fromInput = document.getElementById('lora-calc-from');
+        var toInput = document.getElementById('lora-calc-to');
+        if (fromInput) fromInput.addEventListener('keydown', function(e) { if (e.key==='Enter') calcDist(); });
+        if (toInput) toInput.addEventListener('keydown', function(e) { if (e.key==='Enter') calcDist(); });
+      })();
+    });
   </script>
 </body>
 </html>

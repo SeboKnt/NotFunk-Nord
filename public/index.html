@@ -229,6 +229,197 @@
       </div>
     </section>
 
+    <!-- Current Alerts Section -->
+    <section class="container" style="margin-top: 3rem;">
+      <div class="section-heading">
+        <h2><span>⚠️</span> Aktuelle Warnungen & Meldungen</h2>
+        <a href="/news" style="font-size:0.75rem;color:var(--text-muted)">Alle anzeigen →</a>
+      </div>
+      <div id="alerts-feed">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+          <!-- Weather Alert -->
+          <article style="
+            padding: 1.25rem;
+            background: linear-gradient(135deg, rgba(248, 81, 73, 0.15) 0%, transparent 100%);
+            border: 1px solid var(--nf-red-1);
+            border-radius: var(--nf-radius);
+            transition: var(--nf-transition);
+          " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+              <span style="
+                font-size: 0.7rem;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                color: var(--nf-red-1);
+                font-weight: 600;
+                background: rgba(248, 81, 73, 0.2);
+                padding: 0.25rem 0.5rem;
+                border-radius: var(--nf-radius-sm);
+              ">
+                Wetterwarnung
+              </span>
+              <span style="
+                font-size: 0.7rem;
+                color: var(--nf-text-muted);
+                background: var(--nf-bg-primary);
+                padding: 0.25rem 0.5rem;
+                border-radius: var(--nf-radius-sm);
+              ">
+                vor 45 min
+              </span>
+            </div>
+            <h3 style="
+              font-size: 1rem;
+              color: var(--nf-text-primary);
+              margin: 0 0 0.5rem 0;
+              line-height: 1.4;
+              font-weight: 500;
+            ">
+              Starkregen und Sturmböen für Hamburg und Umgebung
+            </h3>
+            <p style="
+              font-size: 0.85rem;
+              color: var(--nf-text-secondary);
+              margin: 0;
+              line-height: 1.5;
+            ">
+              Erwartet werden Niederschlagsmengen zwischen 20-30l/qm und Windböen bis 70km/h. 
+              Beeinträchtigung von UHF/VHF Funkverkehr möglich.
+            </p>
+            <div style="
+              margin-top: 0.75rem;
+              padding-top: 0.75rem;
+              border-top: 1px solid var(--nf-border-light);
+              font-size: 0.7rem;
+              color: var(--nf-text-muted);
+            ">
+              Quelle: DWD Hamburg
+            </div>
+          </article>
+          
+          <!-- Infrastructure Alert -->
+          <article style="
+            padding: 1.25rem;
+            background: linear-gradient(135deg, rgba(210, 153, 34, 0.1) 0%, transparent 100%);
+            border: 1px solid var(--nf-yellow-1);
+            border-radius: var(--nf-radius);
+            transition: var(--nf-transition);
+          " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+              <span style="
+                font-size: 0.7rem;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                color: var(--nf-yellow-1);
+                font-weight: 600;
+                background: rgba(210, 153, 34, 0.2);
+                padding: 0.25rem 0.5rem;
+                border-radius: var(--nf-radius-sm);
+              ">
+                Infrastruktur
+              </span>
+              <span style="
+                font-size: 0.7rem;
+                color: var(--nf-text-muted);
+                background: var(--nf-bg-primary);
+                padding: 0.25rem 0.5rem;
+                border-radius: var(--nf-radius-sm);
+              ">
+                vor 2 h
+              </span>
+            </div>
+            <h3 style="
+              font-size: 1rem;
+              color: var(--nf-text-primary);
+              margin: 0 0 0.5rem 0;
+              line-height: 1.4;
+              font-weight: 500;
+            ">
+              Stromausfall in Teilen von Wilhelmsburg
+            </h3>
+            <p style="
+              font-size: 0.85rem;
+              color: var(--nf-text-secondary);
+              margin: 0;
+              line-height: 1.5;
+            ">
+              Versorgungsunternehmen meldet Stromausfall für ca. 8.500 Haushalte. 
+              Mobilfunksender vorübergehend offline.
+            </p>
+            <div style="
+              margin-top: 0.75rem;
+              padding-top: 0.75rem;
+              border-top: 1px solid var(--nf-border-light);
+              font-size: 0.7rem;
+              color: var(--nf-text-muted);
+            ">
+              Quelle: Hamburg Wasser
+            </div>
+          </article>
+          
+          <!-- Notfunk Activity -->
+          <article style="
+            padding: 1.25rem;
+            background: linear-gradient(135deg, rgba(63, 185, 80, 0.1) 0%, transparent 100%);
+            border: 1px solid var(--nf-green-1);
+            border-radius: var(--nf-radius);
+            transition: var(--nf-transition);
+          " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+              <span style="
+                font-size: 0.7rem;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                color: var(--nf-green-1);
+                font-weight: 600;
+                background: rgba(63, 185, 80, 0.2);
+                padding: 0.25rem 0.5rem;
+                border-radius: var(--nf-radius-sm);
+              ">
+                Notfunk Aktiv
+              </span>
+              <span style="
+                font-size: 0.7rem;
+                color: var(--nf-text-muted);
+                background: var(--nf-bg-primary);
+                padding: 0.25rem 0.5rem;
+                border-radius: var(--nf-radius-sm);
+              ">
+                vor 30 min
+              </span>
+            </div>
+            <h3 style="
+              font-size: 1rem;
+              color: var(--nf-text-primary);
+              margin: 0 0 0.5rem 0;
+              line-height: 1.4;
+              font-weight: 500;
+            ">
+              HSH-NORD Netz auf 3973 kHz aktiv
+            </h3>
+            <p style="
+              font-size: 0.85rem;
+              color: var(--nf-text-secondary);
+              margin: 0;
+              line-height: 1.5;
+            ">
+              Regionales Notfunknetz Hamburg-SH aktiv für Koordination. 
+              QRV auf 3973 kHz USB. Relay auf 145.500 MHz FM.
+            </p>
+            <div style="
+              margin-top: 0.75rem;
+              padding-top: 0.75rem;
+              border-top: 1px solid var(--nf-border-light);
+              font-size: 0.7rem;
+              color: var(--nf-text-muted);
+            ">
+              Quelle: DARC QTH Hamburg
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <!-- NEWS SECTION -->
     <section class="container" style="padding-top: 0; margin-top: 1rem;">
       <div class="section-heading">

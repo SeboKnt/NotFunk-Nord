@@ -302,6 +302,108 @@
   font-weight: 500;
 }
 
+/* Calculator Styles */
+.calculator-card {
+  background: var(--nf-bg-secondary);
+  border: 1px solid var(--nf-border);
+  border-radius: var(--nf-radius);
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.calculator-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.calc-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.calc-input-group label {
+  font-size: 0.85rem;
+  color: var(--nf-text-secondary);
+  font-weight: 500;
+}
+
+.calc-input-group input {
+  padding: 0.5rem;
+  background: var(--nf-bg-tertiary);
+  border: 1px solid var(--nf-border);
+  border-radius: var(--nf-radius-sm);
+  color: var(--nf-text-primary);
+  font-family: monospace;
+}
+
+.calc-input-group input:focus {
+  outline: none;
+  border-color: var(--nf-blue-1);
+  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
+}
+
+.calc-result {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: var(--nf-bg-tertiary);
+  border-radius: var(--nf-radius);
+}
+
+.calc-result h3 {
+  margin: 0 0 1rem 0;
+  color: var(--nf-text-primary);
+  font-size: 1rem;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.result-item {
+  text-align: center;
+}
+
+.result-label {
+  font-size: 0.75rem;
+  color: var(--nf-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+}
+
+.result-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--nf-blue-1);
+  font-family: monospace;
+}
+
+.calc-button {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--nf-blue-1);
+  color: var(--nf-dark-1);
+  border: none;
+  border-radius: var(--nf-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--nf-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.calc-button:hover {
+  background: var(--nf-blue-2);
+  transform: translateY(-1px);
+}
+
 /* News Section - Professionell und übersichtlich */
 .news-section {
   margin-top: 3rem;

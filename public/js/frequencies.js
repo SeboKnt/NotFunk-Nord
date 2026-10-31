@@ -80,6 +80,18 @@ var AppFreq = (function () {
     // Special Digital Modes
     { band: '2m', freq: 144.800, mode: 'FSQ', region: 'intl', type: 'digital', desc: 'FSQ Slow Scan auf 2m' },
     { band: '70cm', freq: 432.100, mode: 'JT65', region: 'intl', type: 'digital', desc: 'JT65 Weak Signal UHF' },
+    
+    // BOS 4m Frequenzen
+    { band: 'BOS 4m', freq: 74.215, mode: 'FM', region: 'deutschland', type: 'bos', desc: 'BOS Unterband Kanal 347' },
+    { band: 'BOS 4m', freq: 74.815, mode: 'FM', region: 'deutschland', type: 'bos', desc: 'BOS Unterband Kanal 377' },
+    { band: 'BOS 4m', freq: 75.415, mode: 'FM', region: 'deutschland', type: 'bos', desc: 'BOS Unterband Kanal 407' },
+    { band: 'BOS 4m', freq: 84.015, mode: 'FM', region: 'deutschland', type: 'bos', desc: 'BOS Oberband Kanal 347' },
+    { band: 'BOS 4m', freq: 84.615, mode: 'FM', region: 'deutschland', type: 'bos', desc: 'BOS Oberband Kanal 377' },
+    { band: 'BOS 4m', freq: 85.215, mode: 'FM', region: 'deutschland', type: 'bos', desc: 'BOS Oberband Kanal 407' },
+    { band: 'BOS 4m', freq: 86.815, mode: 'FM', region: 'deutschland', type: 'bos', desc: 'BOS Oberband Kanal 497' },
+    { band: 'BOS 4m', freq: 77.215, mode: 'FM', region: 'deutschland', type: 'bos', desc: 'BOS Spezialkanal Feuerwehr' },
+    { band: 'BOS 4m', freq: 77.015, mode: 'FM', region: 'deutschland', type: 'bos', desc: 'BOS Spezialkanal Polizei' },
+    { band: 'BOS 4m', freq: 76.815, mode: 'FM', region: 'deutschland', type: 'bos', desc: 'BOS Spezialkanal Rettungsdienst' }
   ];
 
   var currentFilter = 'all';
@@ -113,7 +125,7 @@ var AppFreq = (function () {
         filtered = filtered.filter(function (f) { return f.mode === 'LoRa'; });
       } else if (filter === 'bos') {
         // BOS 4m Band
-        filtered = filtered.filter(function (f) { return f.region === 'bos'; });
+        filtered = filtered.filter(function (f) { return f.type === 'bos'; });
       } else if (filter === 'dach') {
         filtered = filtered.filter(function (f) { return f.region === 'dach'; });
       }

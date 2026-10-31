@@ -74,7 +74,7 @@ var AppTools = (function () {
   function calcLocator() {
     var lat = parseFloat(document.getElementById('lat-input').value);
     var lon = parseFloat(document.getElementById('lon-input').value);
-    if (isNaN(lat) || isNaN(lon)) { alert('Bitte gultige Koordinaten eingeben'); return; }
+    if (isNaN(lat) || isNaN(lon)) { alert('Bitte gültige Koordinaten eingeben'); return; }
     var locator = toLocator(lat, lon);
     document.getElementById('locator-value').textContent = locator.toUpperCase();
     document.getElementById('locator-location').textContent =
@@ -92,7 +92,7 @@ var AppTools = (function () {
         result.center.lat.toFixed(1) + '°N, ' + result.center.lon.toFixed(1) + '°E';
       document.getElementById('decode-result').style.display = 'block';
     } catch (e) {
-      alert(e.message || 'Ungultiger Locator');
+      alert(e.message || 'Ungültiger Locator');
     }
   }
 
@@ -111,21 +111,150 @@ var AppTools = (function () {
         Math.round(brg) + '° ' + compassDirs[Math.round(brg / 22.5) % 16];
       document.getElementById('distance-result').style.display = 'block';
     } catch (e) {
-      alert('Ungultige Locators: ' + e.message);
+      alert('Ungültige Locators: ' + e.message);
     }
   }
 
-  function copyResult(id) {
-    var text = document.getElementById(id).textContent;
-    if (window.copyToClipboard) {
-      window.copyToClipboard(text, document.getElementById(id));
+  function copyResult(element) {
+    var text = typeof element === 'string' ? 
+      document.getElementById(element).textContent : 
+      element.textContent;
+      
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function() {
+        var original = element.textContent || element.innerText;
+        if (element.textContent) {
+          element.textContent = '✓ Kopiert!';
+        } else {
+          element.innerText = '✓ Kopiert!';
+        }
+        setTimeout(function() {
+          if (element.textContent) {
+            element.textContent = original;
+          } else {
+            element.innerText = original;
+          }
+        }, 1000);
+      });
     }
+  }
+
+  // Frequency Calculations
+  function calcFrequencyFromWavelength() {
+    var wavelength = parseFloat(document.getElementById('wavelength-input').value);
+    if (isNaN(wavelength) || wavelength <= 0) {
+      alert('Bitte gültige Wellenlänge eingeben');
+      return;
+    }
+    var frequency = 299792458 / (wavelength * 1000000); // f = c / λ
+    document.getElementById('calculated-frequency').textContent = frequency.toFixed(3) + ' MHz';
+    document.getElementById('wavelength-result').style.display = 'block';
+  }
+
+  function calcWavelengthFromFrequency() {
+    var frequency = parseFloat(document.getElementById('frequency-input').value);
+    if (isNaN(frequency) || frequency <= 0) {
+      alert('Bitte gültige Frequenz eingeben');
+      return;
+    }
+    var wavelength = 299792458 / (frequency * 1000000); // λ = c / f
+    document.getElementById('calculated-wavelength').textContent = wavelength.toFixed(2) + ' m';
+    document.getElementById('frequency-result').style.display = 'block';
+  }
+
+  // Antenna Calculations
+  function calcAntennaLengths() {
+    var dipoleFreq = parseFloat(document.getElementById('dipole-frequency').value);
+    var groundplaneFreq = parseFloat(document.getElementById('groundplane-frequency').value);
+    
+    if (isNaN(dipoleFreq) || dipoleFreq <= 0) {
+      alert('Bitte gültige Frequenz für Dipol-Berechnung eingeben');
+      return;
+    }
+    
+    // Dipol: L = 142.65 / f (in MHz) für Gesamtlänge in Metern
+    var dipoleTotal = 142.65 / dipoleFreq;
+    var dipoleArm = dipoleTotal / 2;
+    
+    document.getElementById('dipole-total').textContent = dipoleTotal.toFixed(2) + ' m';
+    document.getElementById('dipole-arm').textContent = dipoleArm.toFixed(2) + ' m';
+    
+    if (!isNaN(groundplaneFreq) && groundplaneFreq > 0) {
+      // Groundplane: L = 71.325 / f (in MHz) für Radiale in Metern
+      var groundplaneLength = 71.325 / groundplaneFreq;
+      document.getElementById('groundplane-radial').textContent = groundplaneLength.toFixed(2) + ' m';
+    } else {
+      document.getElementById('groundplane-radial').textContent = '-';
+    }
+    
+    document.getElementById('antenna-result').style.display = 'block';
+  }
+
+  // Power Conversions
+  function convertDbiToDbd() {
+    var dbi = parseFloat(document.getElementById('dbi-input').value);
+    if (isNaN(dbi)) {
+      alert('Bitte gültigen Wert eingeben');
+      return;
+    }
+    // dBd = dBi - 2.15
+    var dbd = dbi - 2.15;
+    document.getElementById('converted-dbd').textContent = dbd.toFixed(2) + ' dBd';
+    document.getElementById('dbi-result').style.display = 'block';
+  }
+
+  function convertDbmToWatt() {
+    var dbm = parseFloat(document.getElementById('dbm-input').value);
+    if (isNaN(dbm)) {
+      alert('Bitte gültigen Wert eingeben');
+      return;
+    }
+    // P(W) = 10^(dBm/10) / 1000
+    var watt = Math.pow(10, dbm/10) / 1000;
+    var formattedWatt = watt >= 1 ? watt.toFixed(2) + ' W' : (watt * 1000).toFixed(0) + ' mW';
+    document.getElementById('converted-watt').textContent = formattedWatt;
+    document.getElementById('dbm-result').style.display = 'block';
+  }
+
+  // Link Budget Calculator
+  function calculateLinkBudget() {
+    var txPower = parseFloat(document.getElementById('tx-power').value);
+    var txAntenna = parseFloat(document.getElementById('tx-antenna').value);
+    var rxAntenna = parseFloat(document.getElementById('rx-antenna').value);
+    var distance = parseFloat(document.getElementById('distance').value);
+    
+    if (isNaN(txPower) || isNaN(txAntenna) || isNaN(rxAntenna) || isNaN(distance) || distance <= 0) {
+      alert('Bitte alle Felder mit gültigen Werten ausfüllen');
+      return;
+    }
+    
+    // Free Space Path Loss: FSPL = 20*log10(d) + 20*log10(f) + 32.45 (f in MHz, d in km)
+    // Using 433 MHz as example frequency (common for LoRa/ISM band)
+    var frequency = 433; // MHz
+    var fspl = 20 * Math.log10(distance) + 20 * Math.log10(frequency) - 147.55;
+    
+    // RSSI = Tx Power + Tx Antenna Gain + Rx Antenna Gain - FSPL
+    var rssi = txPower + txAntenna + rxAntenna - fspl;
+    
+    document.getElementById('fspl').textContent = fspl.toFixed(1) + ' dB';
+    document.getElementById('rssi').textContent = rssi.toFixed(1) + ' dBm';
+    
+    // Signal quality assessment
+    var quality = '';
+    if (rssi > -70) quality = 'Ausgezeichnet';
+    else if (rssi > -80) quality = 'Sehr gut';
+    else if (rssi > -90) quality = 'Gut';
+    else if (rssi > -100) quality = 'Akzeptabel';
+    else quality = 'Schlecht';
+    
+    document.getElementById('signal-quality').textContent = quality;
+    document.getElementById('linkbudget-result').style.display = 'block';
   }
 
   // Propagation
   var conditionLabels = {
     'good': 'Gut',
-    'moderate': 'Mässig',
+    'moderate': 'Mäßig',
     'poor': 'Schlecht',
     'storm': 'Sturm'
   };
@@ -133,7 +262,7 @@ var AppTools = (function () {
   function loadPropagation() {
     var lat = parseFloat(document.getElementById('prop-lat').value);
     var lon = parseFloat(document.getElementById('prop-lon').value);
-    if (isNaN(lat) || isNaN(lon)) { alert('Bitte gultige Koordinaten eingeben'); return; }
+    if (isNaN(lat) || isNaN(lon)) { alert('Bitte gültige Koordinaten eingeben'); return; }
 
     fetch('/api/propagation/predict?lat=' + lat + '&lon=' + lon)
       .then(function (res) { return res.json(); })
@@ -317,6 +446,12 @@ var AppTools = (function () {
     decodeLocator: decodeLocator,
     calcDistance: calcDistance,
     copyResult: copyResult,
+    calcFrequencyFromWavelength: calcFrequencyFromWavelength,
+    calcWavelengthFromFrequency: calcWavelengthFromFrequency,
+    calcAntennaLengths: calcAntennaLengths,
+    convertDbiToDbd: convertDbiToDbd,
+    convertDbmToWatt: convertDbmToWatt,
+    calculateLinkBudget: calculateLinkBudget,
     loadPropagation: loadPropagation,
     loadSolar: loadSolar,
     loadLogbook: loadLogbook,
