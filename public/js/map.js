@@ -19,9 +19,6 @@ var AppMap = (function () {
     console.warn('[AppMap] Stationsdaten nicht gefunden, verwende Fallback');
   }
 
-  // --- LoRa-Gateways (ausgelagert in lora-data.js) ---
-  // Wird durch das neue Script geladen: var loraGateways = [...]
-
   // Icon-Definitionen für verschiedene Stationstypen
   var icons = {
     station: L.divIcon({
@@ -51,9 +48,6 @@ var AppMap = (function () {
     iconSize: [30, 30],
     iconAnchor: [15, 15]
   });
-
-  // --- LoRa-Gateways (ausgelagert in lora-data.js) ---
-  // Wird durch das neue Script geladen: var loraGateways = [...]
 
   // --- Leaflet map instance ---
   var map;
@@ -123,6 +117,16 @@ var AppMap = (function () {
     return 2 * R * Math.asin(Math.sqrt(h));
   }
 
+  function bearing(a, b) {
+    var toRad = function (deg) { return deg * Math.PI / 180; };
+    var toDeg = function (rad) { return rad * 180 / Math.PI; };
+    var dLon = toRad(b.lon - a.lon);
+    var y = Math.sin(dLon) * Math.cos(toRad(b.lat));
+    var x = Math.cos(toRad(a.lat)) * Math.sin(toRad(b.lat)) -
+            Math.sin(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.cos(dLon);
+    return (toDeg(Math.atan2(y, x)) + 360) % 360;
+  }
+
   function compassDir(deg) {
     var dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
     return dirs[Math.round(deg / 22.5) % 16];
@@ -151,13 +155,9 @@ var AppMap = (function () {
     // Station-Marker hinzufügen
     renderMarkers(stations);
 
-    // LoRa-Filter-Button zur Filter-Bar hinzufügen
-    var filterBar = document.querySelector('.map-controls.filter-bar');
-    if (filterBar) {
-      var loraBtn = document.createElement('button');
-      loraBtn.className = 'filter-btn';
-      loraBtn.setAttribute('aria-pressed', 'false');
-      loraBtn.textContent = 'LoRa';
+    // LoRa-Filter-Button Event Handler
+    var loraBtn = document.getElementById('lora-filter-btn');
+    if (loraBtn) {
       loraBtn.addEventListener('click', function () {
         var show = loraBtn.classList.contains('active');
         if (!show) {
@@ -170,7 +170,6 @@ var AppMap = (function () {
           renderLoraLayer(false);
         }
       });
-      filterBar.appendChild(loraBtn);
     }
 
     // LoRa-Distanz-Input-Listener
@@ -313,6 +312,12 @@ var AppMap = (function () {
 
   // --- LoRa-Gateways auf der Karte anzeigen/verstecken (Tasks 3.2 + 3.3) ---
   function renderLoraLayer(show) {
+    // Wenn LoRa-Daten nicht verfügbar, versuchen wir sie dynamisch zu laden
+    if (typeof window.loraGateways === 'undefined') {
+      console.warn('[AppMap] LoRa-Gateways nicht gefunden');
+      return;
+    }
+
     if (!show) {
       Object.keys(loraMarkers).forEach(function (id) {
         if (loraMarkers[id]) map.removeLayer(loraMarkers[id]);
@@ -328,7 +333,7 @@ var AppMap = (function () {
     }
 
     // Gateways als Marker zeichnen
-    loraGateways.forEach(function (gw) {
+    window.loraGateways.forEach(function (gw) {
       var marker = L.marker([gw.lat, gw.lon], {
         icon: makeLoraIcon(gw.online)
       }).addTo(map);
@@ -426,8 +431,6 @@ var AppMap = (function () {
   }
 
   // --- Get filtered (erweitert um LoRa) ---
-  // ponytail: getFiltered wird jetzt nur für reguläre Stationen verwendet
-
   function getFiltered() {
     return currentFilter === 'all' ? stations : stations.filter(function (s) { return s.type === currentFilter; });
   }
@@ -507,7 +510,13 @@ var AppMap = (function () {
   });
 
   // Expose for inline onclick handlers
-  window.calcLoraDistance = calcLoraDistance;
+  window.AppMap = {
+    selectStation: selectStation,
+    filterMap: filterMap,
+    locateOnMap: locateOnMap,
+    renderLoraLayer: renderLoraLayer,
+    calcLoraDistance: calcLoraDistance
+  };
 
   return {
     selectStation: selectStation,

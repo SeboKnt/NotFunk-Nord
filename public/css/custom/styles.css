@@ -505,3 +505,100 @@ h1, h2, h3, h4, h5, h6 {
   outline: 2px solid var(--nf-blue-1);
   outline-offset: 2px;
 }
+
+/* Karten-spezifische Stile */
+.map-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.map-container {
+  position: relative;
+  background: var(--nf-bg-secondary);
+  border: 1px solid var(--nf-border);
+  border-radius: var(--nf-radius);
+  overflow: hidden;
+}
+
+.station-list {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 1rem;
+}
+
+.station-item {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--nf-border-light);
+  cursor: pointer;
+  transition: var(--nf-transition);
+}
+
+.station-item:hover {
+  background: var(--nf-bg-tertiary);
+}
+
+.station-item[aria-selected="true"] {
+  background: rgba(88, 166, 255, 0.15);
+  border-left: 3px solid var(--nf-blue-1);
+}
+
+.station-name {
+  display: block;
+  font-weight: 600;
+  color: var(--nf-text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.station-type {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--nf-radius-sm);
+  background: var(--nf-bg-tertiary);
+  color: var(--nf-text-secondary);
+}
+
+.type-station {
+  background: rgba(63, 185, 80, 0.2);
+  color: var(--nf-green-1);
+}
+
+.type-relay {
+  background: rgba(210, 153, 34, 0.2);
+  color: var(--nf-yellow-1);
+}
+
+.type-net {
+  background: rgba(88, 166, 255, 0.2);
+  color: var(--nf-blue-1);
+}
+
+.station-meta {
+  font-size: 0.8rem;
+  color: var(--nf-text-secondary);
+  font-family: monospace;
+}
+
+.map-sidebar {
+  background: var(--nf-bg-secondary);
+  border: 1px solid var(--nf-border);
+  border-radius: var(--nf-radius);
+  padding: 1rem;
+  height: fit-content;
+}
+
+@media (max-width: 900px) {
+  .map-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .map-sidebar {
+    order: -1;
+  }
+  
+  .station-list {
+    max-height: 200px;
+  }
+}
