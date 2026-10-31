@@ -1,0 +1,48 @@
+/* Custom Styles for NotFunk-Nord */
+.hero {
+  background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+  border-bottom: 1px solid #30363d;
+  padding: 4rem 0;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  color: #f0c040;
+  text-shadow: 0 0 10px rgba(240, 192, 64, 0.3);
+}
+
+.btn {
+  background: #f0c040;
+  color: #0d1117;
+  border: 1px solid #f0c040;
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background: transparent;
+  color: #f0c040;
+  box-shadow: 0 0 15px rgba(240, 192, 64, 0.5);
+}
+
+.btn-outline {
+  background: transparent;
+  color: #f0c040;
+}
+
+.btn-outline:hover {
+  background: #f0c040;
+  color: #0d1117;
+}
+
+.footer {
+  background: #0d1117;
+  border-top: 1px solid #30363d;
+  padding: 2rem 0;
+  text-align: center;
+  color: #8b949e;
+}
