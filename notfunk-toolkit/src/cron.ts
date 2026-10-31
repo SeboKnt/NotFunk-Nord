@@ -18,13 +18,24 @@ app.get('/cron/news', async (c) => {
   })
 })
 
+// New endpoint for status checking
+app.get('/cron/status-check', async (c) => {
+  return c.json({
+    success: true,
+    message: 'Status check cron job triggered',
+    timestamp: new Date().toISOString(),
+    nextSteps: 'This would normally execute the status check script'
+  })
+})
+
 // Fallback for root endpoint
 app.get('/', (c) => {
   return c.json({
     name: 'NotFunk-Nord Cron Service',
     description: 'Cron jobs for NotFunk-Nord services',
     endpoints: {
-      news: '/cron/news'
+      news: '/cron/news',
+      status: '/cron/status-check'
     }
   })
 })
