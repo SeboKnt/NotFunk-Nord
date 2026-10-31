@@ -15,7 +15,17 @@ function checkWebsiteDetailed() {
   return new Promise((resolve) => {
     const startTime = Date.now();
     
-    const req = https.get('https://notfunk-nord.de', (res) => {
+    const options = {
+      hostname: 'notfunk-nord.de',
+      port: 443,
+      path: '/',
+      method: 'GET',
+      headers: {
+        'User-Agent': 'NotFunk-Nord-Monitor/1.0'
+      }
+    };
+    
+    const req = https.request(options, (res) => {
       const responseTime = Date.now() - startTime;
       
       resolve({
@@ -47,6 +57,7 @@ function checkWebsiteDetailed() {
     });
     
     req.setTimeout(REQUEST_TIMEOUT);
+    req.end();
   });
 }
 
@@ -58,13 +69,24 @@ function checkWikipediaReference() {
   return new Promise((resolve) => {
     const startTime = Date.now();
     
-    const req = https.get('https://de.wikipedia.org/api/rest_v1/page/html/Notfunk', (res) => {
+    const options = {
+      hostname: 'de.wikipedia.org',
+      port: 443,
+      path: '/api/rest_v1/page/html/Notfunk',
+      method: 'GET',
+      headers: {
+        'User-Agent': 'NotFunk-Nord-Monitor/1.0 (https://notfunk-nord.de)'
+      }
+    };
+    
+    const req = https.request(options, (res) => {
       let data = '';
       
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
         const responseTime = Date.now() - startTime;
-        const isReferenced = data.includes('notfunk-nord.de');
+        // Suche nach der exakten Domain-Referenz
+        const isReferenced = data.includes('notfunk-nord.de/');
         
         resolve({
           ok: true,
@@ -93,6 +115,7 @@ function checkWikipediaReference() {
     });
     
     req.setTimeout(REQUEST_TIMEOUT);
+    req.end();
   });
 }
 
@@ -104,7 +127,17 @@ function checkApiStatus() {
   return new Promise((resolve) => {
     const startTime = Date.now();
     
-    const req = https.get('https://notfunk-nord.de/api/health', (res) => {
+    const options = {
+      hostname: 'notfunk-nord.de',
+      port: 443,
+      path: '/api/health',
+      method: 'GET',
+      headers: {
+        'User-Agent': 'NotFunk-Nord-Monitor/1.0'
+      }
+    };
+    
+    const req = https.request(options, (res) => {
       let data = '';
       
       res.on('data', chunk => data += chunk);
@@ -148,6 +181,7 @@ function checkApiStatus() {
     });
     
     req.setTimeout(REQUEST_TIMEOUT);
+    req.end();
   });
 }
 

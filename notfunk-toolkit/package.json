@@ -8,7 +8,8 @@
     "deploy": "wrangler deploy",
     "typecheck": "tsc --noEmit",
     "test": "echo \"Use Node.js to run tests\" && exit 0",
-    "monitor": "node src/status-check.js"
+    "monitor": "node src/status-check.js",
+    "local-server": "node src/local-server.js"
   },
   "keywords": [
     "hamradio",
@@ -20,6 +21,7 @@
   "author": "NotFunk-Nord",
   "license": "MIT",
   "dependencies": {
+    "express": "^5.3.0",
     "hono": "^4.13.7",
     "nodemailer": "^10.3.1",
     "zod": "^4.6.5"
