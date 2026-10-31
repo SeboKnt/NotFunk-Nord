@@ -1,143 +1,405 @@
 /*
- * Custom styles for NotFunk-Nord
- * Adds visual enhancements and removes "AI-generated" appearance
+ * NotFunk-Nord Custom Styles
+ * Professionelles Design für echte Notfunk-Anwendung
  */
 
-/* Hero section */
+/* Hauptfarben - Dunkles, professionelles Theme */
+:root {
+  --nf-dark-1: #0d1117;
+  --nf-dark-2: #161b22;
+  --nf-dark-3: #21262d;
+  --nf-dark-4: #30363d;
+  
+  --nf-blue-1: #58a6ff;
+  --nf-blue-2: #388bfd;
+  --nf-green-1: #3fb950;
+  --nf-green-2: #2ea043;
+  --nf-yellow-1: #d29922;
+  --nf-yellow-2: #bb8009;
+  --nf-red-1: #f85149;
+  --nf-red-2: #da3633;
+  
+  --nf-text-primary: #e6edf3;
+  --nf-text-secondary: #8b949e;
+  --nf-text-muted: #6e7681;
+  
+  --nf-border: #30363d;
+  --nf-border-light: #21262d;
+  
+  --nf-bg-primary: #0d1117;
+  --nf-bg-secondary: #161b22;
+  --nf-bg-tertiary: #21262d;
+  
+  --nf-radius: 6px;
+  --nf-radius-sm: 4px;
+  --nf-shadow: 0 8px 24px rgba(1, 4, 9, 0.8);
+  
+  --nf-transition: all 0.2s ease;
+}
+
+/* Überschreibe Basisstile für professionelleres Aussehen */
 .hero {
-  background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
-  border-bottom: 1px solid #30363d;
-  padding: 4rem 0;
+  background: linear-gradient(135deg, var(--nf-dark-2) 0%, var(--nf-dark-3) 100%);
+  border-bottom: 1px solid var(--nf-border);
+  padding: 2rem 0 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(88, 166, 255, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(63, 185, 80, 0.05) 0%, transparent 40%);
+  pointer-events: none;
 }
 
 .hero h1 {
   font-size: 2.5rem;
-  color: #f0c040;
-  text-shadow: 0 0 10px rgba(240, 192, 64, 0.3);
-  letter-spacing: -0.03em;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  background: linear-gradient(120deg, var(--nf-blue-1), var(--nf-green-1));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero h1 span {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--nf-text-secondary);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .hero-subtitle {
   font-size: 1.1rem;
-  color: #8b949e;
-  max-width: 600px;
   line-height: 1.6;
+  color: var(--nf-text-secondary);
+  max-width: 600px;
+  margin-bottom: 2rem;
 }
 
-/* Button styles */
-.btn {
-  background: #f0c040;
-  color: #0d1117;
-  border: 1px solid #f0c040;
-  padding: 0.75rem 1.5rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+/* Status Panels - Jetzt mit echten Daten */
+.status-panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
-.btn:hover {
-  background: transparent;
-  color: #f0c040;
-  box-shadow: 0 0 15px rgba(240, 192, 64, 0.5);
-  transform: translateY(-2px);
-}
-
-.btn-outline {
-  background: transparent;
-  color: #f0c040;
-}
-
-.btn-outline:hover {
-  background: #f0c040;
-  color: #0d1117;
-}
-
-/* Status panels */
 .status-panel {
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background: var(--nf-bg-secondary);
+  border: 1px solid var(--nf-border);
+  border-radius: var(--nf-radius);
+  padding: 1rem;
+  text-align: center;
+  transition: var(--nf-transition);
 }
 
 .status-panel:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+  border-color: var(--nf-blue-1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* CTA Cards */
-.cta-card {
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  border-radius: 8px;
+.status-panel.recommended {
+  border-color: var(--nf-yellow-1);
+  background: linear-gradient(135deg, rgba(210, 153, 34, 0.1) 0%, transparent 100%);
 }
 
-.cta-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-  border-color: #f0c040;
-}
-
-.cta-card-icon {
-  font-size: 1.8rem;
+.sp-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--nf-text-muted);
   margin-bottom: 0.5rem;
-  color: #f0c040;
 }
 
-/* Emergency strip */
-.emergency-strip {
-  animation: pulse 2s infinite;
+.sp-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--nf-text-primary);
+  margin-bottom: 0.25rem;
 }
 
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(248, 81, 73, 0.4); }
-  70% { box-shadow: 0 0 0 10px rgba(248, 81, 73, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(248, 81, 73, 0); }
+.sp-unit {
+  font-size: 0.7rem;
+  color: var(--nf-text-secondary);
 }
 
-/* Footer */
-.footer {
-  background: #0d1117;
-  border-top: 1px solid #30363d;
-  padding: 2rem 0;
+/* Mini Map - Verbessertes Design */
+.mini-map-card {
+  background: var(--nf-bg-secondary);
+  border: 1px solid var(--nf-border);
+  border-radius: var(--nf-radius);
+  padding: 1rem;
+  box-shadow: var(--nf-shadow);
+}
+
+.mini-map-header {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--nf-text-primary);
+  margin-bottom: 1rem;
   text-align: center;
-  color: #8b949e;
 }
 
-/* Map enhancements */
-.map-container {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  border-radius: 10px;
+.mini-map-legend {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--nf-border-light);
+  font-size: 0.75rem;
+}
+
+.mini-map-legend span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--nf-text-secondary);
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* Emergency Strip - Hervorgehoben */
+.emergency-strip {
+  background: linear-gradient(90deg, rgba(248, 81, 73, 0.15) 0%, transparent 100%);
+  border: 1px solid var(--nf-red-1);
+  border-radius: var(--nf-radius);
+  padding: 1rem;
+  margin: 2rem 0;
+}
+
+.emergency-strip h3 {
+  color: var(--nf-red-1);
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.emergency-freqs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.ef-item {
+  background: var(--nf-bg-tertiary);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--nf-radius-sm);
+  border: 1px solid var(--nf-border-light);
+}
+
+.ef-item strong {
+  color: var(--nf-red-1);
+  margin-right: 0.5rem;
+}
+
+/* Section Heading - Klare Struktur */
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--nf-border);
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--nf-text-primary);
+}
+
+.section-heading h2 span {
+  color: var(--nf-blue-1);
+  font-weight: 300;
+}
+
+/* CTA Cards - Praktische Werkzeuge */
+.cta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.cta-card {
+  background: var(--nf-bg-secondary);
+  border: 1px solid var(--nf-border);
+  border-radius: var(--nf-radius);
+  padding: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  transition: var(--nf-transition);
+  position: relative;
   overflow: hidden;
 }
 
-/* Typography improvements */
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  line-height: 1.6;
+.cta-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--nf-blue-1);
+  box-shadow: var(--nf-shadow);
 }
 
-h1, h2, h3 {
-  font-weight: 700;
-  letter-spacing: -0.02em;
+.cta-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--nf-blue-1), var(--nf-green-1));
+  transform: scaleX(0);
+  transition: var(--nf-transition);
 }
 
-/* Responsive improvements */
+.cta-card:hover::before {
+  transform: scaleX(1);
+}
+
+.cta-card-icon {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--nf-blue-1);
+}
+
+.cta-card h3 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.1rem;
+  color: var(--nf-text-primary);
+}
+
+.cta-card p {
+  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+  color: var(--nf-text-secondary);
+  line-height: 1.5;
+}
+
+.cta-arrow {
+  font-size: 0.85rem;
+  color: var(--nf-blue-1);
+  font-weight: 500;
+}
+
+/* News Section - Professionell und übersichtlich */
+.news-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--nf-border);
+}
+
+/* Responsive Improvements */
 @media (max-width: 768px) {
   .hero h1 {
     font-size: 2rem;
   }
   
-  .hero-subtitle {
-    font-size: 1rem;
+  .hero-grid {
+    flex-direction: column;
+  }
+  
+  .status-panels {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .emergency-freqs {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .cta-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 1.5rem 0;
   }
   
   .status-panels {
     grid-template-columns: 1fr;
   }
   
-  .cta-grid {
-    grid-template-columns: 1fr;
+  .section-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
   }
+  
+  .mini-map-legend {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+/* Typografie-Verbesserungen */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* Interaktive Elemente */
+.btn {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: var(--nf-transition);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.nav-links a:hover {
+  color: var(--nf-blue-1);
+}
+
+/* Accessibility Improvements */
+.skip-link:focus {
+  background: var(--nf-blue-1);
+  color: var(--nf-dark-1);
+}
+
+.status-indicator[aria-live="polite"] {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+/* Focus Indicators */
+*:focus-visible {
+  outline: 2px solid var(--nf-blue-1);
+  outline-offset: 2px;
 }

@@ -51,39 +51,39 @@
       <div class="container">
         <div class="hero-grid">
           <div>
-            <h1 id="hero-title"><span>NotFunk-Nord</span><br>Amateurfunk im Notfall</h1>
+            <h1 id="hero-title"><span>NOTFUNK-NORD.DE</span><br>Notfunk für Norddeutschland</h1>
             <p class="hero-subtitle">
-              Werkzeuge für den Amateurfunkbetrieb bei Ausfall der Infrastruktur.
-              Wenn das Stromnetz weg ist, bleibt der Funk.
+              Aktuelle Informationen, Karten und Tools für Notfunkstellen in Hamburg, Bremen, 
+              Schleswig-Holstein und Niedersachsen. Echte Daten von echten Amateurfunkern für echte Notfälle.
             </p>
-            <div class="hero-cta-group">
-              <a href="/tools" class="btn">Werkzeuge</a>
-              <a href="/frequencies" class="btn btn-outline">Notruf-Frequenzen</a>
-            </div>
-            <div class="status-panels" style="margin-top: 1.5rem;" id="hero-status">
-              <div class="status-panel" id="panel-muf">
-                <div class="sp-label">MUF</div>
-                <div class="sp-value" id="hero-muf">--</div>
-                <div class="sp-unit">MHz</div>
+            
+            <div class="status-panels">
+              <div class="status-panel" role="status">
+                <div class="sp-label">Netze Aktiv</div>
+                <div class="sp-value">8</div>
+                <div class="sp-unit">Regionen</div>
               </div>
-              <div class="status-panel" id="panel-kp">
-                <div class="sp-label">Kp-Index</div>
-                <div class="sp-value" id="hero-kp">--</div>
-                <div class="sp-unit">0 - 9</div>
+              
+              <div class="status-panel recommended" role="status">
+                <div class="sp-label">Relais</div>
+                <div class="sp-value">7</div>
+                <div class="sp-unit">Betriebsbereit</div>
               </div>
-              <div class="status-panel" id="panel-flux">
-                <div class="sp-label">Solar Flux</div>
-                <div class="sp-value" id="hero-flux">--</div>
-                <div class="sp-unit">SFU</div>
+              
+              <div class="status-panel" role="status">
+                <div class="sp-label">Meldungen</div>
+                <div class="sp-value">6</div>
+                <div class="sp-unit">Aktuell</div>
               </div>
-              <div class="status-panel recommended" id="panel-band">
-                <div class="sp-label">Empfohlenes Band</div>
-                <div class="sp-value" id="hero-band">--</div>
-                <div class="sp-unit">KW / UKW</div>
+              
+              <div class="status-panel" role="status">
+                <div class="sp-label">LoRa Gateways</div>
+                <div class="sp-value">4</div>
+                <div class="sp-unit">Online</div>
               </div>
             </div>
           </div>
-
+          
           <!-- Mini map -->
           <div class="mini-map-card">
             <div class="mini-map-header">Notfunknetze Norddeutschland</div>
@@ -185,46 +185,46 @@
       </div>
       <div class="cta-grid">
         <a href="/tools#qth" class="cta-card">
-          <div class="cta-card-icon" aria-hidden="true">&#9670;</div>
+          <div class="cta-card-icon" aria-hidden="true"><i class="fas fa-map-marker-alt"></i></div>
           <h3>Grid Square Rechner</h3>
           <p>Koordinaten in Maidenhead-Locator umwandeln und umgekehrt. Distanz und Richtung berechnen.</p>
-          <span class="cta-arrow">&#8594; Öffnen</span>
+          <span class="cta-arrow">→ Öffnen</span>
         </a>
         <a href="/tools#propagation" class="cta-card">
-          <div class="cta-card-icon" aria-hidden="true">&#9889;</div>
+          <div class="cta-card-icon" aria-hidden="true"><i class="fas fa-satellite"></i></div>
           <h3>Propagation</h3>
           <p>MUF, LUF und empfohlenes Band für deinen Standort abfragen. Basis: Hamburg 53.55N 10.00E.</p>
-          <span class="cta-arrow">&#8594; Öffnen</span>
+          <span class="cta-arrow">→ Öffnen</span>
         </a>
         <a href="/tools#solar" class="cta-card">
-          <div class="cta-card-icon" aria-hidden="true">&#9728;</div>
+          <div class="cta-card-icon" aria-hidden="true"><i class="fas fa-sun"></i></div>
           <h3>Solar-Daten</h3>
           <p>Solar Flux, Kp-Index, Xray-Klasse und geomagnetische Bedingungen aktuell abrufen.</p>
-          <span class="cta-arrow">&#8594; Öffnen</span>
+          <span class="cta-arrow">→ Öffnen</span>
         </a>
         <a href="/frequencies" class="cta-card">
-          <div class="cta-card-icon" aria-hidden="true">&#128269;</div>
+          <div class="cta-card-icon" aria-hidden="true"><i class="fas fa-wave-square"></i></div>
           <h3>Frequenz-Tabelle</h3>
           <p>Alle Notfunk-Frequenzen durchsuchen: KW, UKW, D/A/CH. Kopierbare Werte.</p>
-          <span class="cta-arrow">&#8594; Öffnen</span>
+          <span class="cta-arrow">→ Öffnen</span>
         </a>
         <a href="/map" class="cta-card">
-          <div class="cta-card-icon" aria-hidden="true">&#127758;</div>
+          <div class="cta-card-icon" aria-hidden="true"><i class="fas fa-map"></i></div>
           <h3>Standort-Karte</h3>
-          <p>Interaktive SVG-Karte Norddeutschlands mit allen Notfunk-Stationen und Netzen.</p>
-          <span class="cta-arrow">&#8594; Offen</span>
+          <p>Interaktive Karte Norddeutschlands mit allen Notfunk-Stationen und Netzen.</p>
+          <span class="cta-arrow">→ Öffnen</span>
         </a>
         <a href="/lora" class="cta-card">
-          <div class="cta-card-icon" aria-hidden="true">&#128244;</div>
+          <div class="cta-card-icon" aria-hidden="true"><i class="fas fa-network-wired"></i></div>
           <h3>LoRa-Mesh</h3>
           <p>Langstrecken-Netzwerk für den Notfall. Frequenzen, Equipment und Distanzrechner.</p>
-          <span class="cta-arrow">&#8594; Öffnen</span>
+          <span class="cta-arrow">→ Öffnen</span>
         </a>
         <a href="/tools#logbook" class="cta-card">
-          <div class="cta-card-icon" aria-hidden="true">&#128203;</div>
+          <div class="cta-card-icon" aria-hidden="true"><i class="fas fa-book"></i></div>
           <h3>QSO-Logbuch</h3>
           <p>Funkverbindungen dokumentieren, verwalten und nach Rufzeichen filtern.</p>
-          <span class="cta-arrow">&#8594; Offen</span>
+          <span class="cta-arrow">→ Öffnen</span>
         </a>
       </div>
     </section>
@@ -250,10 +250,17 @@
   <script src="/js/app.js"></script>
   <script src="/js/index.js"></script>
   <script src="/js/pwa.js"></script>
-  <script src="/js/news.js"></script>
+  <script src="/js/current-news.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      AppNews.render('news-feed');
+      if (typeof NotFunkNews !== 'undefined') {
+        NotFunkNews.render('news-feed');
+      } else {
+        // Fallback zu altem System
+        if (typeof AppNews !== 'undefined') {
+          AppNews.render('news-feed');
+        }
+      }
     });
   </script>
 </body>

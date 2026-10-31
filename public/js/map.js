@@ -4,27 +4,53 @@
 var AppMap = (function () {
   'use strict';
 
-  // --- Station data ---
-  var stations = [
-    { id: 1,  name: 'DARC Notfunkzentrum Hamburg', type: 'net',    lat: 53.551, lon: 9.994, freq: '3573 kHz', desc: 'Norddeutsches Notfunknetz SSB', grid: 'JO43' },
-    { id: 2,  name: 'Ham-Net Nord',                type: 'net',    lat: 53.000, lon: 8.500, freq: '3973 kHz', desc: 'Ham-Net Notrufkanal',            grid: 'JO33' },
-    { id: 3,  name: 'DARC Landesverband Hamburg',  type: 'station',lat: 53.551, lon: 9.994, freq: '14095 kHz',desc: 'DARC Notfunkdienst 20m',       grid: 'JO43' },
-    { id: 4,  name: 'THW Funkgruppe Nord',         type: 'station',lat: 54.323, lon: 10.134, freq: '3573 kHz', desc: 'THW Kommunikationsgruppe',     grid: 'JO44' },
-    { id: 5,  name: 'ARES Nord',                   type: 'net',    lat: 53.070, lon: 8.800, freq: '21350 kHz', desc: 'Emergency Service Netz',       grid: 'JO33' },
-    { id: 6,  name: 'Relais Hamburg',              type: 'relay',  lat: 53.551, lon: 9.994, freq: '145.500 MHz', desc: 'FM Relaisstation Hamburg',     grid: 'JO43' },
-    { id: 7,  name: 'Relais Bremen',               type: 'relay',  lat: 53.077, lon: 8.801, freq: '145.525 MHz', desc: 'FM Relaisstation Bremen',      grid: 'JO33' },
-    { id: 8,  name: 'Relais Kiel',                 type: 'relay',  lat: 54.323, lon: 10.134, freq: '145.550 MHz', desc: 'FM Relaisstation Kiel',        grid: 'JO44' },
-    { id: 9,  name: 'Notfunk-Team Wuppertal',      type: 'station',lat: 51.260, lon: 7.170, freq: '7085 kHz',  desc: 'Regionales Notfunkteam',       grid: 'KO51' },
-    { id: 10, name: 'Notfunk Ruhr',                type: 'net',    lat: 51.480, lon: 7.220, freq: '14180 kHz', desc: 'Ruhrgebiet Notfunknetz',       grid: 'KO51' },
-    { id: 11, name: 'DRK HF-Net Berlin',           type: 'station',lat: 52.520, lon: 13.405, freq: '3573 kHz',  desc: 'DRK Bundesgateway',          grid: 'JO62' },
-    { id: 12, name: 'Relais München',              type: 'relay',  lat: 48.135, lon: 11.582, freq: '145.500 MHz', desc: 'FM Relaisstation München',   grid: 'JO48' },
-    { id: 13, name: 'Relais Frankfurt',            type: 'relay',  lat: 50.110, lon: 8.682, freq: '145.525 MHz', desc: 'FM Relaisstation Frankfurt', grid: 'JO40' },
-    { id: 14, name: 'Intarmor Seefunk',            type: 'station',lat: 53.551, lon: 9.994, freq: '144.260 MHz', desc: 'Amateur-Seefunk Hamburg',    grid: 'JO43' },
-    { id: 15, name: 'Notfunkzentrum Schleswig',    type: 'station',lat: 54.488, lon: 9.478, freq: '3573 kHz',  desc: 'THW Notfunkstelle SH',       grid: 'JO44' },
-    { id: 16, name: 'Relais Lübeck',               type: 'relay',  lat: 53.867, lon: 10.687, freq: '145.550 MHz', desc: 'FM Relaisstation Lübeck',    grid: 'JO44' },
-    { id: 17, name: 'Relais Osnabrück',            type: 'relay',  lat: 52.280, lon: 8.050, freq: '145.525 MHz', desc: 'FM Relaisstation Osnabrück', grid: 'JO32' },
-    { id: 18, name: 'Notfunk Mainz',               type: 'station',lat: 50.000, lon: 8.271, freq: '7085 kHz',  desc: 'Rheinland-Pfalz Notfunk',    grid: 'JO40' },
-  ];
+  // Stationen werden jetzt aus stations.js geladen
+  var stations = [];
+  
+  // Dynamisches Laden der Stationen
+  if (typeof window.NotFunkStations !== 'undefined') {
+    stations = window.NotFunkStations.getAll();
+  } else {
+    // Fallback Daten falls stations.js nicht geladen
+    stations = [
+      { id: 1, name: 'Notfunkzentrum Hamburg', type: 'station', lat: 53.551, lon: 9.994, freq: '14095 kHz', desc: 'Demo Station', grid: 'JO43' },
+      { id: 2, name: 'Relais Bremen', type: 'relay', lat: 53.077, lon: 8.801, freq: '145.525 MHz', desc: 'FM Relais', grid: 'JO33' }
+    ];
+    console.warn('[AppMap] Stationsdaten nicht gefunden, verwende Fallback');
+  }
+
+  // --- LoRa-Gateways (ausgelagert in lora-data.js) ---
+  // Wird durch das neue Script geladen: var loraGateways = [...]
+
+  // Icon-Definitionen für verschiedene Stationstypen
+  var icons = {
+    station: L.divIcon({
+      className: 'marker-icon marker-station',
+      html: '<div class="marker-inner"><i class="fas fa-broadcast-tower"></i></div>',
+      iconSize: [30, 30],
+      iconAnchor: [15, 15]
+    }),
+    relay: L.divIcon({
+      className: 'marker-icon marker-relay',
+      html: '<div class="marker-inner"><i class="fas fa-satellite"></i></div>',
+      iconSize: [30, 30],
+      iconAnchor: [15, 15]
+    }),
+    net: L.divIcon({
+      className: 'marker-icon marker-net',
+      html: '<div class="marker-inner"><i class="fas fa-network-wired"></i></div>',
+      iconSize: [30, 30],
+      iconAnchor: [15, 15]
+    })
+  };
+
+  // Standard-Icon für unbekannte Typen
+  var defaultIcon = L.divIcon({
+    className: 'marker-icon marker-default',
+    html: '<div class="marker-inner"><i class="fas fa-map-marker-alt"></i></div>',
+    iconSize: [30, 30],
+    iconAnchor: [15, 15]
+  });
 
   // --- LoRa-Gateways (ausgelagert in lora-data.js) ---
   // Wird durch das neue Script geladen: var loraGateways = [...]
@@ -170,21 +196,33 @@ var AppMap = (function () {
     markers = {};
 
     items.forEach(function (s) {
-      var color = typeColor(s.type);
+      // Wähle passendes Icon basierend auf dem Typ
+      var icon = icons[s.type] || defaultIcon;
+      
       var marker = L.marker([s.lat, s.lon], {
-        icon: makeIcon(color)
+        icon: icon
       }).addTo(map);
 
-      // Popup-Inhalt
-      var popupContent =
-        '<div style="min-width:180px;font-size:13px;">' +
-          '<strong style="color:#f0c040;font-size:14px;">' + s.name + '</strong><br>' +
-          '<span style="color:#8b949e;">Grid: ' + s.grid + '</span><br>' +
-          '<span style="color:#58a6ff;font-family:monospace;">Freq: ' + s.freq + '</span><br>' +
-          '<span style="color:#8b949e;font-size:12px;">' + s.desc + '</span>' +
+      // Professionelleres Popup-Design
+      var popupContent = 
+        '<div style="min-width:200px;font-size:13px;">' +
+          '<h3 style="margin:0 0 8px 0;color:#58a6ff;font-size:15px;border-bottom:1px solid #30363d;padding-bottom:6px;">' + s.name + '</h3>' +
+          '<div style="display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin-bottom:8px;">' +
+            '<span style="color:#8b949e;">Typ:</span>' +
+            '<span style="color:#e6edf3;">' + 
+              (s.type === 'station' ? '📱 Notfunkstelle' : 
+               s.type === 'relay' ? '📡 Relais' : 
+               s.type === 'net' ? '🌐 Netz' : s.type) + 
+            '</span>' +
+            '<span style="color:#8b949e;">Grid:</span>' +
+            '<span style="color:#e6edf3;font-family:monospace;">' + s.grid + '</span>' +
+            '<span style="color:#8b949e;">Freq:</span>' +
+            '<span style="color:#3fb950;font-family:monospace;">' + s.freq + '</span>' +
+          '</div>' +
+          '<p style="margin:0;color:#8b949e;font-size:12px;line-height:1.4;">' + s.desc + '</p>' +
         '</div>';
 
-      marker.bindPopup(popupContent, { maxWidth: 260 });
+      marker.bindPopup(popupContent, { maxWidth: 280 });
       marker.on('click', function () { selectStation(s.id); });
       markers[s.id] = marker;
     });
