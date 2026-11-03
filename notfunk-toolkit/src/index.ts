@@ -12,6 +12,8 @@ import { netRoutes } from './routes/net'
 import { emergencyRoutes } from './routes/emergency'
 import { newsRoutes } from './routes/news'
 import { aiRoutes } from './routes/ai'
+import { aprsRoutes } from './routes/aprs'
+import { repeaterRoutes } from './routes/repeaters'
 import cronRoutes from './cron'
 
 type Bindings = {
@@ -41,6 +43,8 @@ app.route('/api/net', netRoutes)
 app.route('/api/emergency', emergencyRoutes)
 app.route('/api/news', newsRoutes)
 app.route('/api/ai', aiRoutes)
+app.route('/api/aprs', aprsRoutes)
+app.route('/api/repeaters', repeaterRoutes)
 app.route('/cron', cronRoutes)
 
 // Root endpoint with API documentation
@@ -90,6 +94,18 @@ app.get('/', (c) => {
         frequencies: '/api/emergency/frequencies',
         protocols: '/api/emergency/protocols',
         protocol: '/api/emergency/protocol/mayday',
+      },
+      aprs: {
+        location: '/api/aprs/location/:callsign',
+        weather: '/api/aprs/weather/:callsign',
+        telemetry: '/api/aprs/telemetry/:callsign',
+        multiLocation: 'POST /api/aprs/location (multiple callsigns)',
+      },
+      repeaters: {
+        list: '/api/repeaters',
+        detail: '/api/repeaters/:callsign',
+        nearby: '/api/repeaters/nearby?lat=:lat&lng=:lng',
+        stats: '/api/repeaters/stats',
       },
     },
     links: {
